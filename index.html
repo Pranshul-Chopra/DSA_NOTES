@@ -1,2309 +1,1268 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>COA MTE Guide (L1-L28) - Complete Explanations</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.8;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-        }
-        
-        header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
-        }
-        
-        header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-        
-        .toc {
-            background: #f5f5f5;
-            padding: 30px;
-            border-bottom: 3px solid #667eea;
-        }
-        
-        .toc h2 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 1.5em;
-        }
-        
-        .toc-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-        }
-        
-        .toc-item {
-            background: white;
-            padding: 15px;
-            border-left: 4px solid #667eea;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .toc-item:hover {
-            background: #667eea;
-            color: white;
-            transform: translateX(10px);
-        }
-        
-        .toc-item a {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-            font-weight: 500;
-        }
-        
-        .content {
-            padding: 40px;
-        }
-        
-        .lecture {
-            margin-bottom: 60px;
-            scroll-margin-top: 100px;
-        }
-        
-        .lecture-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-        }
-        
-        .lecture-header h2 {
-            font-size: 1.8em;
-            margin-bottom: 5px;
-        }
-        
-        .lecture-header p {
-            font-size: 1.05em;
-            opacity: 0.95;
-        }
-        
-        .section {
-            margin: 25px 0;
-            padding: 20px;
-            background: #f9f9f9;
-            border-left: 4px solid #667eea;
-            border-radius: 5px;
-        }
-        
-        .section h3 {
-            color: #667eea;
-            margin-bottom: 15px;
-            font-size: 1.3em;
-        }
-        
-        .key-concept {
-            background: #e8f4f8;
-            border-left: 4px solid #0084d6;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 5px;
-        }
-        
-        .key-concept strong {
-            color: #0084d6;
-            display: block;
-            margin-bottom: 8px;
-        }
-        
-        .example {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 5px;
-            font-size: 0.95em;
-        }
-        
-        .example strong {
-            color: #ff8c00;
-            display: block;
-            margin-bottom: 8px;
-        }
-        
-        .scenario {
-            background: #d4edda;
-            border-left: 4px solid #28a745;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 5px;
-            font-size: 0.95em;
-        }
-        
-        .scenario strong {
-            color: #28a745;
-            display: block;
-            margin-bottom: 8px;
-        }
-        
-        .formula {
-            background: #f0f0f0;
-            padding: 15px;
-            margin: 15px 0;
-            border-radius: 5px;
-            border-left: 4px solid #dc3545;
-            font-family: 'Courier New', monospace;
-            overflow-x: auto;
-        }
-        
-        .formula strong {
-            color: #dc3545;
-            display: block;
-            margin-bottom: 8px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0;
-            font-size: 0.95em;
-        }
-        
-        table th {
-            background: #667eea;
-            color: white;
-            padding: 12px;
-            text-align: left;
-        }
-        
-        table td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        table tr:hover {
-            background: #f5f5f5;
-        }
-        
-        .comparison {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 20px 0;
-        }
-        
-        .comparison-box {
-            background: white;
-            border: 2px solid #667eea;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        
-        .comparison-box h4 {
-            color: #667eea;
-            margin-bottom: 12px;
-        }
-        
-        .comparison-box ul {
-            list-style: none;
-            padding-left: 0;
-        }
-        
-        .comparison-box li {
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .comparison-box li:before {
-            content: "✓ ";
-            color: #28a745;
-            font-weight: bold;
-            margin-right: 8px;
-        }
-        
-        .summary {
-            background: #e3f2fd;
-            border: 2px solid #2196F3;
-            padding: 20px;
-            border-radius: 8px;
-            margin: 25px 0;
-        }
-        
-        .summary h4 {
-            color: #1976D2;
-            margin-bottom: 12px;
-        }
-        
-        ul, ol {
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
-        
-        li {
-            margin-bottom: 10px;
-        }
-        
-        strong {
-            color: #667eea;
-        }
-        
-        .diagram {
-            background: white;
-            border: 2px solid #ddd;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-            text-align: center;
-            font-family: 'Courier New', monospace;
-            font-size: 0.9em;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            overflow-x: auto;
-        }
-        
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #667eea;
-            color: white;
-            padding: 15px 20px;
-            border-radius: 50%;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            display: none;
-            z-index: 1000;
-            border: none;
-            font-size: 1.2em;
-        }
-        
-        .back-to-top:hover {
-            background: #764ba2;
-        }
-        
-        .back-to-top.show {
-            display: block;
-        }
-        
-        footer {
-            background: #f5f5f5;
-            padding: 20px;
-            text-align: center;
-            border-top: 3px solid #667eea;
-            color: #666;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RDBMS – MTE Lecture Notes (L1–L26) | CSC2103</title>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #222536;
+    --border: #2e3250;
+    --accent: #6c8eff;
+    --accent2: #a78bfa;
+    --accent3: #34d399;
+    --accent4: #f59e0b;
+    --accent5: #f87171;
+    --text: #e2e8f0;
+    --muted: #8892a4;
+    --code-bg: #0d1117;
+    --tag-bg: #1e2a3a;
+    font-size: 16px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.7;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  /* ── HEADER ── */
+  .site-header {
+    background: linear-gradient(135deg, #141828 0%, #1a2040 100%);
+    border-bottom: 2px solid var(--accent);
+    padding: 32px 24px 24px;
+    text-align: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .site-header h1 { font-size: 1.5rem; color: var(--accent); letter-spacing: 1px; }
+  .site-header p { color: var(--muted); font-size: .85rem; margin-top: 4px; }
+
+  /* ── LAYOUT ── */
+  .layout { display: flex; min-height: calc(100vh - 80px); }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 270px;
+    min-width: 270px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 20px 0;
+    position: sticky;
+    top: 80px;
+    height: calc(100vh - 80px);
+    overflow-y: auto;
+  }
+  .sidebar-section { padding: 8px 16px 4px; color: var(--accent); font-size: .7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-top: 12px; }
+  .sidebar a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 7px 20px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: .83rem;
+    border-left: 3px solid transparent;
+    transition: all .2s;
+  }
+  .sidebar a:hover, .sidebar a.active {
+    color: var(--text);
+    background: var(--surface2);
+    border-left-color: var(--accent);
+  }
+  .sidebar a .num {
+    background: var(--surface2);
+    color: var(--accent);
+    font-size: .65rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    border-radius: 10px;
+    min-width: 24px;
+    text-align: center;
+  }
+
+  /* ── CONTENT ── */
+  .content { flex: 1; padding: 32px 48px; max-width: 900px; }
+
+  /* ── MODULE SECTION ── */
+  .module {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 40px;
+    overflow: hidden;
+  }
+  .module-header {
+    background: linear-gradient(90deg, var(--surface2), var(--surface));
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 16px;
+  }
+  .module-badge {
+    background: var(--accent);
+    color: #fff;
+    font-size: .7rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .module-header h2 { font-size: 1.15rem; color: var(--text); }
+  .module-body { padding: 28px; }
+
+  /* ── LECTURE CARD ── */
+  .lecture { margin-bottom: 32px; }
+  .lecture-title {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 14px;
+  }
+  .lecture-title .lnum {
+    background: var(--accent2);
+    color: #fff;
+    font-size: .7rem;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 12px;
+  }
+  .lecture-title h3 { font-size: 1rem; color: var(--accent2); }
+
+  p { margin-bottom: 12px; color: var(--text); }
+
+  /* ── CODE ── */
+  pre, code {
+    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--accent);
+    padding: 16px 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: .82rem;
+    margin: 14px 0;
+    color: #c9d1d9;
+  }
+  code {
+    background: var(--surface2);
+    color: var(--accent);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: .87em;
+  }
+  pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+
+  /* ── CALLOUTS ── */
+  .callout {
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 14px 0;
+    border-left: 4px solid;
+    font-size: .9rem;
+  }
+  .callout.def   { background: #0c1a2e; border-color: var(--accent); }
+  .callout.tip   { background: #0d1f1a; border-color: var(--accent3); }
+  .callout.warn  { background: #1f1400; border-color: var(--accent4); }
+  .callout.key   { background: #1a0f2e; border-color: var(--accent2); }
+  .callout.err   { background: #1f0a0a; border-color: var(--accent5); }
+  .callout .label {
+    font-weight: 700; font-size: .7rem; letter-spacing: 1px; text-transform: uppercase;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .callout.def .label  { color: var(--accent); }
+  .callout.tip .label  { color: var(--accent3); }
+  .callout.warn .label { color: var(--accent4); }
+  .callout.key .label  { color: var(--accent2); }
+  .callout.err .label  { color: var(--accent5); }
+
+  /* ── TABLES ── */
+  .tbl-wrap { overflow-x: auto; margin: 14px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: .85rem; }
+  th { background: var(--surface2); color: var(--accent); padding: 10px 14px; text-align: left; border: 1px solid var(--border); font-size: .75rem; letter-spacing: .5px; }
+  td { padding: 9px 14px; border: 1px solid var(--border); color: var(--text); }
+  tr:nth-child(even) td { background: #151820; }
+
+  /* ── UL / OL ── */
+  ul, ol { padding-left: 22px; margin-bottom: 12px; }
+  li { margin-bottom: 6px; color: var(--text); }
+  li strong { color: var(--accent); }
+
+  /* ── FORMULA ── */
+  .formula {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 20px;
+    text-align: center;
+    font-size: 1.05rem;
+    color: var(--accent3);
+    margin: 14px 0;
+    font-style: italic;
+  }
+
+  /* ── DIVIDER ── */
+  hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+  /* ── TAG ── */
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--accent);
+    font-size: .7rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin: 2px;
+    font-weight: 600;
+  }
+
+  /* ── MOBILE ── */
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .content { padding: 20px 16px; }
+    .site-header { padding: 20px 16px 14px; top: env(safe-area-inset-top, 0px); }
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🖥️ Computer Organization and Architecture</h1>
-            <p>Complete MTE Syllabus Guide (Lectures 1-28)</p>
-            <p style="font-size: 0.95em; margin-top: 10px;">Comprehensive Explanations with Real-World Examples & Scenarios</p>
-        </header>
-        
-        <div class="toc">
-            <h2>📚 Table of Contents (MTE Syllabus)</h2>
-            <div class="toc-grid">
-                <div class="toc-item"><a href="#lecture1">L1: Course Overview & Basic Structure</a></div>
-                <div class="toc-item"><a href="#lecture2">L2: Functional Units</a></div>
-                <div class="toc-item"><a href="#lecture3">L3: Basic Operational Concepts</a></div>
-                <div class="toc-item"><a href="#lecture4">L4: Bus Structures & Software</a></div>
-                <div class="toc-item"><a href="#lecture5">L5: Performance Metrics</a></div>
-                <div class="toc-item"><a href="#lecture6">L6: Number Representation</a></div>
-                <div class="toc-item"><a href="#lecture7">L7: Arithmetic Operations</a></div>
-                <div class="toc-item"><a href="#lecture8">L8: Memory Locations & Addresses</a></div>
-                <div class="toc-item"><a href="#lecture9">L9: Instructions & Sequencing</a></div>
-                <div class="toc-item"><a href="#lecture10">L10: Assembly Language Notation</a></div>
-                <div class="toc-item"><a href="#lecture11">L11: Instruction Types & Execution</a></div>
-                <div class="toc-item"><a href="#lecture12">L12: Addressing Modes</a></div>
-                <div class="toc-item"><a href="#lecture13">L13: Branching & Conditions</a></div>
-                <div class="toc-item"><a href="#lecture14">L14: I/O Module Schematic</a></div>
-                <div class="toc-item"><a href="#lecture15">L15: Memory-Mapped I/O</a></div>
-                <div class="toc-item"><a href="#lecture16">L16: Programmed I/O</a></div>
-                <div class="toc-item"><a href="#lecture17">L17: Interrupt-Driven I/O</a></div>
-                <div class="toc-item"><a href="#lecture18">L18: Interrupt Handling</a></div>
-                <div class="toc-item"><a href="#lecture19">L19: Direct Memory Access</a></div>
-                <div class="toc-item"><a href="#lecture20">L20: Cache Basics</a></div>
-                <div class="toc-item"><a href="#lecture21">L21: Direct Mapping</a></div>
-                <div class="toc-item"><a href="#lecture22">L22: Associative Mapping</a></div>
-                <div class="toc-item"><a href="#lecture23">L23: Set-Associative Mapping</a></div>
-                <div class="toc-item"><a href="#lecture24">L24: Cache Performance</a></div>
-                <div class="toc-item"><a href="#lecture25">L25: Addition & Subtraction</a></div>
-                <div class="toc-item"><a href="#lecture26">L26: Multiplication Circuits</a></div>
-                <div class="toc-item"><a href="#lecture27">L27: Division Circuits</a></div>
-                <div class="toc-item"><a href="#lecture28">L28: Control Unit Design</a></div>
-            </div>
-        </div>
-        
-        <div class="content">
-            <!-- LECTURE 1 -->
-            <div class="lecture" id="lecture1">
-                <div class="lecture-header">
-                    <h2>Lecture 1: Course Overview & Basic Structure of Computers</h2>
-                    <p>Understanding Computer Organization from Ground Level</p>
-                </div>
-                
-                <div class="section">
-                    <h3>🎯 What is Computer Organization and Architecture?</h3>
-                    <p><strong>Computer Organization</strong> deals with how the various components of a computer system are interconnected and interact to execute programs efficiently.</p>
-                    <p><strong>Computer Architecture</strong> refers to the design principles and structure of computer systems at a higher level of abstraction.</p>
-                    
-                    <div class="key-concept">
-                        <strong>Key Insight:</strong>
-                        Think of it like building a house: Computer Architecture is like the blueprint and design plan (how many rooms, where to place them), while Computer Organization is about the actual construction details (which materials, how to connect wiring and plumbing).
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>📊 Basic Structure of a Computer System</h3>
-                    
-                    <div class="diagram">
-                    ┌─────────────────────────────────────────────────┐
-                    │                  COMPUTER SYSTEM                │
-                    └─────────────────────────────────────────────────┘
-                                            │
-                    ┌───────────────────────┼───────────────────────┐
-                    │                       │                       │
-                    ▼                       ▼                       ▼
-                    ┌──────────────┐   ┌──────────────┐   ┌──────────────┐
-                    │   PROCESSOR  │   │    MEMORY    │   │  INPUT/OUTPUT│
-                    │   (CPU)      │   │  (RAM/ROM)   │   │   DEVICES    │
-                    └──────────────┘   └──────────────┘   └──────────────┘
-                    </div>
-                    
-                    <h4>Four Functional Units:</h4>
-                    <table>
-                        <tr>
-                            <th>Unit</th>
-                            <th>Function</th>
-                            <th>Example Operations</th>
-                        </tr>
-                        <tr>
-                            <td><strong>Input Unit</strong></td>
-                            <td>Accepts data from external sources</td>
-                            <td>Keyboard, Mouse, Network Card</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Memory Unit</strong></td>
-                            <td>Stores programs and data</td>
-                            <td>RAM, ROM, Cache, SSD</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Output Unit</strong></td>
-                            <td>Sends results to external devices</td>
-                            <td>Monitor, Printer, Speakers</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Processor</strong></td>
-                            <td>Executes instructions and controls system</td>
-                            <td>CPU with ALU, Control Unit, Registers</td>
-                        </tr>
-                    </table>
-                </div>
-                
-                <div class="section">
-                    <h3>🔄 How Computer Systems Work</h3>
-                    
-                    <div class="scenario">
-                        <strong>Real-World Scenario: Video Playback</strong>
-                        <p>When you play a video on your laptop:</p>
-                        <ul>
-                            <li><strong>Input Unit:</strong> Hard disk reads video file data</li>
-                            <li><strong>Memory Unit:</strong> Stores video frames in RAM for quick access</li>
-                            <li><strong>Processor:</strong> Decodes video data, handles playback controls</li>
-                            <li><strong>Output Unit:</strong> Display monitor shows video, speakers play audio</li>
-                        </ul>
-                        <p>All these happen simultaneously and in coordination through the system bus!</p>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>📋 Computer Types</h3>
-                    
-                    <div class="comparison">
-                        <div class="comparison-box">
-                            <h4>Personal Computers (PCs)</h4>
-                            <ul>
-                                <li>Used by single users</li>
-                                <li>Desktop or Laptop</li>
-                                <li>General-purpose computing</li>
-                                <li>Examples: Your laptop, gaming PC</li>
-                            </ul>
-                        </div>
-                        <div class="comparison-box">
-                            <h4>Servers</h4>
-                            <ul>
-                                <li>Multi-user systems</li>
-                                <li>High processing power</li>
-                                <li>Continuous operation</li>
-                                <li>Examples: Web servers, Database servers</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="comparison">
-                        <div class="comparison-box">
-                            <h4>Mainframes</h4>
-                            <ul>
-                                <li>Enterprise-level systems</li>
-                                <li>Massive data processing</li>
-                                <li>High reliability & security</li>
-                                <li>Examples: Banking systems, Airline reservations</li>
-                            </ul>
-                        </div>
-                        <div class="comparison-box">
-                            <h4>Embedded Systems</h4>
-                            <ul>
-                                <li>Single-purpose computers</li>
-                                <li>Limited processing power</li>
-                                <li>Real-time operation</li>
-                                <li>Examples: Microwave, Car engine controller</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="summary">
-                    <h4>📌 Summary - Lecture 1</h4>
-                    <p>A computer system is an integrated collection of functional units (Input, Memory, Output, Processor) that work together to process, store, and output data. Understanding these basic components is essential for grasping how instructions are executed and how different components communicate through buses.</p>
-                </div>
-            </div>
-            
-            <!-- LECTURE 2 -->
-            <div class="lecture" id="lecture2">
-                <div class="lecture-header">
-                    <h2>Lecture 2: Functional Units & Interconnections</h2>
-                    <p>How Components Talk to Each Other</p>
-                </div>
-                
-                <div class="section">
-                    <h3>🔌 Interconnections Between Functional Units</h3>
-                    <p>Components don't work in isolation. They need to communicate through <strong>system buses</strong>.</p>
-                    
-                    <div class="key-concept">
-                        <strong>System Bus:</strong>
-                        A collection of wires that carries signals (data, addresses, control signals) between different components. Think of it as the "nervous system" of the computer.
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>📡 Types of System Buses</h3>
-                    
-                    <table>
-                        <tr>
-                            <th>Bus Type</th>
-                            <th>Purpose</th>
-                            <th>Carries</th>
-                            <th>Width (bits)</th>
-                        </tr>
-                        <tr>
-                            <td><strong>Data Bus</strong></td>
-                            <td>Transfer actual data</td>
-                            <td>Data/Instructions</td>
-                            <td>32, 64, 128</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Address Bus</strong></td>
-                            <td>Identify locations in memory</td>
-                            <td>Memory addresses</td>
-                            <td>16, 32, 64</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Control Bus</strong></td>
-                            <td>Send control signals</td>
-                            <td>Read, Write, Reset signals</td>
-                            <td>Variable</td>
-                        </tr>
-                    </table>
-                </div>
-                
-                <div class="section">
-                    <h3>🔍 Deep Dive: Each Functional Unit</h3>
-                    
-                    <h4>1️⃣ Processor (CPU)</h4>
-                    <div class="example">
-                        <strong>Components Inside CPU:</strong>
-                        <ul>
-                            <li><strong>Arithmetic Logic Unit (ALU):</strong> Performs add, subtract, multiply, divide, logical operations (AND, OR, NOT)</li>
-                            <li><strong>Registers:</strong> High-speed storage for temporary data (Program Counter, Accumulator, Index Registers)</li>
-                            <li><strong>Control Unit:</strong> Orchestrates the execution of instructions</li>
-                        </ul>
-                    </div>
-                    
-                    <h4>2️⃣ Memory Unit</h4>
-                    <div class="scenario">
-                        <strong>Memory Hierarchy Scenario:</strong>
-                        <p>Imagine a student working on an assignment:</p>
-                        <ul>
-                            <li><strong>Registers:</strong> Notes written on hand (fastest, limited space)</li>
-                            <li><strong>Cache:</strong> Desk with reference books (fast access)</li>
-                            <li><strong>RAM:</strong> Personal study room (quick access, temporary)</li>
-                            <li><strong>Storage:</strong> Library storage system (permanent, slower)</li>
-                        </ul>
-                    </div>
-                    
-                    <h4>3️⃣ Input/Output Units</h4>
-                    <p>These serve as intermediaries between the computer and the external world.</p>
-                </div>
-                
-                <div class="section">
-                    <h3>🔗 Single Bus vs Multiple Bus Architecture</h3>
-                    
-                    <div class="comparison">
-                        <div class="comparison-box">
-                            <h4>Single Bus Architecture</h4>
-                            <ul>
-                                <li>All units share one common bus</li>
-                                <li>Simple design</li>
-                                <li>Low cost</li>
-                                <li>Bottleneck: only one transfer at a time</li>
-                                <li>Slower performance</li>
-                            </ul>
-                        </div>
-                        <div class="comparison-box">
-                            <h4>Multiple Bus Architecture</h4>
-                            <ul>
-                                <li>Separate buses for different purposes</li>
-                                <li>Complex design</li>
-                                <li>Higher cost</li>
-                                <li>Parallel transfers possible</li>
-                                <li>Better performance</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="diagram">
-                SINGLE BUS ARCHITECTURE:
-                ┌──────────────────────────────┐
-                │                              │ System Bus
-                ▼                              ▼
-            ┌───────────┐            ┌──────────────┐
-            │ Processor │            │   Memory     │
-            └───────────┘            └──────────────┘
-                ▲                              ▲
-                │                              │
-                └──────────────────────────────┘
-                
-                MULTIPLE BUS ARCHITECTURE:
-            ┌─────────────────────────────────────┐
-            │         Processor   │    Memory     │
-            │    ┌─────────────────────────────┐  │
-            │    │      Internal Bus          │  │
-            │    └─────────────────────────────┘  │
-            └─────────────────────────────────────┘
-                        ▼
-                ┌────────────────┐
-                │  I/O Devices   │
-                └────────────────┘
-                </div>
-                
-                <div class="summary">
-                    <h4>📌 Summary - Lecture 2</h4>
-                    <p>Functional units are interconnected through buses (data, address, and control buses). The choice between single-bus and multiple-bus architecture affects system performance and complexity. Understanding these interconnections is crucial for grasping how data flows through the computer.</p>
-                </div>
-            </div>
-            
-            <!-- LECTURE 3 -->
-            <div class="lecture" id="lecture3">
-                <div class="lecture-header">
-                    <h2>Lecture 3: Basic Operational Concepts</h2>
-                    <p>Steps to Execute a Machine Instruction</p>
-                </div>
-                
-                <div class="section">
-                    <h3>🚀 The Fetch-Execute Cycle</h3>
-                    <p>Every instruction execution follows a basic cycle with specific steps involving register transfers and operations.</p>
-                    
-                    <div class="key-concept">
-                        <strong>The Fetch-Execute Cycle:</strong>
-                        <ol>
-                            <li><strong>Fetch:</strong> Get instruction from memory</li>
-                            <li><strong>Decode:</strong> Determine what the instruction means</li>
-                            <li><strong>Execute:</strong> Perform the operation</li>
-                            <li><strong>Store:</strong> Save results (if needed)</li>
-                        </ol>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>📝 Example: Add Instruction Execution</h3>
-                    
-                    <div class="example">
-                        <strong>Instruction: ADD LOCA, R0</strong>
-                        <p><em>This instruction adds the content of memory location LOCA to register R0</em></p>
-                        
-                        <p><strong>Step-by-Step Execution:</strong></p>
-                        <ol>
-                            <li><strong>Load Program Counter:</strong>
-                                <ul><li>PC ← Address of instruction (INSTR)</li></ul>
-                            </li>
-                            <li><strong>Fetch Instruction:</strong>
-                                <ul><li>IR ← [Memory location at PC]</li></ul>
-                            </li>
-                            <li><strong>Increment PC:</strong>
-                                <ul><li>PC ← PC + 1 (prepare for next instruction)</li></ul>
-                            </li>
-                            <li><strong>Decode:</strong>
-                                <ul><li>Identify operation (ADD) and operands</li></ul>
-                            </li>
-                            <li><strong>Load Operand from Memory:</strong>
-                                <ul><li>MAR ← LOCA (set memory address)</li>
-                                    <li>MBR ← [Memory location LOCA] (fetch data)</li></ul>
-                            </li>
-                            <li><strong>Execute Addition:</strong>
-                                <ul><li>R0 ← R0 + MBR (ALU performs addition)</li></ul>
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>💾 Key Registers Used in Execution</h3>
-                    
-                    <table>
-                        <tr>
-                            <th>Register</th>
-                            <th>Full Name</th>
-                            <th>Purpose</th>
-                        </tr>
-                        <tr>
-                            <td><strong>PC</strong></td>
-                            <td>Program Counter</td>
-                            <td>Holds address of next instruction to fetch</td>
-                        </tr>
-                        <tr>
-                            <td><strong>IR</strong></td>
-                            <td>Instruction Register</td>
-                            <td>Holds the current instruction being executed</td>
-                        </tr>
-                        <tr>
-                            <td><strong>MAR</strong></td>
-                            <td>Memory Address Register</td>
-                            <td>Holds the address of memory to be accessed</td>
-                        </tr>
-                        <tr>
-                            <td><strong>MBR</strong></td>
-                            <td>Memory Buffer Register</td>
-                            <td>Holds data from or to be written to memory</td>
-                        </tr>
-                        <tr>
-                            <td><strong>R0, R1,...</strong></td>
-                            <td>General Purpose Registers</td>
-                            <td>Store temporary data during execution</td>
-                        </tr>
-                    </table>
-                </div>
-                
-                <div class="section">
-                    <h3>🔄 Three Address Instruction Example</h3>
-                    
-                    <div class="example">
-                        <strong>Instruction: ADD R1, R2, R3</strong>
-                        <p><em>This adds R1 and R2, stores result in R3</em></p>
-                        
-                        <p><strong>Execution:</strong></p>
-                        <ol>
-                            <li>Fetch instruction from memory</li>
-                            <li>Decode: Identify it's an ADD with 3 register operands</li>
-                            <li>ALU reads R1 and R2 values</li>
-                            <li>ALU performs R1 + R2</li>
-                            <li>Write result to R3</li>
-                            <li>PC increments to next instruction</li>
-                        </ol>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>🎯 Two Address Instruction Example</h3>
-                    
-                    <div class="example">
-                        <strong>Instruction: ADD R1, R2</strong>
-                        <p><em>This adds R1 and R2, stores result back in R1</em></p>
-                        
-                        <p><strong>Execution:</strong></p>
-                        <ol>
-                            <li>Fetch instruction from memory</li>
-                            <li>Decode: Identify it's an ADD with 2 register operands</li>
-                            <li>ALU reads R1 and R2</li>
-                            <li>ALU performs R1 + R2</li>
-                            <li>Write result to R1 (overwriting original value)</li>
-                        </ol>
-                    </div>
-                </div>
-                
-                <div class="summary">
-                    <h4>📌 Summary - Lecture 3</h4>
-                    <p>The Fetch-Execute cycle is the fundamental operational concept. Understanding how registers (PC, IR, MAR, MBR) work together to fetch, decode, and execute instructions is critical. Different instruction formats (1, 2, 3 addresses) have different execution paths.</p>
-                </div>
-            </div>
-            
-            <!-- LECTURE 4 -->
-            <div class="lecture" id="lecture4">
-                <div class="lecture-header">
-                    <h2>Lecture 4: Bus Structures & Software</h2>
-                    <p>Communication Infrastructure and System Software</p>
-                </div>
-                
-                <div class="section">
-                    <h3>🔀 Single Bus Structure (Revisited with Details)</h3>
-                    
-                    <div class="diagram">
-                    SINGLE BUS CONNECTION:
-                    
-                         Memory
-                          │
-                    ──────┼──────
-                    │              │              │
-                    CPU         I/O Module   Other Devices
-                    
-                    All components connected to same bus means:
-                    - Only one transfer at a time
-                    - Simple control logic
-                    - Potential bottleneck
-                    </div>
-                    
-                    <div class="scenario">
-                        <strong>Single Bus Analogy:</strong>
-                        <p>Imagine a single checkout counter at a supermarket. All customers (CPU, Memory, I/O) must wait for their turn. Fast for small tasks, but creates delays during peak usage.</p>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>💻 System Software & Program Execution</h3>
-                    
-                    <h4>Levels of Software Abstraction:</h4>
-                    <div class="diagram">
-                    
-                    APPLICATION PROGRAMS
-                    (Word, Excel, Games)
-                           │
-                    System Utilities
-                    (Compilers, Text Editors)
-                           │
-                    Operating System
-                    (Windows, Linux, macOS)
-                           │
-                    Firmware/BIOS
-                    (Basic Input/Output System)
-                           │
-                    HARDWARE (CPU, Memory, I/O)
-                    
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>🔧 Essential Software Components</h3>
-                    
-                    <table>
-                        <tr>
-                            <th>Software Component</th>
-                            <th>Function</th>
-                            <th>Examples</th>
-                        </tr>
-                        <tr>
-                            <td><strong>Bootloader</strong></td>
-                            <td>Initialize hardware and load OS</td>
-                            <td>BIOS, UEFI</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Operating System</strong></td>
-                            <td>Manage resources and provide services</td>
-                            <td>Windows, Linux, macOS</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Compiler</strong></td>
-                            <td>Translate high-level code to machine code</td>
-                            <td>GCC, MSVC, Clang</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Assembler</strong></td>
-                            <td>Translate assembly to machine code</td>
-                            <td>NASM, GAS</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Linker</strong></td>
-                            <td>Combine object files into executable</td>
-                            <td>ld (GNU Linker)</td>
-                        </tr>
-                    </table>
-                </div>
-                
-                <div class="section">
-                    <h3>🔄 From High-Level Code to Machine Execution</h3>
-                    
-                    <div class="scenario">
-                        <strong>Complete Software Execution Pipeline:</strong>
-                        <p><strong>C Code:</strong></p>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">int x = 5;
-int y = x + 3;
-printf("%d", y);</pre>
-                        
-                        <p><strong>↓ Compiler</strong></p>
-                        
-                        <p><strong>Assembly Code:</strong></p>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">LOAD R0, x      ; Load x into register R0
-ADD  R0, 3      ; Add 3 to R0
-STORE R0, y     ; Store result in y</pre>
-                        
-                        <p><strong>↓ Assembler</strong></p>
-                        
-                        <p><strong>Machine Code (Binary):</strong></p>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">10110000 01101000
-01110001 00001001
-10110001 01100001</pre>
-                        
-                        <p><strong>↓ CPU (Fetch-Execute)</strong></p>
-                        
-                        <p><strong>Result in Memory: y = 8</strong></p>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>⚙️ Bus Protocols</h3>
-                    
-                    <p>Buses operate according to specific protocols (rules) that govern how data transfer happens:</p>
-                    
-                    <div class="key-concept">
-                        <strong>Synchronous Bus:</strong>
-                        All components use a common clock signal. Transfers happen at fixed time intervals. Simple but requires tight timing synchronization.
-                    </div>
-                    
-                    <div class="key-concept">
-                        <strong>Asynchronous Bus:</strong>
-                        Components use handshaking signals (ready, acknowledge). More flexible but complex control logic. Used when components have different speeds.
-                    </div>
-                </div>
-                
-                <div class="summary">
-                    <h4>📌 Summary - Lecture 4</h4>
-                    <p>A single bus connects all components and is controlled by specific protocols. System software acts as an intermediary between applications and hardware, translating high-level code through multiple layers to machine instructions that the CPU can execute.</p>
-                </div>
-            </div>
-            
-            <!-- LECTURE 5 -->
-            <div class="lecture" id="lecture5">
-                <div class="lecture-header">
-                    <h2>Lecture 5: Performance Metrics & Factors</h2>
-                    <p>Measuring and Optimizing Computer Performance</p>
-                </div>
-                
-                <div class="section">
-                    <h3>📊 Fundamental Performance Equation</h3>
-                    
-                    <div class="formula">
-                        <strong>Execution Time = Instruction Count × CPI × Clock Cycle Time</strong>
-                        <p>T = IC × CPI × C</p>
-                        <p>Where:</p>
-                        <ul>
-                            <li><strong>IC (Instruction Count):</strong> Total number of instructions executed</li>
-                            <li><strong>CPI (Cycles Per Instruction):</strong> Average clock cycles per instruction</li>
-                            <li><strong>C (Clock Cycle Time):</strong> Time for one clock cycle = 1/Clock Frequency</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>🎯 Example: Calculating Execution Time</h3>
-                    
-                    <div class="example">
-                        <strong>Scenario: Running a Program</strong>
-                        <ul>
-                            <li>Total Instructions = 50,000,000</li>
-                            <li>Average CPI = 2.7</li>
-                            <li>Clock Rate = 2.0 GHz (C = 0.5 × 10⁻⁹ seconds)</li>
-                        </ul>
-                        
-                        <p><strong>Execution Time Calculation:</strong></p>
-                        <p>T = 50,000,000 × 2.7 × 0.5 × 10⁻⁹</p>
-                        <p>T = 0.0675 seconds = 67.5 milliseconds</p>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>🔍 Three Main Factors Affecting Performance</h3>
-                    
-                    <table>
-                        <tr>
-                            <th>Factor</th>
-                            <th>Component</th>
-                            <th>Influenced By</th>
-                            <th>Example Impact</th>
-                        </tr>
-                        <tr>
-                            <td><strong>Instruction Count (IC)</strong></td>
-                            <td>Determined by algorithm</td>
-                            <td>Program, Compiler, ISA</td>
-                            <td>Better algorithm = fewer instructions</td>
-                        </tr>
-                        <tr>
-                            <td><strong>CPI</strong></td>
-                            <td>Instruction execution complexity</td>
-                            <td>CPU design, ISA, Compiler</td>
-                            <td>Pipelining can reduce CPI</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Clock Cycle Time (C)</strong></td>
-                            <td>Hardware implementation</td>
-                            <td>Technology (nm), CPU design</td>
-                            <td>5nm tech → faster cycles than 7nm</td>
-                        </tr>
-                    </table>
-                </div>
-                
-                <div class="section">
-                    <h3>⚖️ The RISC vs CISC Tradeoff</h3>
-                    
-                    <div class="comparison">
-                        <div class="comparison-box">
-                            <h4>RISC Architecture</h4>
-                            <ul>
-                                <li>Reduced Instruction Set</li>
-                                <li>Simple instructions</li>
-                                <li>More instructions needed (↑IC)</li>
-                                <li>Lower CPI (↓CPI)</li>
-                                <li>Faster clock (↓C)</li>
-                                <li>Examples: ARM, MIPS</li>
-                            </ul>
-                        </div>
-                        <div class="comparison-box">
-                            <h4>CISC Architecture</h4>
-                            <ul>
-                                <li>Complex Instruction Set</li>
-                                <li>Complex instructions</li>
-                                <li>Fewer instructions needed (↓IC)</li>
-                                <li>Higher CPI (↑CPI)</li>
-                                <li>Slower clock (↑C)</li>
-                                <li>Examples: x86, x64</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="key-concept">
-                        <strong>Key Finding:</strong>
-                        Experiments show RISC architecture generally gives better performance because the reduction in CPI and improvement in clock rate more than offset the increase in instruction count.
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>📈 Speedup and Performance Comparison</h3>
-                    
-                    <div class="formula">
-                        <strong>Performance Metric:</strong>
-                        <p>Performance = 1 / Execution Time</p>
-                        <p>Speedup = Time_old / Time_new = Performance_new / Performance_old</p>
-                    </div>
-                    
-                    <div class="example">
-                        <strong>Comparing Two Machines:</strong>
-                        <ul>
-                            <li>Machine A: Execution Time = 10 seconds</li>
-                            <li>Machine B: Execution Time = 25 seconds</li>
-                        </ul>
-                        
-                        <p><strong>Speedup of A over B:</strong></p>
-                        <p>Speedup = 25 / 10 = 2.5</p>
-                        <p>Meaning: Machine A is 2.5 times faster than Machine B</p>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>🎲 Scenario: Optimizing Performance</h3>
-                    
-                    <div class="scenario">
-                        <strong>Real Situation: Video Rendering Software</strong>
-                        
-                        <p><strong>Current Performance (Original Compiler):</strong></p>
-                        <ul>
-                            <li>IC = 50,000,000 instructions</li>
-                            <li>CPI = 2.7</li>
-                            <li>Clock Rate = 2.0 GHz (C = 0.5 × 10⁻⁹)</li>
-                            <li>Execution Time = 0.0675 seconds</li>
-                        </ul>
-                        
-                        <p><strong>After Optimization (New Compiler + Faster CPU):</strong></p>
-                        <ul>
-                            <li>IC = 40,000,000 instructions (20% reduction through better compiler)</li>
-                            <li>CPI = 3.0 (slightly worse due to more complex instructions)</li>
-                            <li>Clock Rate = 2.4 GHz (C = 0.4167 × 10⁻⁹)</li>
-                            <li>Execution Time = 40,000,000 × 3.0 × 0.4167 × 10⁻⁹ = 0.050 seconds</li>
-                        </ul>
-                        
-                        <p><strong>Overall Speedup:</strong></p>
-                        <p>Speedup = 0.0675 / 0.050 = 1.35 (35% faster!)</p>
-                        
-                        <p><strong>Analysis:</strong> Even though CPI increased, the reduction in IC and improvement in clock rate resulted in 35% overall performance gain.</p>
-                    </div>
-                </div>
-                
-                <div class="summary">
-                    <h4>📌 Summary - Lecture 5</h4>
-                    <p>Computer performance is determined by three factors: Instruction Count, CPI, and Clock Cycle Time. These factors often have tradeoffs. Understanding these metrics helps in making design decisions. RISC vs CISC represents different performance optimization strategies, with RISC generally winning overall.</p>
-                </div>
-            </div>
-            
-            <!-- LECTURE 6-28 ABBREVIATED VERSION -->
-            <div class="lecture" id="lecture6">
-                <div class="lecture-header">
-                    <h2>Lecture 6: Number Representation & Arithmetic Foundations</h2>
-                    <p>How Computers Represent and Work with Numbers</p>
-                </div>
-                
-                <div class="section">
-                    <h3>🔢 Number Systems in Computing</h3>
-                    
-                    <table>
-                        <tr>
-                            <th>System</th>
-                            <th>Base</th>
-                            <th>Digits</th>
-                            <th>Example</th>
-                            <th>Why Used in Computing</th>
-                        </tr>
-                        <tr>
-                            <td><strong>Binary</strong></td>
-                            <td>2</td>
-                            <td>0, 1</td>
-                            <td>1010₂ = 10₁₀</td>
-                            <td>Matches transistor states (on/off)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Octal</strong></td>
-                            <td>8</td>
-                            <td>0-7</td>
-                            <td>12₈ = 10₁₀</td>
-                            <td>Compact representation of binary</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Hexadecimal</strong></td>
-                            <td>16</td>
-                            <td>0-9, A-F</td>
-                            <td>A₁₆ = 10₁₀</td>
-                            <td>Very compact; used in addresses & debugging</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Decimal</strong></td>
-                            <td>10</td>
-                            <td>0-9</td>
-                            <td>10₁₀</td>
-                            <td>Human understanding</td>
-                        </tr>
-                    </table>
-                </div>
-                
-                <div class="section">
-                    <h3>📝 Number Conversions</h3>
-                    
-                    <div class="example">
-                        <strong>Binary to Decimal:</strong>
-                        <p>1011₂ = (1×2³) + (0×2²) + (1×2¹) + (1×2⁰) = 8 + 0 + 2 + 1 = 11₁₀</p>
-                    </div>
-                    
-                    <div class="example">
-                        <strong>Hexadecimal to Decimal:</strong>
-                        <p>2F₁₆ = (2×16¹) + (15×16⁰) = 32 + 15 = 47₁₀</p>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>🔐 Signed Number Representation</h3>
-                    
-                    <table>
-                        <tr>
-                            <th>Method</th>
-                            <th>Positive 5</th>
-                            <th>Negative 5</th>
-                            <th>Range (4-bit)</th>
-                            <th>Advantages</th>
-                        </tr>
-                        <tr>
-                            <td><strong>Sign-Magnitude</strong></td>
-                            <td>0101</td>
-                            <td>1101</td>
-                            <td>-7 to +7</td>
-                            <td>Intuitive</td>
-                        </tr>
-                        <tr>
-                            <td><strong>1's Complement</strong></td>
-                            <td>0101</td>
-                            <td>1010</td>
-                            <td>-7 to +7</td>
-                            <td>Easy negation</td>
-                        </tr>
-                        <tr>
-                            <td><strong>2's Complement</strong></td>
-                            <td>0101</td>
-                            <td>1011</td>
-                            <td>-8 to +7</td>
-                            <td>Standard; arithmetic works naturally</td>
-                        </tr>
-                    </table>
-                    
-                    <div class="key-concept">
-                        <strong>2's Complement (Most Important):</strong>
-                        <p>To negate a number: Flip all bits and add 1</p>
-                        <p>Example: +5 = 0101 → Flip: 1010 → Add 1: 1011 = -5</p>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>💻 Floating Point Representation</h3>
-                    
-                    <div class="formula">
-                        <strong>IEEE 754 Format:</strong>
-                        <p>Sign Bit | Exponent (8 bits) | Mantissa (23 bits)</p>
-                        <p>Value = (-1)^Sign × 1.Mantissa × 2^(Exponent-127)</p>
-                    </div>
-                </div>
-                
-                <div class="summary">
-                    <h4>📌 Summary - Lecture 6</h4>
-                    <p>Number representation is fundamental to computing. Binary is the native language of computers. Understanding different representations (binary, hex, signed numbers, floating point) is essential for working with hardware and low-level programming.</p>
-                </div>
-            </div>
-            
-            <!-- LECTURE 7 -->
-            <div class="lecture" id="lecture7">
-                <div class="lecture-header">
-                    <h2>Lecture 7: Addition & Subtraction of Signed Numbers</h2>
-                    <p>Arithmetic Operations at Hardware Level</p>
-                </div>
-                
-                <div class="section">
-                    <h3>➕ 2's Complement Addition</h3>
-                    
-                    <div class="example">
-                        <strong>Example 1: Adding Two Positive Numbers</strong>
-                        <p>+5 + +3:</p>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">    0101  (+5)
-  + 0011  (+3)
-  ------
-    1000  (+8) ✓</pre>
-                    </div>
-                    
-                    <div class="example">
-                        <strong>Example 2: Adding Positive and Negative</strong>
-                        <p>+5 + (-3):</p>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">    0101  (+5)
-  + 1101  (-3 in 2's complement)
-  ------
-   10010  
-   (discard carry) = 0010 (+2) ✓</pre>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>➖ 2's Complement Subtraction</h3>
-                    
-                    <p><strong>Rule:</strong> A - B = A + (-B) (convert subtraction to addition)</p>
-                    
-                    <div class="example">
-                        <strong>Example: 5 - 3 = 5 + (-3)</strong>
-                        <p>-3 in 2's complement = 1101</p>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">    0101  (+5)
-  + 1101  (-3)
-  ------
-   10010  = 0010 (+2) ✓</pre>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>⚠️ Overflow Detection</h3>
-                    
-                    <div class="key-concept">
-                        <strong>Overflow Occurs When:</strong>
-                        <ul>
-                            <li>Adding two positive numbers produces a negative result</li>
-                            <li>Adding two negative numbers produces a positive result</li>
-                        </ul>
-                        <p><strong>Detection:</strong> If signs of operands are same but result sign is different → Overflow!</p>
-                    </div>
-                    
-                    <div class="example">
-                        <strong>Overflow Example (4-bit):</strong>
-                        <p>+7 + +2:</p>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">    0111  (+7)
-  + 0010  (+2)
-  ------
-    1001  (-7) ← WRONG! This is overflow!</pre>
-                        <p>Range is -8 to +7, so +9 cannot be represented.</p>
-                    </div>
-                </div>
-                
-                <div class="summary">
-                    <h4>📌 Summary - Lecture 7</h4>
-                    <p>Addition and subtraction in 2's complement is straightforward and can use the same hardware (ALU). Overflow must be detected to ensure correct results. The sign bit behavior is automatic in 2's complement arithmetic.</p>
-                </div>
-            </div>
-            
-            <!-- LECTURE 8 -->
-            <div class="lecture" id="lecture8">
-                <div class="lecture-header">
-                    <h2>Lecture 8: Memory Locations & Addressing</h2>
-                    <p>How Computers Access Data in Memory</p>
-                </div>
-                
-                <div class="section">
-                    <h3>🗂️ Memory Organization</h3>
-                    
-                    <div class="key-concept">
-                        <strong>Byte-Addressable Memory:</strong>
-                        Each byte (8 bits) has a unique address. A 32-bit address can access 2^32 = 4GB of memory.
-                    </div>
-                    
-                    <div class="diagram">
-                    MEMORY LAYOUT:
-                    
-                    Address    Content
-                    0x00000    [Byte 0]  ← First byte at address 0
-                    0x00001    [Byte 1]
-                    0x00002    [Byte 2]
-                    0x00003    [Byte 3]
-                    ...
-                    0x7FFFFFFF [Byte n]  ← Last byte (4GB system)
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>🔄 Big-Endian vs Little-Endian</h3>
-                    
-                    <p><strong>Two ways to store multi-byte values in memory:</strong></p>
-                    
-                    <div class="comparison">
-                        <div class="comparison-box">
-                            <h4>Big-Endian</h4>
-                            <ul>
-                                <li>Most Significant Byte first</li>
-                                <li>Address 0x1000: MSB (0x12)</li>
-                                <li>Address 0x1001: 0x34</li>
-                                <li>Address 0x1002: 0x56</li>
-                                <li>Address 0x1003: LSB (0x78)</li>
-                                <li>Used in: PowerPC, SPARC</li>
-                            </ul>
-                        </div>
-                        <div class="comparison-box">
-                            <h4>Little-Endian</h4>
-                            <ul>
-                                <li>Least Significant Byte first</li>
-                                <li>Address 0x1000: LSB (0x78)</li>
-                                <li>Address 0x1001: 0x56</li>
-                                <li>Address 0x1002: 0x34</li>
-                                <li>Address 0x1003: MSB (0x12)</li>
-                                <li>Used in: x86, ARM</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="example">
-                        <strong>Storing Value 0x12345678:</strong>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">Big-Endian (Address 0x1000):    Little-Endian (Address 0x1000):
-0x1000: 0x12                    0x1000: 0x78
-0x1001: 0x34                    0x1001: 0x56
-0x1002: 0x56                    0x1002: 0x34
-0x1003: 0x78                    0x1003: 0x12</pre>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>📍 Memory Word Alignment</h3>
-                    
-                    <p>Modern processors access memory more efficiently when data is aligned (address is multiple of data size).</p>
-                    
-                    <div class="key-concept">
-                        <strong>Alignment Rules:</strong>
-                        <ul>
-                            <li>Byte (8-bit): No alignment required</li>
-                            <li>Word (16-bit): Address must be multiple of 2</li>
-                            <li>Double Word (32-bit): Address must be multiple of 4</li>
-                            <li>Quad Word (64-bit): Address must be multiple of 8</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>💾 Scenario: Data Storage</h3>
-                    
-                    <div class="scenario">
-                        <strong>Storing a Struct in Memory:</strong>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">struct Person {
-    int age;        // 4 bytes
-    char name[4];   // 4 bytes
-    short id;       // 2 bytes
-};  // Total: 10 bytes
 
-Memory Layout (Little-Endian):
-0x1000-0x1003: [age value]
-0x1004-0x1007: [name chars]
-0x1008-0x1009: [id value]</pre>
-                    </div>
-                </div>
-                
-                <div class="summary">
-                    <h4>📌 Summary - Lecture 8</h4>
-                    <p>Memory is byte-addressable with unique addresses for each byte. Multi-byte values can be stored in two ways (Big-Endian or Little-Endian). Understanding memory organization is crucial for correct data access and storage efficiency.</p>
-                </div>
-            </div>
-            
-            <!-- LECTURE 9-14 COMBINED -->
-            <div class="lecture" id="lecture9">
-                <div class="lecture-header">
-                    <h2>Lecture 9-10: Instructions & Assembly Language Notation</h2>
-                    <p>Machine Instructions and Low-Level Programming</p>
-                </div>
-                
-                <div class="section">
-                    <h3>🔧 Instruction Format Structure</h3>
-                    
-                    <p>Machine instructions have a standard format consisting of opcode and operands.</p>
-                    
-                    <div class="diagram">
-                    INSTRUCTION FORMAT:
-                    ┌─────────┬─────────┬─────────┬─────────┐
-                    │ Opcode  │ Addr    │ Addr    │ Addr    │
-                    │(6 bits) │(5 bits) │(5 bits) │(5 bits) │
-                    └─────────┴─────────┴─────────┴─────────┘
-                    32-bit instruction: 1 opcode + 3 register addresses
-                    
-                    Opcode examples:
-                    000001 = ADD
-                    000010 = SUB
-                    000011 = MUL
-                    000100 = LOAD
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>📋 Instruction Types</h3>
-                    
-                    <table>
-                        <tr>
-                            <th>Type</th>
-                            <th>Format</th>
-                            <th>Example</th>
-                            <th>How It Works</th>
-                        </tr>
-                        <tr>
-                            <td><strong>Load</strong></td>
-                            <td>LOAD Ri, Address</td>
-                            <td>LOAD R1, [0x1000]</td>
-                            <td>Load data from memory into register</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Store</strong></td>
-                            <td>STORE Ri, Address</td>
-                            <td>STORE R1, [0x1000]</td>
-                            <td>Store register content to memory</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Arithmetic</strong></td>
-                            <td>ADD/SUB Ri, Rj, Rk</td>
-                            <td>ADD R1, R2, R3</td>
-                            <td>R1 ← R2 + R3 (3-address)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Logical</strong></td>
-                            <td>AND/OR Ri, Rj, Rk</td>
-                            <td>AND R1, R2, R3</td>
-                            <td>Bitwise operations</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Branch</strong></td>
-                            <td>BRZ Label, Ri</td>
-                            <td>BRZ LOOP, R1</td>
-                            <td>Jump if register is zero</td>
-                        </tr>
-                    </table>
-                </div>
-                
-                <div class="section">
-                    <h3>🎯 Assembly Language Notation</h3>
-                    
-                    <p>Assembly language provides mnemonics (easy-to-remember names) for machine instructions.</p>
-                    
-                    <div class="example">
-                        <strong>Simple Program: Add A + B, Store in C</strong>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">; High-level: C = A + B
+<header class="site-header">
+  <h1>📚 RDBMS — MTE Lecture Notes</h1>
+  <p>CSC2103 · Manipal University Jaipur · Lectures 1–26 · By Prof. (Based on Silberschatz 7th Ed.)</p>
+</header>
 
-    LOAD  R1, A    ; Load A into R1
-    LOAD  R2, B    ; Load B into R2
-    ADD   R3, R1, R2  ; R3 = R1 + R2
-    STORE R3, C    ; Store result in C
-    HALT           ; End program</pre>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>↔️ Instruction Sequencing</h3>
-                    
-                    <p><strong>Instructions execute sequentially unless:</strong></p>
-                    <ul>
-                        <li>A branch instruction redirects execution</li>
-                        <li>A jump instruction changes Program Counter</li>
-                    </ul>
-                    
-                    <div class="example">
-                        <strong>With Branch:</strong>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">    LOAD  R1, X
-    LOAD  R2, Y
-    CMP   R1, R2      ; Compare R1 and R2
-    BLE   LOOP        ; Branch if Less or Equal
-    LOAD  R3, Z
-    HALT
-LOOP: ADD   R1, 1    ; This only executes if R1 <= R2
-    JMP   LOOP        ; Jump back</pre>
-                    </div>
-                </div>
-                
-                <div class="summary">
-                    <h4>📌 Summary - Lectures 9-10</h4>
-                    <p>Instructions follow specific formats with opcodes and operands. Assembly language provides a human-readable notation for machine instructions. Understanding instruction types (Load, Store, Arithmetic, Branch) is essential for programming at hardware level.</p>
-                </div>
-            </div>
-            
-            <!-- LECTURE 11-13 -->
-            <div class="lecture" id="lecture11">
-                <div class="lecture-header">
-                    <h2>Lecture 11-13: Addressing Modes & Branching</h2>
-                    <p>How Instructions Access Operands</p>
-                </div>
-                
-                <div class="section">
-                    <h3>🎯 Different Addressing Modes</h3>
-                    
-                    <p>An addressing mode specifies how the operand address is determined from the instruction.</p>
-                    
-                    <table>
-                        <tr>
-                            <th>Mode</th>
-                            <th>Format</th>
-                            <th>Example</th>
-                            <th>Effective Address</th>
-                            <th>When Used</th>
-                        </tr>
-                        <tr>
-                            <td><strong>Immediate</strong></td>
-                            <td>ADD R1, #5</td>
-                            <td>R1 = R1 + 5</td>
-                            <td>5 (from instruction)</td>
-                            <td>Constants</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Direct</strong></td>
-                            <td>LOAD R1, 0x1000</td>
-                            <td>R1 = Memory[0x1000]</td>
-                            <td>0x1000</td>
-                            <td>Fixed locations</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Register</strong></td>
-                            <td>ADD R1, R2</td>
-                            <td>R1 = R1 + R2</td>
-                            <td>Value in R2</td>
-                            <td>Register-to-register</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Indirect</strong></td>
-                            <td>LOAD R1, (R2)</td>
-                            <td>R1 = Memory[R2]</td>
-                            <td>Value in R2 is address</td>
-                            <td>Pointer dereferencing</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Indexed</strong></td>
-                            <td>LOAD R1, 0x1000(R2)</td>
-                            <td>R1 = Memory[0x1000+R2]</td>
-                            <td>0x1000 + R2</td>
-                            <td>Array access</td>
-                        </tr>
-                    </table>
-                </div>
-                
-                <div class="section">
-                    <h3>🎲 Scenario: Array Access Using Indexed Addressing</h3>
-                    
-                    <div class="scenario">
-                        <strong>Access Array Elements:</strong>
-                        <pre style="background: #f0f0f0; padding: 10px; border-rgba: 5px;">int arr[5] = {10, 20, 30, 40, 50};  // Base at 0x1000
+<div class="layout">
 
-C Code:              Assembly (Indexed):
-x = arr[2];          LOAD R1, 2     ; Load index 2
-                     LOAD R2, 0x1000(R1)  ; Load arr[2]
-                     STORE R2, x
+<!-- ════════════════ SIDEBAR ════════════════ -->
+<nav class="sidebar">
+  <div class="sidebar-section">Module 1 – Intro & DBMS</div>
+  <a href="#l1"><span class="num">L1</span> Intro & Significance</a>
+  <a href="#l2"><span class="num">L2</span> DBMS Concepts</a>
+  <a href="#l3"><span class="num">L3</span> DB vs File System</a>
+  <a href="#l4"><span class="num">L4</span> Data Models & Schema</a>
+  <a href="#l5"><span class="num">L5</span> Data Independence</a>
+  <a href="#l6"><span class="num">L6</span> DB Apps, Users & DBA</a>
 
-; R1 = 2 (index)
-; Effective Address = 0x1000 + (2 * 4 bytes) = 0x1008
-; Memory[0x1008] = 30</pre>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>🔀 Branching Instructions</h3>
-                    
-                    <p>Branching allows conditional execution and loops.</p>
-                    
-                    <table>
-                        <tr>
-                            <th>Instruction</th>
-                            <th>Condition</th>
-                            <th>Sets By</th>
-                        </tr>
-                        <tr>
-                            <td><strong>BRZ</strong> (Branch if Zero)</td>
-                            <td>Register value == 0</td>
-                            <td>Zero flag</td>
-                        </tr>
-                        <tr>
-                            <td><strong>BRN</strong> (Branch if Negative)</td>
-                            <td>Register value < 0</td>
-                            <td>Sign flag</td>
-                        </tr>
-                        <tr>
-                            <td><strong>BRV</strong> (Branch if Overflow)</td>
-                            <td>Overflow occurred</td>
-                            <td>Overflow flag</td>
-                        </tr>
-                        <tr>
-                            <td><strong>BRC</strong> (Branch if Carry)</td>
-                            <td>Carry occurred</td>
-                            <td>Carry flag</td>
-                        </tr>
-                    </table>
-                    
-                    <div class="example">
-                        <strong>While Loop in Assembly:</strong>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">; while (i > 0) { i--; }
+  <div class="sidebar-section">Module 2 – ER Model</div>
+  <a href="#l7"><span class="num">L7</span> ER Concepts</a>
+  <a href="#l8"><span class="num">L8</span> Relationship Constraints</a>
+  <a href="#l9"><span class="num">L9</span> ER Diagram Examples</a>
+  <a href="#l10"><span class="num">L10</span> Generalization & EER</a>
+  <a href="#l11"><span class="num">L11</span> ER → Relational Tables</a>
 
-    LOAD  R1, 5      ; i = 5
-LOOP: 
-    SUB   R1, 1      ; i--
-    BRN   EXIT       ; if i < 0, exit
-    JMP   LOOP       ; go back
-EXIT:
-    HALT</pre>
-                    </div>
-                </div>
-                
-                <div class="summary">
-                    <h4>📌 Summary - Lectures 11-13</h4>
-                    <p>Addressing modes determine how operands are specified in instructions. They range from simple (immediate, direct) to complex (indexed, indirect). Understanding branching with condition codes enables writing loops and conditional logic in assembly.</p>
-                </div>
-            </div>
-            
-            <!-- LECTURE 14-19 I/O SECTION -->
-            <div class="lecture" id="lecture14">
-                <div class="lecture-header">
-                    <h2>Lecture 14-19: Input/Output Organization</h2>
-                    <p>How Computers Communicate with Peripherals</p>
-                </div>
-                
-                <div class="section">
-                    <h3>🔌 I/O Module Architecture</h3>
-                    
-                    <div class="key-concept">
-                        <strong>I/O Module:</strong>
-                        Acts as intermediary between processor and external devices. Contains control logic, status registers, and data buffers.
-                    </div>
-                    
-                    <div class="diagram">
-                    I/O MODULE SCHEMATIC:
-                    ┌─────────────────────────────────┐
-                    │        I/O MODULE               │
-                    │  ┌──────────────────────────┐   │
-                    │  │  Control Logic           │   │
-                    │  └──────────────────────────┘   │
-                    │  ┌──────────────────────────┐   │
-                    │  │  Status Registers        │   │
-                    │  └──────────────────────────┘   │
-                    │  ┌──────────────────────────┐   │
-                    │  │  Data Buffer/Register    │   │
-                    │  └──────────────────────────┘   │
-                    └─────────────────────────────────┘
-                            │              │
-                            ▼              ▼
-                        CPU/Memory      External Device
-                                      (Printer, Disk, etc)
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>🗺️ Memory-Mapped vs I/O-Mapped Devices</h3>
-                    
-                    <div class="comparison">
-                        <div class="comparison-box">
-                            <h4>Memory-Mapped I/O</h4>
-                            <ul>
-                                <li>Device registers appear as memory locations</li>
-                                <li>Same instructions for memory and I/O</li>
-                                <li>LOAD/STORE access devices</li>
-                                <li>Reduces instruction count</li>
-                                <li>Example: ARM, x86</li>
-                            </ul>
-                        </div>
-                        <div class="comparison-box">
-                            <h4>I/O-Mapped I/O</h4>
-                            <ul>
-                                <li>Separate I/O address space</li>
-                                <li>Special IN/OUT instructions</li>
-                                <li>Clearer distinction</li>
-                                <li>Limited address space for I/O</li>
-                                <li>Example: x86 I/O ports</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>📤 Three Data Transfer Techniques</h3>
-                    
-                    <table>
-                        <tr>
-                            <th>Technique</th>
-                            <th>CPU Role</th>
-                            <th>Speed</th>
-                            <th>Overhead</th>
-                            <th>Best For</th>
-                        </tr>
-                        <tr>
-                            <td><strong>Programmed I/O</strong></td>
-                            <td>Actively polls device</td>
-                            <td>Slow</td>
-                            <td>Very High</td>
-                            <td>Slow devices, keyboard</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Interrupt-Driven</strong></td>
-                            <td>Waits for interrupt signal</td>
-                            <td>Medium</td>
-                            <td>Medium</td>
-                            <td>Medium-speed devices</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Direct Memory Access</strong></td>
-                            <td>DMA controller handles transfer</td>
-                            <td>Fast</td>
-                            <td>Low</td>
-                            <td>High-speed devices, disk</td>
-                        </tr>
-                    </table>
-                </div>
-                
-                <div class="section">
-                    <h3>🔄 Programmed I/O</h3>
-                    
-                    <div class="scenario">
-                        <strong>Reading 2048 bytes from device:</strong>
-                        <ul>
-                            <li>Bus width: 32 bits = 4 bytes</li>
-                            <li>Number of transfers: 2048 / 4 = 512</li>
-                            <li>Time per transfer: 4 μs</li>
-                            <li>Total CPU time: 512 × 4 μs = 2,048 μs = 2.048 ms</li>
-                        </ul>
-                        <p>CPU remains busy throughout - inefficient for slow operations!</p>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>⚡ Interrupt-Driven I/O</h3>
-                    
-                    <div class="example">
-                        <strong>How Interrupts Work:</strong>
-                        <ol>
-                            <li>Device signals need for attention (interrupt request)</li>
-                            <li>CPU finishes current instruction</li>
-                            <li>CPU saves program state (PC, registers)</li>
-                            <li>CPU jumps to Interrupt Service Routine (ISR)</li>
-                            <li>ISR handles the device</li>
-                            <li>CPU returns to original program</li>
-                        </ol>
-                    </div>
-                    
-                    <div class="scenario">
-                        <strong>Device: 8 KB/s, Interrupt processing: 100 μs per byte</strong>
-                        <ul>
-                            <li>Interrupts per second: 8192</li>
-                            <li>CPU time per byte: 100 + 8 = 108 μs</li>
-                            <li>Total CPU usage: 8192 × 108 μs ≈ 88.5%</li>
-                        </ul>
-                        <p>Still very high overhead! Many interrupts per second causes excessive context switching.</p>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>🚀 Direct Memory Access (DMA)</h3>
-                    
-                    <div class="key-concept">
-                        <strong>DMA Advantage:</strong>
-                        Device transfers data directly to memory without CPU involvement. CPU overhead is minimal (only for setup and completion interrupt).
-                    </div>
-                    
-                    <div class="scenario">
-                        <strong>DMA Transfer Scenario:</strong>
-                        <ul>
-                            <li>Hard disk: 4000 KB/s</li>
-                            <li>Block size: 8 KB</li>
-                            <li>Transfers per second: 500</li>
-                            <li>Setup overhead: 2000 CPU cycles</li>
-                            <li>Completion interrupt: 1000 CPU cycles</li>
-                            <li>CPU total: 500 × (2000 + 1000) = 1.5M cycles/sec</li>
-                            <li>On 50 MHz processor: 1.5M / 50M = 3% overhead</li>
-                        </ul>
-                        <p>Dramatically better than programmed or interrupt-driven I/O!</p>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>🎛️ DMA Controller & Cycle Stealing</h3>
-                    
-                    <p><strong>Cycle Stealing:</strong> DMA controller temporarily takes bus cycles from CPU.</p>
-                    
-                    <div class="example">
-                        <strong>DMA at 2400 bytes/s transferring 32-bit words (4 bytes):</strong>
-                        <ul>
-                            <li>Transfers per second: 2400 / 4 = 600</li>
-                            <li>Cycles lost to DMA: 600 cycles/sec</li>
-                            <li>CPU running at 1M instructions/sec</li>
-                            <li>Slowdown: 600 / 1,000,000 = 0.06%</li>
-                        </ul>
-                        <p>Minimal impact on CPU performance!</p>
-                    </div>
-                </div>
-                
-                <div class="summary">
-                    <h4>📌 Summary - Lectures 14-19</h4>
-                    <p>I/O is handled through three main techniques: Programmed I/O (CPU-intensive), Interrupt-driven (better but still overhead), and DMA (best performance). Memory-mapped vs I/O-mapped determines how the CPU accesses device registers. Understanding interrupt handling and DMA is crucial for efficient I/O operations.</p>
-                </div>
-            </div>
-            
-            <!-- LECTURE 20-24 CACHE SECTION -->
-            <div class="lecture" id="lecture20">
-                <div class="lecture-header">
-                    <h2>Lecture 20-24: Cache Memory & Performance</h2>
-                    <p>Memory Hierarchy and Speed Optimization</p>
-                </div>
-                
-                <div class="section">
-                    <h3>📚 Memory Hierarchy</h3>
-                    
-                    <div class="diagram">
-                    MEMORY HIERARCHY (Top = Fast + Small, Bottom = Slow + Large):
-                    ┌──────────────────────────┐
-                    │   Registers (CPU)        │  ~1 ns,  ~1 KB,  Fastest
-                    ├──────────────────────────┤
-                    │   L1 Cache               │  ~3 ns,  ~32 KB
-                    ├──────────────────────────┤
-                    │   L2 Cache               │  ~10 ns, ~256 KB
-                    ├──────────────────────────┤
-                    │   L3 Cache               │  ~40 ns, ~8 MB
-                    ├──────────────────────────┤
-                    │   Main Memory (RAM)      │  ~100 ns, ~16 GB
-                    ├──────────────────────────┤
-                    │   Secondary Storage      │  ~10 ms, ~1 TB, Slowest
-                    │   (Disk, SSD)            │
-                    └──────────────────────────┘
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>🎯 Cache Basics</h3>
-                    
-                    <div class="key-concept">
-                        <strong>Cache Principle:</strong>
-                        Small, fast memory holds frequently accessed data from main memory. When CPU needs data, check cache first (cache hit), if not there, fetch from memory (cache miss).
-                    </div>
-                    
-                    <table>
-                        <tr>
-                            <th>Concept</th>
-                            <th>Definition</th>
-                            <th>Example</th>
-                        </tr>
-                        <tr>
-                            <td><strong>Cache Hit</strong></td>
-                            <td>Data found in cache</td>
-                            <td>Access time: 3 ns</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Cache Miss</strong></td>
-                            <td>Data not in cache, fetch from memory</td>
-                            <td>Access time: 100 ns + 3 ns = 103 ns</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Hit Rate</strong></td>
-                            <td>% of accesses that hit cache</td>
-                            <td>95% (very good)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Miss Rate</strong></td>
-                            <td>% of accesses that miss cache</td>
-                            <td>5% (100% - 95%)</td>
-                        </tr>
-                    </table>
-                </div>
-                
-                <div class="section">
-                    <h3>⏱️ Effective Memory Access Time (EMAT)</h3>
-                    
-                    <div class="formula">
-                        <strong>EMAT = Hit Rate × Cache Access Time + Miss Rate × Memory Access Time</strong>
-                        <p>EMAT = H × Tc + (1-H) × Tm</p>
-                        <p>Where: H = Hit Rate, Tc = Cache time, Tm = Memory time</p>
-                    </div>
-                    
-                    <div class="example">
-                        <strong>Scenario: Cache System Performance</strong>
-                        <ul>
-                            <li>Cache access time: 20 ns</li>
-                            <li>Memory access time: 200 ns</li>
-                            <li>Hit rate: 95%</li>
-                        </ul>
-                        
-                        <p><strong>EMAT Calculation:</strong></p>
-                        <p>EMAT = 0.95 × 20 + 0.05 × 200</p>
-                        <p>EMAT = 19 + 10 = 29 ns</p>
-                        
-                        <p><strong>Without cache:</strong> Always 200 ns</p>
-                        <p><strong>Speedup:</strong> 200 / 29 ≈ 6.9x faster!</p>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>🗂️ Three Mapping Techniques</h3>
-                    
-                    <h4>1️⃣ Direct Mapping</h4>
-                    <div class="key-concept">
-                        <strong>Rule:</strong> Each memory block maps to exactly one cache line.
-                        <p>Cache Index = (Memory Address) mod (Number of Cache Lines)</p>
-                    </div>
-                    
-                    <div class="example">
-                        <strong>Example:</strong>
-                        <ul>
-                            <li>Cache: 16 KB, block size: 256 bytes → 64 cache lines</li>
-                            <li>Memory: 128 KB → 512 blocks</li>
-                            <li>Memory block 0 → Cache line 0</li>
-                            <li>Memory block 64 → Cache line 0 (conflict!)</li>
-                        </ul>
-                        <p>Pro: Simple. Con: High conflict misses</p>
-                    </div>
-                    
-                    <h4>2️⃣ Fully Associative Mapping</h4>
-                    <div class="key-concept">
-                        <strong>Rule:</strong> Any memory block can go into any cache line.
-                    </div>
-                    
-                    <p>Pro: No conflicts. Con: Complex, need to search all lines</p>
-                    
-                    <h4>3️⃣ Set-Associative Mapping</h4>
-                    <div class="key-concept">
-                        <strong>Rule:</strong> Memory block maps to a set of cache lines (trade-off).
-                        <p>2-way: Each block can go into 2 lines</p>
-                        <p>4-way: Each block can go into 4 lines</p>
-                    </div>
-                    
-                    <p>Pro: Good balance. Con: Moderate complexity</p>
-                </div>
-                
-                <div class="section">
-                    <h3>💾 Cache Formula Calculations</h3>
-                    
-                    <div class="formula">
-                        <strong>Cache Parameters:</strong>
-                        <p>Total bits in cache = (Tag bits + Valid bit + Data bits) × Number of lines</p>
-                        <p>Number of cache lines = Cache Size / Block Size</p>
-                        <p>Address bits = Tag bits + Index bits + Offset bits</p>
-                        <p>Where: Offset bits = log₂(Block Size)</p>
-                    </div>
-                    
-                    <div class="example">
-                        <strong>Calculate Cache Parameters:</strong>
-                        <ul>
-                            <li>Cache: 16 KB</li>
-                            <li>Block size: 256 bytes</li>
-                            <li>Main memory: 128 KB</li>
-                        </ul>
-                        
-                        <p><strong>Solution:</strong></p>
-                        <ul>
-                            <li>Cache lines = 16 KB / 256 B = 64 lines</li>
-                            <li>Offset bits = log₂(256) = 8 bits</li>
-                            <li>Index bits = log₂(64) = 6 bits</li>
-                            <li>Address bits = log₂(128 KB) = 17 bits</li>
-                            <li>Tag bits = 17 - 6 - 8 = 3 bits</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>🔄 Replacement Algorithms</h3>
-                    
-                    <table>
-                        <tr>
-                            <th>Algorithm</th>
-                            <th>Idea</th>
-                            <th>Performance</th>
-                            <th>Complexity</th>
-                        </tr>
-                        <tr>
-                            <td><strong>LRU</strong> (Least Recently Used)</td>
-                            <td>Remove least recently accessed line</td>
-                            <td>Best</td>
-                            <td>High</td>
-                        </tr>
-                        <tr>
-                            <td><strong>FIFO</strong> (First In First Out)</td>
-                            <td>Remove oldest line</td>
-                            <td>Good</td>
-                            <td>Low</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Random</strong></td>
-                            <td>Remove random line</td>
-                            <td>Fair</td>
-                            <td>Minimal</td>
-                        </tr>
-                    </table>
-                </div>
-                
-                <div class="summary">
-                    <h4>📌 Summary - Lectures 20-24</h4>
-                    <p>Cache is a critical component for system performance. Understanding mapping techniques (direct, associative, set-associative), calculating EMAT, and replacement algorithms is essential. Cache design involves tradeoffs between speed, size, and miss rate.</p>
-                </div>
-            </div>
-            
-            <!-- LECTURE 25-27 ARITHMETIC -->
-            <div class="lecture" id="lecture25">
-                <div class="lecture-header">
-                    <h2>Lecture 25-27: Fast Arithmetic Circuits</h2>
-                    <p>Hardware Implementation of Arithmetic Operations</p>
-                </div>
-                
-                <div class="section">
-                    <h3>🔧 Design of Fast Adders</h3>
-                    
-                    <div class="key-concept">
-                        <strong>Ripple Carry Adder:</strong>
-                        Each bit addition produces a carry that "ripples" to next position. Simple but slow.
-                    </div>
-                    
-                    <div class="example">
-                        <strong>4-bit Addition:</strong>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">    0110  (6)
-  + 0101  (5)
-  ------
-    1011  (11)
+  <div class="sidebar-section">Module 3 – Relational Model</div>
+  <a href="#l12"><span class="num">L12</span> Domains, Keys, Attrs</a>
+  <a href="#l13"><span class="num">L13</span> Integrity Constraints</a>
 
-Carry propagation:
-Bit 0: Cin=0, 0+1 → Sum=1, Cout=0
-Bit 1: Cin=0, 1+0 → Sum=1, Cout=0
-Bit 2: Cin=0, 1+1 → Sum=0, Cout=1
-Bit 3: Cin=1, 0+0 → Sum=1, Cout=0
-Result: 1011 ✓</pre>
-                    </div>
-                    
-                    <div class="key-concept">
-                        <strong>Carry Lookahead Adder:</strong>
-                        Predicts carries in advance, reducing delay. Used in modern processors.
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>✖️ Multiplication Circuits</h3>
-                    
-                    <h4>Unsigned Multiplication</h4>
-                    <div class="example">
-                        <strong>4-bit × 4-bit = 8-bit Product</strong>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">Multiply: 5 × 3 = 15
+  <div class="sidebar-section">Module 4 – Relational Algebra</div>
+  <a href="#l14"><span class="num">L14</span> Unary & Set Ops</a>
+  <a href="#l15"><span class="num">L15</span> Binary Ops & Joins</a>
 
-      0101  (5)
-    × 0011  (3)
-    ------
-      0101  (5 × 1)
-     0101   (5 × 1, shifted)
-    0000    (5 × 0, shifted)
-    0000    (5 × 0, shifted)
-    ------
-    01111   (15) ✓</pre>
-                    </div>
-                    
-                    <h4>Signed Multiplication (Booth's Algorithm)</h4>
-                    <div class="key-concept">
-                        <strong>Booth's Algorithm:</strong>
-                        Efficiently handles signed numbers by recognizing bit patterns and using subtraction. Reduces number of operations.
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>➗ Division Circuits</h3>
-                    
-                    <div class="example">
-                        <strong>Integer Division: 15 ÷ 3 = 5 (remainder 0)</strong>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">Long Division Method:
-      0101  (quotient)
-    ------
-  3 | 1111  (15)
-      1010  (30)
-      ----
-      0101  (5)
-      0011  (3)
-      ----
-      0010  (2)
-      ----
-      Result: Quotient = 5, Remainder = 0</pre>
-                    </div>
-                    
-                    <p><strong>Hardware Implementation:</strong> Uses repeated subtraction or shift-and-subtract algorithm.</p>
-                </div>
-                
-                <div class="summary">
-                    <h4>📌 Summary - Lectures 25-27</h4>
-                    <p>Fast arithmetic circuits use carry lookahead for addition, shift-and-add for multiplication, and shift-and-subtract for division. Understanding these low-level implementations is important for computer organization.</p>
-                </div>
-            </div>
-            
-            <!-- LECTURE 28 -->
-            <div class="lecture" id="lecture28">
-                <div class="lecture-header">
-                    <h2>Lecture 28: Control Unit Design Basics</h2>
-                    <p>Orchestrating Instruction Execution</p>
-                </div>
-                
-                <div class="section">
-                    <h3>🎛️ Control Unit Architecture</h3>
-                    
-                    <div class="key-concept">
-                        <strong>Control Unit:</strong>
-                        Interprets instructions and generates control signals to direct operations of other components. It's the "orchestrator" of instruction execution.
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>🔌 Two Design Approaches</h3>
-                    
-                    <table>
-                        <tr>
-                            <th>Aspect</th>
-                            <th>Hardwired Control</th>
-                            <th>Microprogrammed Control</th>
-                        </tr>
-                        <tr>
-                            <td><strong>Design</strong></td>
-                            <td>Combinational logic circuits</td>
-                            <td>Microinstruction sequences</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Speed</strong></td>
-                            <td>Very fast</td>
-                            <td>Slightly slower</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Flexibility</strong></td>
-                            <td>Fixed, hardware modifications needed</td>
-                            <td>High, can reprogram</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Complexity</strong></td>
-                            <td>Complex design, simple execution</td>
-                            <td>Simple design, complex logic</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Used In</strong></td>
-                            <td>High-performance CPUs, Reduced ISA</td>
-                            <td>Complex instruction sets, older systems</td>
-                        </tr>
-                    </table>
-                </div>
-                
-                <div class="section">
-                    <h3>⚡ Hardwired Control Example</h3>
-                    
-                    <div class="scenario">
-                        <strong>Generating Control Signals for ADD R1, R2, R3:</strong>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">Instruction: ADD R1, R2, R3
+  <div class="sidebar-section">Module 5 – SQL</div>
+  <a href="#l16"><span class="num">L16</span> Basic SQL, DDL, DML</a>
+  <a href="#l17"><span class="num">L17</span> SQL Joins</a>
+  <a href="#l18"><span class="num">L18</span> Sub-queries</a>
+  <a href="#l19"><span class="num">L19</span> Aggregates & Cursors</a>
+  <a href="#l20"><span class="num">L20</span> Dynamic SQL</a>
+  <a href="#l21"><span class="num">L21</span> Integrity Constraints SQL</a>
+  <a href="#l22"><span class="num">L22</span> Triggers</a>
 
-Control Signals Generated:
-1. ALU_Operation ← ADD (3 bits)
-2. R_Read ← R2, R3 (Select R2 and R3 for reading)
-3. R_Write ← R1 (Select R1 for writing)
-4. ALU_In1 ← R2_output
-5. ALU_In2 ← R3_output
-6. ALU_Enable ← 1 (Enable ALU)
-7. Memory_Enable ← 0 (No memory access)
-8. PC_Update ← 1 (Increment PC)
+  <div class="sidebar-section">Module 6 – DB Design</div>
+  <a href="#l23"><span class="num">L23</span> Armstrong's Axioms</a>
+  <a href="#l24"><span class="num">L24</span> Canonical Cover & Lossless</a>
+  <a href="#l25"><span class="num">L25</span> NULL & Dangling Tuples</a>
+  <a href="#l26"><span class="num">L26</span> 1NF & 2NF</a>
+</nav>
 
-All generated based on opcode 000001 by combinational logic</pre>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>📋 Microprogrammed Control</h3>
-                    
-                    <p>Microinstructions specify control signals for each micro-operation.</p>
-                    
-                    <table>
-                        <tr>
-                            <th>Type</th>
-                            <th>Description</th>
-                            <th>Advantages</th>
-                            <th>Disadvantages</th>
-                        </tr>
-                        <tr>
-                            <td><strong>Horizontal</strong></td>
-                            <td>One bit per control signal (wide microinstructions)</td>
-                            <td>Fast execution</td>
-                            <td>Large memory needed for microcode</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Vertical</strong></td>
-                            <td>Encoded signals (narrow microinstructions)</td>
-                            <td>Space efficient</td>
-                            <td>Slower (need decoding)</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Hybrid</strong></td>
-                            <td>Combination of both</td>
-                            <td>Balanced performance/space</td>
-                            <td>More complex</td>
-                        </tr>
-                    </table>
-                </div>
-                
-                <div class="section">
-                    <h3>🎯 Microprogram Example</h3>
-                    
-                    <div class="example">
-                        <strong>Microprogram for LOAD R1, [Address]:</strong>
-                        <pre style="background: #f0f0f0; padding: 10px; border-radius: 5px;">Microinstruction 1 (Fetch):
-  - MAR ← PC
-  - Memory_Read ← 1
-  - Next address ← MicroPC + 1
+<!-- ════════════════ CONTENT ════════════════ -->
+<main class="content">
 
-Microinstruction 2 (Decode):
-  - IR ← MBR
-  - PC ← PC + 1
-  - Next address ← MicroPC + 1
+<!-- ══════════════════════════════════════════
+     MODULE 1 – INTRODUCTION & DBMS
+══════════════════════════════════════════ -->
+<div class="module">
+  <div class="module-header">
+    <span class="module-badge">MODULE 1</span>
+    <h2>Introduction to Databases & DBMS</h2>
+  </div>
+  <div class="module-body">
 
-Microinstruction 3 (Execute):
-  - MAR ← Extract_Address(IR)
-  - Memory_Read ← 1
-  - Next address ← MicroPC + 1
-
-Microinstruction 4 (Writeback):
-  - R1 ← MBR
-  - Next address ← Fetch_address</pre>
-                    </div>
-                </div>
-                
-                <div class="section">
-                    <h3>🔄 Basic Pipelining Concept</h3>
-                    
-                    <div class="key-concept">
-                        <strong>Pipelining Principle:</strong>
-                        Divide instruction execution into stages, allowing multiple instructions at different stages simultaneously.
-                    </div>
-                    
-                    <div class="diagram">
-                    SIMPLE 5-STAGE PIPELINE:
-                    
-                    Stage 1: Fetch (F)     - Get instruction
-                    Stage 2: Decode (D)    - Interpret instruction
-                    Stage 3: Execute (E)   - Perform operation
-                    Stage 4: Memory (M)    - Access memory if needed
-                    Stage 5: Writeback (W) - Store result
-                    
-                    Without Pipeline (Sequential):
-                    Cycle: 1     2     3     4     5     6     7     8     9
-                           I1F-D-E-M-W
-                                     I2F-D-E-M-W
-                                               I3F-D-E-M-W
-                    Total: 15 cycles for 3 instructions
-                    
-                    With 5-Stage Pipeline:
-                    Cycle: 1  2  3  4  5  6  7
-                           I1F I1D I1E I1M I1W
-                              I2F I2D I2E I2M I2W
-                                 I3F I3D I3E I3M I3W
-                    Total: 7 cycles for 3 instructions
-                    Speedup: ~2.1x</pre>
-                    </div>
-                    
-                    <div class="scenario">
-                        <strong>Pipeline Hazards:</strong>
-                        <ul>
-                            <li><strong>Structural Hazard:</strong> Two instructions need same resource (e.g., memory)</li>
-                            <li><strong>Data Hazard:</strong> Instruction depends on result of previous instruction</li>
-                            <li><strong>Control Hazard:</strong> Branch changes PC, pipeline flushes</li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="summary">
-                    <h4>📌 Summary - Lecture 28</h4>
-                    <p>Control unit can be implemented using hardwired (fast) or microprogrammed (flexible) approach. Understanding how instructions are orchestrated through stages and how pipelining improves throughput is crucial for advanced computer architecture knowledge.</p>
-                </div>
-            </div>
-        </div>
-        
-        <footer>
-            <p>📚 <strong>Computer Organization and Architecture - MTE Guide (Lectures 1-28)</strong></p>
-            <p>Complete study material with explanations, examples, and real-world scenarios</p>
-            <p style="margin-top: 15px; font-size: 0.9em; color: #999;">
-                This guide covers the complete MTE syllabus including: Basic Computer Structure, Machine Instructions, I/O Organization, Memory Systems, Arithmetic Circuits, and Control Unit Design
-            </p>
-        </footer>
+    <!-- L1 -->
+    <div class="lecture" id="l1">
+      <div class="lecture-title"><span class="lnum">L1</span><h3>Introduction & Significance of RDBMS</h3></div>
+      <p>A <strong>database</strong> is an organized collection of inter-related data that models some aspect of the real world. A <strong>Database Management System (DBMS)</strong> is software that manages and provides access to a database.</p>
+      <div class="callout def"><span class="label">📌 Definition</span>DBMS = a collection of interrelated data + a set of programs to access that data, with the goals of convenience and efficiency.</div>
+      <p><strong>Where do we find databases?</strong></p>
+      <ul>
+        <li><strong>Banking:</strong> customer info, accounts, loans, transactions</li>
+        <li><strong>Airlines:</strong> reservations, schedules</li>
+        <li><strong>Universities:</strong> registration, grades, courses</li>
+        <li><strong>E-commerce:</strong> order tracking, recommendations</li>
+        <li><strong>Healthcare:</strong> patient records, prescriptions</li>
+        <li><strong>Telecom:</strong> call records, billing, prepaid balances</li>
+      </ul>
+      <div class="callout tip"><span class="label">💡 Why RDBMS matters</span>Nearly every app you use — banking app, college portal, Swiggy, Flipkart — runs on a relational database at its core. Understanding RDBMS is the foundation of backend software engineering.</div>
     </div>
-    
-    <button class="back-to-top" onclick="scrollToTop()">↑</button>
-    
-    <script>
-        // Back to top button functionality
-        window.addEventListener('scroll', function() {
-            const btn = document.querySelector('.back-to-top');
-            if (window.pageYOffset > 300) {
-                btn.classList.add('show');
-            } else {
-                btn.classList.remove('show');
-            }
-        });
-        
-        function scrollToTop() {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-        
-        // Smooth scrolling for TOC links
-        document.querySelectorAll('.toc-item a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                target.scrollIntoView({behavior: 'smooth'});
-            });
-        });
-    </script>
+
+    <hr>
+
+    <!-- L2 -->
+    <div class="lecture" id="l2">
+      <div class="lecture-title"><span class="lnum">L2</span><h3>DBMS Concepts, Schema & Instance</h3></div>
+      <div class="callout def"><span class="label">📌 Schema</span>The <em>logical structure</em> of the database — what tables exist, what columns they have, what types those columns are. Think of it as the <em>blueprint</em> of the database.</div>
+      <div class="callout def"><span class="label">📌 Instance</span>The <em>actual data</em> stored in the database at a particular moment in time. The schema is fixed; the instance changes every time data is inserted, updated, or deleted.</div>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Concept</th><th>Programming Analogy</th><th>Example</th></tr>
+          <tr><td>Schema</td><td>Data type declaration (<code>int x;</code>)</td><td><code>instructor(ID, name, dept_name, salary)</code></td></tr>
+          <tr><td>Instance</td><td>Value of variable at runtime</td><td>Row: (10101, "Srinivasan", "Comp.Sci.", 65000)</td></tr>
+        </table>
+      </div>
+      <p>The <strong>three-level architecture</strong> of a DBMS:</p>
+      <ul>
+        <li><strong>External Level (View):</strong> What the user sees — customized views per user role.</li>
+        <li><strong>Conceptual Level (Logical):</strong> The complete logical structure — all tables, constraints, relationships.</li>
+        <li><strong>Internal Level (Physical):</strong> How data is stored on disk — indexes, file organization, storage blocks.</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- L3 -->
+    <div class="lecture" id="l3">
+      <div class="lecture-title"><span class="lnum">L3</span><h3>Database System vs File System</h3></div>
+      <p>Before DBMS, applications stored data in flat files. This caused serious problems:</p>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Problem</th><th>File System</th><th>DBMS Solution</th></tr>
+          <tr><td>Data Redundancy</td><td>Same data duplicated in multiple files</td><td>Centralized storage, no duplication</td></tr>
+          <tr><td>Inconsistency</td><td>Updates in one file, missed in another</td><td>Single source of truth</td></tr>
+          <tr><td>Isolation</td><td>Data trapped in different formats</td><td>Unified access via SQL</td></tr>
+          <tr><td>Atomicity</td><td>Power failure = partial write = corrupt data</td><td>Transactions ensure all-or-nothing</td></tr>
+          <tr><td>Concurrency</td><td>Two users write simultaneously = data race</td><td>Concurrency control protocols</td></tr>
+          <tr><td>Security</td><td>File-level permissions only</td><td>Fine-grained row/column access control</td></tr>
+          <tr><td>Integrity</td><td>Constraints buried in app code</td><td>Constraints declared in schema (CHECK, FK)</td></tr>
+        </table>
+      </div>
+      <div class="callout tip"><span class="label">💡 Real-World Example</span>Imagine a bank using text files. If you transfer ₹5000: step 1 deducts from your file, step 2 adds to recipient's file. Power cuts between steps → ₹5000 vanishes. A DBMS wraps both steps in a <em>transaction</em> — either both happen or neither does.</div>
+    </div>
+
+    <hr>
+
+    <!-- L4 -->
+    <div class="lecture" id="l4">
+      <div class="lecture-title"><span class="lnum">L4</span><h3>Data Models & Schema Architecture</h3></div>
+      <p>A <strong>data model</strong> is a collection of tools describing data, relationships, semantics, and constraints.</p>
+      <ul>
+        <li><strong>Relational Model:</strong> Data organized in tables (relations). Most widely used. SQL-based.</li>
+        <li><strong>Entity-Relationship (ER) Model:</strong> Conceptual design tool — entities, attributes, relationships.</li>
+        <li><strong>Object-Oriented Model:</strong> Data as objects with methods. Used in specialized systems.</li>
+        <li><strong>Semi-structured Model (XML/JSON):</strong> Flexible schema. Used in NoSQL / web APIs.</li>
+        <li><strong>Hierarchical Model (legacy):</strong> Tree structure. IBM IMS. Predecessor to relational.</li>
+        <li><strong>Network Model (legacy):</strong> Graph structure. CODASYL. More flexible than hierarchical.</li>
+      </ul>
+      <div class="callout key"><span class="label">🔑 Key Insight</span>The Relational Model (invented by E.F. Codd at IBM, 1970) revolutionized databases by separating <em>logical</em> data structure from <em>physical</em> storage — programmers no longer had to care about how data was stored on disk.</div>
+    </div>
+
+    <hr>
+
+    <!-- L5 -->
+    <div class="lecture" id="l5">
+      <div class="lecture-title"><span class="lnum">L5</span><h3>Data Independence, DB Languages & Interfaces</h3></div>
+      <div class="callout def"><span class="label">📌 Physical Data Independence</span>Ability to change the <em>physical schema</em> (how data is stored) without changing the <em>logical schema</em>. You can add/change indexes, reorganize files on disk, and applications keep working.</div>
+      <div class="callout def"><span class="label">📌 Logical Data Independence</span>Ability to change the <em>logical schema</em> (add/remove tables or columns) without changing the external views/applications. Harder to achieve than physical independence.</div>
+      <p><strong>Database Languages:</strong></p>
+      <ul>
+        <li><strong>DDL (Data Definition Language):</strong> CREATE TABLE, ALTER, DROP — defines schema.</li>
+        <li><strong>DML (Data Manipulation Language):</strong> SELECT, INSERT, UPDATE, DELETE — manipulates data.</li>
+        <li><strong>DCL (Data Control Language):</strong> GRANT, REVOKE — controls access.</li>
+        <li><strong>TCL (Transaction Control Language):</strong> COMMIT, ROLLBACK — manages transactions.</li>
+      </ul>
+      <pre>-- DDL example
+CREATE TABLE student (
+  ID       VARCHAR(5),
+  name     VARCHAR(20) NOT NULL,
+  dept_name VARCHAR(20),
+  tot_cred  NUMERIC(3,0),
+  PRIMARY KEY (ID)
+);
+
+-- DML example
+SELECT name FROM student WHERE dept_name = 'Comp. Sci.';</pre>
+    </div>
+
+    <hr>
+
+    <!-- L6 -->
+    <div class="lecture" id="l6">
+      <div class="lecture-title"><span class="lnum">L6</span><h3>DB Applications, Database Users & Functions of DBA</h3></div>
+      <p>Different people interact with a database in different ways:</p>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>User Type</th><th>Who They Are</th><th>How They Interact</th></tr>
+          <tr><td>Naive Users</td><td>End users (bank teller, reservation clerk)</td><td>Pre-built application forms/UI</td></tr>
+          <tr><td>Application Programmers</td><td>Software developers</td><td>Embedded SQL in Java/Python/etc.</td></tr>
+          <tr><td>Sophisticated Users</td><td>Analysts, data scientists</td><td>SQL queries directly on DBMS</td></tr>
+          <tr><td>Database Administrator (DBA)</td><td>DB admin/engineer</td><td>Schema definition, security, tuning</td></tr>
+        </table>
+      </div>
+      <p><strong>Functions of a DBA:</strong></p>
+      <ul>
+        <li>Schema definition and modification</li>
+        <li>Storage structure and access-method definition</li>
+        <li>Granting authorization for data access</li>
+        <li>Routine maintenance (backups, performance monitoring)</li>
+        <li>Integrity-constraint specification</li>
+      </ul>
+    </div>
+
+  </div><!-- /module-body -->
+</div><!-- /module -->
+
+<!-- ══════════════════════════════════════════
+     MODULE 2 – ER MODEL
+══════════════════════════════════════════ -->
+<div class="module">
+  <div class="module-header">
+    <span class="module-badge">MODULE 2</span>
+    <h2>Database Design Using the E-R Model</h2>
+  </div>
+  <div class="module-body">
+
+    <!-- L7 -->
+    <div class="lecture" id="l7">
+      <div class="lecture-title"><span class="lnum">L7</span><h3>ER Model Concepts: Entities, Attributes, Relationships</h3></div>
+      <div class="callout def"><span class="label">📌 Entity</span>A "thing" or "object" in the real world that is <em>distinguishable</em> from other objects. E.g., a specific student (Amit, Roll 101) or a specific course (DBMS, CS201).</div>
+      <div class="callout def"><span class="label">📌 Entity Set</span>A set of all entities of the <em>same type</em> sharing the same properties. E.g., <strong>Student</strong> (all students), <strong>Course</strong> (all courses).</div>
+
+      <p><strong>Types of Attributes:</strong></p>
+      <ul>
+        <li><strong>Simple:</strong> Cannot be divided further. E.g., age, roll_no.</li>
+        <li><strong>Composite:</strong> Can be divided into sub-parts. E.g., Name → (FirstName, LastName), Address → (Street, City, Pin).</li>
+        <li><strong>Single-valued:</strong> One value per entity. E.g., roll_no.</li>
+        <li><strong>Multi-valued:</strong> Multiple values per entity. E.g., phone_numbers. Shown with <em>double ellipse</em> in ER diagram.</li>
+        <li><strong>Derived:</strong> Computed from another attribute. E.g., age derived from date_of_birth. Shown with <em>dashed ellipse</em>.</li>
+        <li><strong>Null:</strong> Attribute has no value for some entity. E.g., middle_name.</li>
+      </ul>
+
+      <div class="callout def"><span class="label">📌 Relationship</span>An association between two or more entities. E.g., student <em>enrolls in</em> course; instructor <em>teaches</em> course.</div>
+      <p><strong>ER Diagram Notation:</strong></p>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Symbol</th><th>Represents</th></tr>
+          <tr><td>Rectangle</td><td>Entity Set</td></tr>
+          <tr><td>Ellipse</td><td>Attribute</td></tr>
+          <tr><td>Double Ellipse</td><td>Multi-valued Attribute</td></tr>
+          <tr><td>Dashed Ellipse</td><td>Derived Attribute</td></tr>
+          <tr><td>Diamond</td><td>Relationship Set</td></tr>
+          <tr><td>Double Rectangle</td><td>Weak Entity Set</td></tr>
+          <tr><td>Underline</td><td>Primary Key Attribute</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- L8 -->
+    <div class="lecture" id="l8">
+      <div class="lecture-title"><span class="lnum">L8</span><h3>Relationship Constraints</h3></div>
+      <p><strong>Mapping Cardinalities</strong> — how many entities on one side can be associated with entities on the other side:</p>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Type</th><th>Meaning</th><th>Example</th></tr>
+          <tr><td>One-to-One (1:1)</td><td>One entity in A ↔ at most one in B</td><td>Person ↔ Passport</td></tr>
+          <tr><td>One-to-Many (1:N)</td><td>One entity in A ↔ many in B</td><td>Department → Instructor</td></tr>
+          <tr><td>Many-to-One (N:1)</td><td>Many in A ↔ one in B</td><td>Instructor → Department</td></tr>
+          <tr><td>Many-to-Many (M:N)</td><td>Many in A ↔ many in B</td><td>Student ↔ Course</td></tr>
+        </table>
+      </div>
+      <p><strong>Participation Constraints:</strong></p>
+      <ul>
+        <li><strong>Total participation (double line):</strong> Every entity in the set must participate in at least one relationship. E.g., every loan <em>must</em> be associated with a customer.</li>
+        <li><strong>Partial participation (single line):</strong> Some entities may not participate. E.g., not every instructor is an advisor.</li>
+      </ul>
+      <div class="callout tip"><span class="label">💡 Crow's Foot Notation</span>In modern tools (like MySQL Workbench, ERD tools), you'll see crow's foot symbols (|— one, >— many, ||— exactly one, O— zero) instead of lines/numbers. Same concept, different notation.</div>
+    </div>
+
+    <hr>
+
+    <!-- L9 -->
+    <div class="lecture" id="l9">
+      <div class="lecture-title"><span class="lnum">L9</span><h3>ER Diagram Examples</h3></div>
+      <p><strong>Classic University ER Example:</strong></p>
+      <ul>
+        <li><strong>Entity sets:</strong> Student, Instructor, Course, Department, Section</li>
+        <li><strong>Relationships:</strong> <em>takes</em> (Student–Section, M:N), <em>teaches</em> (Instructor–Section, 1:N), <em>advisor</em> (Student–Instructor, M:1), <em>dept_of</em> (Instructor–Department, N:1)</li>
+      </ul>
+      <p><strong>Weak Entity Sets:</strong> An entity set that does <em>not</em> have a primary key of its own and depends on a <em>strong (identifying) entity</em> for its existence.</p>
+      <ul>
+        <li>Example: <strong>Section</strong> depends on <strong>Course</strong>. Sec_id alone (like "1", "2") isn't unique globally — it needs course_id to be meaningful.</li>
+        <li>The partial key of the weak entity is called a <strong>discriminator</strong>.</li>
+        <li>Shown with a double rectangle (weak entity) and double diamond (identifying relationship).</li>
+      </ul>
+    </div>
+
+    <hr>
+
+    <!-- L10 -->
+    <div class="lecture" id="l10">
+      <div class="lecture-title"><span class="lnum">L10</span><h3>Generalization, Specialization & Aggregation (EER)</h3></div>
+      <div class="callout def"><span class="label">📌 Generalization</span>Bottom-up: combining two or more lower-level entity sets into a single higher-level entity set. E.g., Car and Truck → Vehicle.</div>
+      <div class="callout def"><span class="label">📌 Specialization</span>Top-down: taking a higher-level entity set and creating distinct lower-level sub-entity sets based on distinguishing characteristics. E.g., Person → Student, Instructor, Staff.</div>
+      <p>Both use an <strong>ISA triangle</strong> (is-a hierarchy) in the EER diagram.</p>
+      <p><strong>Constraints on Specialization:</strong></p>
+      <ul>
+        <li><strong>Disjoint:</strong> An entity can belong to <em>only one</em> lower-level set. (marked "d")</li>
+        <li><strong>Overlapping:</strong> An entity can belong to <em>more than one</em> lower-level set. (marked "o")</li>
+        <li><strong>Total:</strong> Every higher-level entity <em>must</em> belong to at least one lower-level set. (double line)</li>
+        <li><strong>Partial:</strong> Some higher-level entities may not belong to any lower-level set. (single line)</li>
+      </ul>
+      <div class="callout def"><span class="label">📌 Aggregation</span>Treating a <em>relationship</em> as a higher-level entity so that it can participate in another relationship. Used when a relationship needs to be related to another entity.<br><br>Example: Project is <em>managed by</em> an employee through a relationship, and that management relationship itself has an <em>evaluation_date</em>. The "manages" relationship is aggregated into a box and linked to evaluation.</div>
+    </div>
+
+    <hr>
+
+    <!-- L11 -->
+    <div class="lecture" id="l11">
+      <div class="lecture-title"><span class="lnum">L11</span><h3>Transforming ER Diagram into Relational Tables</h3></div>
+      <p>Mapping rules to convert an ER diagram to a relational schema:</p>
+      <ol>
+        <li><strong>Strong Entity Set:</strong> Becomes a table with all its simple attributes. Composite attributes are flattened. Multi-valued attributes create a separate table.</li>
+        <li><strong>Weak Entity Set:</strong> Becomes a table including the primary key of the identifying entity + its own discriminator attributes.</li>
+        <li><strong>1:N Relationship:</strong> Add the primary key of the "1" side as a foreign key on the "N" side table.</li>
+        <li><strong>M:N Relationship:</strong> Create a new separate table containing the primary keys of both entities as foreign keys (this forms the composite primary key).</li>
+        <li><strong>1:1 Relationship:</strong> Can merge into one table, or add FK to either side.</li>
+        <li><strong>ISA (Specialization):</strong> Option 1: separate table per level. Option 2: single table with null values. Option 3: one table per leaf entity (includes all inherited attributes).</li>
+      </ol>
+      <div class="callout tip"><span class="label">💡 Example – Student enrolls in Course (M:N)</span>
+        <pre style="margin-top:8px">-- Two entity tables:
+Student(s_id, name, dept)
+Course(c_id, title, credits)
+
+-- Junction table for M:N:
+Enrollment(s_id, c_id, grade)
+  -- s_id → FK references Student
+  -- c_id → FK references Course
+  -- (s_id, c_id) → composite PK</pre>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODULE 3 – RELATIONAL MODEL
+══════════════════════════════════════════ -->
+<div class="module">
+  <div class="module-header">
+    <span class="module-badge">MODULE 3</span>
+    <h2>Relational Data Model</h2>
+  </div>
+  <div class="module-body">
+
+    <!-- L12 -->
+    <div class="lecture" id="l12">
+      <div class="lecture-title"><span class="lnum">L12</span><h3>Domains, Tuples, Attributes, Relations & Keys</h3></div>
+      <div class="callout def"><span class="label">📌 Core Terminology</span>
+        <ul style="margin-top:8px">
+          <li><strong>Relation:</strong> A table with rows and columns. Mathematically, a subset of a Cartesian product of domains.</li>
+          <li><strong>Tuple:</strong> A single row in a relation. Represents one record/entity.</li>
+          <li><strong>Attribute:</strong> A column in a relation. Each attribute has a domain (set of allowed values).</li>
+          <li><strong>Domain:</strong> The set of valid values for an attribute. E.g., domain of dept_name = {"CS", "EE", "Music", ...}</li>
+          <li><strong>Degree:</strong> Number of attributes (columns) in a relation.</li>
+          <li><strong>Cardinality:</strong> Number of tuples (rows) in a relation.</li>
+        </ul>
+      </div>
+      <p><strong>Properties of Relations:</strong></p>
+      <ul>
+        <li>No two tuples are identical (relations are <em>sets</em>).</li>
+        <li>Tuple order is irrelevant.</li>
+        <li>Attribute order within a tuple is irrelevant (by name, not position).</li>
+        <li>All attribute values are atomic (1NF requirement).</li>
+        <li>NULL is a special marker meaning "unknown" or "not applicable."</li>
+      </ul>
+      <p><strong>Types of Keys:</strong></p>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Key Type</th><th>Definition</th><th>Example</th></tr>
+          <tr><td>Super Key</td><td>Set of attributes that uniquely identifies each tuple</td><td>{ID}, {ID, name}, {ID, name, salary}</td></tr>
+          <tr><td>Candidate Key</td><td>Minimal super key (no redundant attributes)</td><td>{ID} only (removing any attr breaks uniqueness)</td></tr>
+          <tr><td>Primary Key</td><td>Chosen candidate key — cannot be NULL</td><td>ID in instructor table</td></tr>
+          <tr><td>Foreign Key</td><td>Attribute that references primary key of another table</td><td>dept_name in instructor → department.dept_name</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- L13 -->
+    <div class="lecture" id="l13">
+      <div class="lecture-title"><span class="lnum">L13</span><h3>Relational Database, Schemas & Integrity Constraints</h3></div>
+      <p><strong>Integrity Constraints</strong> ensure the data in a database is accurate and consistent:</p>
+      <ol>
+        <li><strong>Domain Constraint:</strong> Each attribute value must belong to its defined domain. E.g., salary must be numeric, not a string.</li>
+        <li><strong>Key Constraint:</strong> No two tuples can have the same primary key value. Primary key ≠ NULL.</li>
+        <li><strong>Entity Integrity:</strong> The primary key of any tuple must not be NULL.</li>
+        <li><strong>Referential Integrity:</strong> A foreign key value must either match a primary key in the referenced table OR be NULL. No dangling references.</li>
+      </ol>
+      <div class="callout warn"><span class="label">⚠️ Referential Integrity Example</span>If <code>instructor.dept_name = 'Physics'</code>, then there must be a tuple in <code>department</code> with <code>dept_name = 'Physics'</code>. You can't have an instructor belonging to a department that doesn't exist.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODULE 4 – RELATIONAL ALGEBRA
+══════════════════════════════════════════ -->
+<div class="module">
+  <div class="module-header">
+    <span class="module-badge">MODULE 4</span>
+    <h2>Relational Algebra</h2>
+  </div>
+  <div class="module-body">
+
+    <!-- L14 -->
+    <div class="lecture" id="l14">
+      <div class="lecture-title"><span class="lnum">L14</span><h3>Relational Algebra Operators – Unary, Binary, Set Operations</h3></div>
+      <div class="callout def"><span class="label">📌 What is Relational Algebra?</span>A <strong>procedural query language</strong> that consists of a set of operations that take one or two relations as input and produce a new relation as output. It is <em>closed</em> — every operation produces a relation, so operations can be chained/nested.</div>
+
+      <p><strong>1. SELECT (σ) — Filter Rows</strong></p>
+      <p>Selects tuples that satisfy a given predicate. Works like the SQL WHERE clause.</p>
+      <div class="formula">σ<sub>predicate</sub>(relation)</div>
+      <pre>-- Find instructors in Physics dept
+σ dept_name = "Physics" (instructor)
+
+-- Find instructors in Physics with salary > 90000
+σ dept_name="Physics" ∧ salary > 90000 (instructor)</pre>
+
+      <p><strong>2. PROJECT (Π) — Filter Columns</strong></p>
+      <p>Returns the relation with only the specified attributes. Removes duplicates (set semantics).</p>
+      <div class="formula">Π<sub>A1, A2, ..., Ak</sub>(relation)</div>
+      <pre>-- Show only ID, name, salary of instructors
+Π ID, name, salary (instructor)</pre>
+
+      <p><strong>3. RENAME (ρ) — Rename Relation/Attributes</strong></p>
+      <div class="formula">ρ<sub>new_name</sub>(relation)  or  ρ<sub>new_name(A1, A2...)</sub>(relation)</div>
+
+      <p><strong>4. UNION (∪) — Combine Two Relations</strong></p>
+      <p>Returns all tuples in either relation. Requires both relations to be <em>union compatible</em> (same number and type of attributes).</p>
+      <pre>-- Courses offered in Fall 2009 OR Spring 2010
+Π course_id (σ semester="Fall" ∧ year=2009 (section))
+  ∪
+Π course_id (σ semester="Spring" ∧ year=2010 (section))</pre>
+
+      <p><strong>5. SET DIFFERENCE (−) — In One But Not Other</strong></p>
+      <pre>-- Courses in Fall 2009 but NOT in Spring 2010
+Π course_id (σ semester="Fall" ∧ year=2009 (section))
+  −
+Π course_id (σ semester="Spring" ∧ year=2010 (section))</pre>
+
+      <p><strong>6. CARTESIAN PRODUCT (×) — All Combinations</strong></p>
+      <p>Combines every tuple from relation r with every tuple from relation s. If r has m tuples and s has n tuples, result has m×n tuples.</p>
+      <pre>instructor × department  -- every instructor paired with every department</pre>
+
+      <div class="callout tip"><span class="label">💡 Composition of Operations</span>The power of relational algebra is composing operations. To find names of Physics instructors:<br>
+      <pre style="margin-top:8px">Π name (σ dept_name="Physics" (instructor))</pre>
+      Inner operation runs first: σ filters rows, then Π picks columns.</div>
+    </div>
+
+    <hr>
+
+    <!-- L15 -->
+    <div class="lecture" id="l15">
+      <div class="lecture-title"><span class="lnum">L15</span><h3>Relational Algebra – Binary Operations & Joins</h3></div>
+      <p><strong>7. SET INTERSECTION (∩)</strong> — Tuples in BOTH relations (derived: r ∩ s = r − (r − s))</p>
+      <pre>-- Courses offered in BOTH Fall 2009 AND Spring 2010
+Π course_id (σ semester="Fall" ∧ year=2009 (section))
+  ∩
+Π course_id (σ semester="Spring" ∧ year=2010 (section))</pre>
+
+      <p><strong>8. NATURAL JOIN (⋈)</strong> — Join on common attribute(s), keep one copy</p>
+      <div class="formula">r ⋈ s</div>
+      <p>Automatically matches tuples with the same values on all common attributes. Retains only one copy of the shared attribute.</p>
+      <pre>instructor ⋈ department
+-- Joins on dept_name (common attribute)
+-- Gives each instructor with their department building & budget</pre>
+
+      <p><strong>9. THETA JOIN (⋈<sub>θ</sub>)</strong> — Join on any condition</p>
+      <div class="formula">r ⋈<sub>θ</sub> s = σ<sub>θ</sub>(r × s)</div>
+
+      <p><strong>10. OUTER JOINS</strong> — Preserve unmatched tuples</p>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Type</th><th>Symbol</th><th>Preserves</th></tr>
+          <tr><td>Left Outer Join</td><td>r ⟕ s</td><td>All tuples from r; NULL fills missing s columns</td></tr>
+          <tr><td>Right Outer Join</td><td>r ⟖ s</td><td>All tuples from s; NULL fills missing r columns</td></tr>
+          <tr><td>Full Outer Join</td><td>r ⟗ s</td><td>All tuples from both; NULL fills missing either side</td></tr>
+        </table>
+      </div>
+
+      <p><strong>11. DIVISION (÷)</strong> — "For all" queries</p>
+      <div class="formula">r ÷ s</div>
+      <p>Returns tuples from r that match <em>all</em> tuples in s. Classic use: "Find students who have taken <em>all</em> courses offered by CS dept."</p>
+
+      <p><strong>12. AGGREGATE FUNCTIONS (𝒢)</strong></p>
+      <p>Extended operations not expressible with basic relational algebra:</p>
+      <div class="formula"><sub>G1,G2,...,Gn</sub>𝒢<sub>F1(A1), F2(A2),...,Fm(Am)</sub>(E)</div>
+      <ul>
+        <li>G1...Gn = grouping attributes (like GROUP BY in SQL)</li>
+        <li>F1...Fm = aggregate functions: <strong>sum, avg, count, min, max</strong></li>
+      </ul>
+      <pre>-- Sum of all instructor salaries
+𝒢 sum(salary) (instructor)
+
+-- Average salary per department
+dept_name 𝒢 avg(salary) (instructor)
+
+-- Count distinct instructors teaching in Spring 2010
+𝒢 count-distinct(ID) (σ semester="Spring" ∧ year=2010 (teaches))</pre>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODULE 5 – SQL
+══════════════════════════════════════════ -->
+<div class="module">
+  <div class="module-header">
+    <span class="module-badge">MODULE 5</span>
+    <h2>SQL — Structured Query Language</h2>
+  </div>
+  <div class="module-body">
+
+    <!-- L16 -->
+    <div class="lecture" id="l16">
+      <div class="lecture-title"><span class="lnum">L16</span><h3>Basic SQL, DDL, DML, DCL & Views</h3></div>
+      <p>SQL (Structured Query Language) is the standard language for relational databases. Originally called SEQUEL, developed at IBM in the 1970s.</p>
+
+      <p><strong>DDL — Data Definition Language</strong></p>
+      <pre>-- Create a table
+CREATE TABLE instructor (
+  ID        CHAR(5),
+  name      VARCHAR(20) NOT NULL,
+  dept_name VARCHAR(20),
+  salary    NUMERIC(8,2),
+  PRIMARY KEY (ID),
+  FOREIGN KEY (dept_name) REFERENCES department(dept_name)
+);
+
+-- Drop a table
+DROP TABLE instructor;
+
+-- Alter: add a column
+ALTER TABLE instructor ADD COLUMN email VARCHAR(50);
+
+-- Alter: drop a column
+ALTER TABLE instructor DROP COLUMN email;</pre>
+
+      <p><strong>DML — Data Manipulation Language</strong></p>
+      <pre>-- SELECT: basic query structure
+SELECT name, salary
+FROM instructor
+WHERE dept_name = 'Comp. Sci.' AND salary > 70000
+ORDER BY salary DESC;
+
+-- INSERT
+INSERT INTO instructor VALUES ('10111', 'Nirupam', 'CS', 75000);
+
+-- UPDATE
+UPDATE instructor SET salary = salary * 1.05
+WHERE dept_name = 'Comp. Sci.';
+
+-- DELETE
+DELETE FROM instructor WHERE dept_name = 'Finance';</pre>
+
+      <p><strong>VIEWS — Virtual Tables</strong></p>
+      <pre>-- Create a view
+CREATE VIEW faculty AS
+  SELECT ID, name, dept_name
+  FROM instructor;
+
+-- Query the view like a table
+SELECT name FROM faculty WHERE dept_name = 'Physics';</pre>
+      <div class="callout tip"><span class="label">💡 Why Views?</span>Views provide <em>logical data independence</em> — the underlying table can change, but as long as the view still computes the same result, apps keep working. They also implement security by hiding sensitive columns like salary.</div>
+
+      <p><strong>Additional SELECT Clauses:</strong></p>
+      <pre>-- AS: rename in output
+SELECT name AS instructor_name, salary * 12 AS annual_salary
+FROM instructor;
+
+-- DISTINCT: remove duplicates
+SELECT DISTINCT dept_name FROM instructor;
+
+-- LIKE: pattern matching
+SELECT name FROM instructor WHERE name LIKE 'S%';  -- starts with S
+SELECT name FROM instructor WHERE name LIKE '__a%'; -- 3rd char is 'a'
+
+-- NULL checks
+SELECT name FROM instructor WHERE salary IS NULL;
+SELECT name FROM instructor WHERE salary IS NOT NULL;</pre>
+    </div>
+
+    <hr>
+
+    <!-- L17 -->
+    <div class="lecture" id="l17">
+      <div class="lecture-title"><span class="lnum">L17</span><h3>SQL Joins</h3></div>
+      <p>Joins combine rows from two or more tables based on a related column.</p>
+      <pre>-- INNER JOIN (most common): only matching rows
+SELECT s.name, t.course_id
+FROM student s
+INNER JOIN takes t ON s.ID = t.ID;
+
+-- Same using NATURAL JOIN (auto-matches common columns)
+SELECT name, course_id
+FROM student NATURAL JOIN takes;
+
+-- LEFT OUTER JOIN: all rows from left, NULL for non-matches on right
+SELECT s.name, t.course_id
+FROM student s LEFT OUTER JOIN takes t ON s.ID = t.ID;
+-- Shows students even if they haven't taken any course
+
+-- RIGHT OUTER JOIN
+SELECT s.name, t.course_id
+FROM student s RIGHT OUTER JOIN takes t ON s.ID = t.ID;
+
+-- FULL OUTER JOIN: all rows from both sides
+SELECT s.name, t.course_id
+FROM student s FULL OUTER JOIN takes t ON s.ID = t.ID;</pre>
+      <div class="callout tip"><span class="label">💡 INNER vs OUTER – Key Difference</span>INNER JOIN: only rows that match on both sides. OUTER JOIN: includes unmatched rows too, filling missing columns with NULL. Most real applications use inner joins for data retrieval and outer joins for reporting/analysis.</div>
+    </div>
+
+    <hr>
+
+    <!-- L18 -->
+    <div class="lecture" id="l18">
+      <div class="lecture-title"><span class="lnum">L18</span><h3>SQL Sub-queries</h3></div>
+      <p>A sub-query (nested query) is a SELECT statement inside another SQL statement.</p>
+      <pre>-- Sub-query in WHERE: find instructors earning more than avg salary
+SELECT name FROM instructor
+WHERE salary > (SELECT AVG(salary) FROM instructor);
+
+-- IN sub-query: find students who took a course in Fall 2009
+SELECT DISTINCT ID, name FROM student
+WHERE ID IN (
+  SELECT ID FROM takes
+  WHERE semester = 'Fall' AND year = 2009
+);
+
+-- NOT IN: students who did NOT take any CS course
+SELECT name FROM student
+WHERE ID NOT IN (
+  SELECT s.ID FROM takes t
+  JOIN course c ON t.course_id = c.course_id
+  WHERE c.dept_name = 'Comp. Sci.'
+);
+
+-- EXISTS: find courses with at least one student enrolled
+SELECT course_id FROM course c
+WHERE EXISTS (
+  SELECT 1 FROM takes t WHERE t.course_id = c.course_id
+);
+
+-- Scalar sub-query: in SELECT list
+SELECT name, (SELECT COUNT(*) FROM takes t WHERE t.ID = i.ID) AS course_count
+FROM instructor i;</pre>
+    </div>
+
+    <hr>
+
+    <!-- L19 -->
+    <div class="lecture" id="l19">
+      <div class="lecture-title"><span class="lnum">L19</span><h3>SQL Aggregate Operations & Cursors</h3></div>
+      <p><strong>Aggregate Functions</strong> operate on a set of values and return a single value:</p>
+      <pre>-- Basic aggregates
+SELECT COUNT(*) AS total_instructors FROM instructor;
+SELECT AVG(salary) AS avg_salary FROM instructor;
+SELECT SUM(salary) AS total_payroll FROM instructor;
+SELECT MAX(salary) AS highest_salary FROM instructor;
+SELECT MIN(salary) AS lowest_salary FROM instructor;
+
+-- COUNT DISTINCT
+SELECT COUNT(DISTINCT dept_name) AS num_departments FROM instructor;
+
+-- GROUP BY: compute aggregate per group
+SELECT dept_name, AVG(salary) AS avg_salary
+FROM instructor
+GROUP BY dept_name;
+
+-- HAVING: filter on aggregated results (like WHERE but for groups)
+SELECT dept_name, AVG(salary) AS avg_salary
+FROM instructor
+GROUP BY dept_name
+HAVING AVG(salary) > 75000;
+
+-- Full example: departments with >2 instructors, showing count & avg salary
+SELECT dept_name, COUNT(*) AS num_instructors, AVG(salary) AS avg_salary
+FROM instructor
+GROUP BY dept_name
+HAVING COUNT(*) > 2
+ORDER BY avg_salary DESC;</pre>
+
+      <div class="callout warn"><span class="label">⚠️ WHERE vs HAVING</span>WHERE filters <em>individual rows before grouping</em>. HAVING filters <em>groups after aggregation</em>. You cannot use aggregate functions in WHERE; use HAVING instead.</div>
+
+      <p><strong>Cursors</strong> allow row-by-row processing of query results (used in PL/SQL / stored procedures):</p>
+      <pre>-- PL/SQL Cursor Example (Oracle)
+DECLARE
+  CURSOR c_instructor IS
+    SELECT name, salary FROM instructor WHERE dept_name = 'CS';
+  v_name    instructor.name%TYPE;
+  v_salary  instructor.salary%TYPE;
+BEGIN
+  OPEN c_instructor;
+  LOOP
+    FETCH c_instructor INTO v_name, v_salary;
+    EXIT WHEN c_instructor%NOTFOUND;
+    DBMS_OUTPUT.PUT_LINE(v_name || ': ' || v_salary);
+  END LOOP;
+  CLOSE c_instructor;
+END;</pre>
+    </div>
+
+    <hr>
+
+    <!-- L20 -->
+    <div class="lecture" id="l20">
+      <div class="lecture-title"><span class="lnum">L20</span><h3>Dynamic SQL</h3></div>
+      <p>Dynamic SQL allows building and executing SQL statements at <em>runtime</em> — the SQL string is constructed dynamically (useful when table name or conditions aren't known at compile time).</p>
+      <pre>-- PL/SQL Dynamic SQL using EXECUTE IMMEDIATE
+DECLARE
+  v_dept   VARCHAR2(20) := 'Physics';
+  v_sql    VARCHAR2(200);
+  v_count  NUMBER;
+BEGIN
+  v_sql := 'SELECT COUNT(*) FROM instructor WHERE dept_name = :1';
+  EXECUTE IMMEDIATE v_sql INTO v_count USING v_dept;
+  DBMS_OUTPUT.PUT_LINE('Count: ' || v_count);
+END;
+
+-- Dynamic table name example
+DECLARE
+  v_table VARCHAR2(50) := 'instructor';
+  v_sql   VARCHAR2(200);
+BEGIN
+  v_sql := 'SELECT COUNT(*) FROM ' || v_table;
+  EXECUTE IMMEDIATE v_sql;
+END;</pre>
+      <div class="callout warn"><span class="label">⚠️ SQL Injection Risk</span>Never concatenate user input directly into dynamic SQL strings — this opens a <em>SQL injection vulnerability</em>. Always use bind variables (like <code>:1</code> above) to safely pass user-provided values.</div>
+    </div>
+
+    <hr>
+
+    <!-- L21 -->
+    <div class="lecture" id="l21">
+      <div class="lecture-title"><span class="lnum">L21</span><h3>Integrity Constraints in SQL</h3></div>
+      <pre>CREATE TABLE instructor (
+  ID        CHAR(5)     PRIMARY KEY,
+  name      VARCHAR(20) NOT NULL,
+  dept_name VARCHAR(20),
+  salary    NUMERIC(8,2) CHECK (salary > 0),  -- domain constraint
+  FOREIGN KEY (dept_name) REFERENCES department(dept_name)
+    ON DELETE SET NULL   -- if dept deleted, set to NULL
+    ON UPDATE CASCADE    -- if dept_name changes, propagate here
+);
+
+-- Unique constraint (candidate key)
+CREATE TABLE course (
+  course_id CHAR(7) PRIMARY KEY,
+  title     VARCHAR(50) UNIQUE,   -- no two courses with same title
+  credits   NUMERIC(2,0) CHECK (credits > 0 AND credits <= 4)
+);
+
+-- Assertion: a constraint across tables (rarely supported)
+CREATE ASSERTION salary_check CHECK (
+  NOT EXISTS (
+    SELECT * FROM instructor i, department d
+    WHERE i.dept_name = d.dept_name AND i.salary > d.budget
+  )
+);</pre>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Constraint</th><th>Clause</th><th>Effect</th></tr>
+          <tr><td>NOT NULL</td><td>Column-level</td><td>Attribute must have a value</td></tr>
+          <tr><td>UNIQUE</td><td>Column or table-level</td><td>No duplicate values (allows NULL)</td></tr>
+          <tr><td>PRIMARY KEY</td><td>Table-level</td><td>UNIQUE + NOT NULL</td></tr>
+          <tr><td>FOREIGN KEY</td><td>Table-level</td><td>References PK of another table</td></tr>
+          <tr><td>CHECK</td><td>Column or table-level</td><td>Value must satisfy a predicate</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <hr>
+
+    <!-- L22 -->
+    <div class="lecture" id="l22">
+      <div class="lecture-title"><span class="lnum">L22</span><h3>SQL Triggers</h3></div>
+      <div class="callout def"><span class="label">📌 Trigger</span>A <em>stored procedure</em> that automatically executes (fires) in response to a specific event (INSERT, UPDATE, DELETE) on a specific table.</div>
+      <pre>-- Oracle PL/SQL trigger: auto-update timestamp on salary change
+CREATE OR REPLACE TRIGGER salary_update_log
+AFTER UPDATE OF salary ON instructor
+FOR EACH ROW
+BEGIN
+  INSERT INTO salary_audit(emp_id, old_sal, new_sal, changed_on)
+  VALUES (:OLD.ID, :OLD.salary, :NEW.salary, SYSDATE);
+END;
+
+-- BEFORE trigger: prevent negative salary
+CREATE OR REPLACE TRIGGER check_salary
+BEFORE INSERT OR UPDATE ON instructor
+FOR EACH ROW
+BEGIN
+  IF :NEW.salary < 0 THEN
+    RAISE_APPLICATION_ERROR(-20001, 'Salary cannot be negative');
+  END IF;
+END;</pre>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Property</th><th>Options</th></tr>
+          <tr><td>Timing</td><td>BEFORE, AFTER, INSTEAD OF</td></tr>
+          <tr><td>Event</td><td>INSERT, UPDATE, DELETE (or combinations)</td></tr>
+          <tr><td>Level</td><td>ROW level (FOR EACH ROW) or Statement level</td></tr>
+          <tr><td>References</td><td>:OLD (previous values), :NEW (new values)</td></tr>
+        </table>
+      </div>
+      <div class="callout warn"><span class="label">⚠️ Use Triggers Carefully</span>Triggers execute invisibly — they can cause unexpected behavior, cascading effects, and performance issues if overused. Prefer constraints when possible; use triggers only for logic that can't be expressed as constraints.</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MODULE 6 – DATABASE DESIGN
+══════════════════════════════════════════ -->
+<div class="module">
+  <div class="module-header">
+    <span class="module-badge">MODULE 6</span>
+    <h2>Database Design — Functional Dependencies & Normalization</h2>
+  </div>
+  <div class="module-body">
+
+    <!-- L23 -->
+    <div class="lecture" id="l23">
+      <div class="lecture-title"><span class="lnum">L23</span><h3>Armstrong's Axioms & Functional Dependencies</h3></div>
+
+      <div class="callout def"><span class="label">📌 Functional Dependency (FD)</span>A constraint X → Y holds on relation R if for any two tuples t1, t2 in R: if t1[X] = t2[X] then t1[Y] = t2[Y]. Knowing the value of X uniquely determines the value of Y.</div>
+
+      <p><strong>Types of Functional Dependencies:</strong></p>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Type</th><th>Definition</th><th>Example</th></tr>
+          <tr><td>Trivial FD</td><td>Y ⊆ X (Y is subset of X)</td><td>{A,B} → A (always true)</td></tr>
+          <tr><td>Non-Trivial FD</td><td>Y ⊄ X</td><td>StudentID → Name</td></tr>
+          <tr><td>Full FD</td><td>Y depends on complete X (composite key), not any proper subset</td><td>{SID, CID} → Grade</td></tr>
+          <tr><td>Partial FD</td><td>Y depends on only part of composite key</td><td>SID → StudentName (partial dependency on {SID,CID})</td></tr>
+          <tr><td>Transitive FD</td><td>X→Y and Y→Z implies X→Z where Y is non-key</td><td>RollNo→Dept, Dept→DeptHead ⟹ RollNo→DeptHead</td></tr>
+        </table>
+      </div>
+
+      <p><strong>Armstrong's Axioms</strong> — complete and sound rules for deriving all FDs from a given set F:</p>
+      <ol>
+        <li><strong>Reflexivity:</strong> If β ⊆ α, then α → β. (Trivial — X always determines a subset of itself)</li>
+        <li><strong>Augmentation:</strong> If α → β, then αγ → βγ. (Adding same attributes to both sides)</li>
+        <li><strong>Transitivity:</strong> If α → β and β → γ, then α → γ.</li>
+      </ol>
+      <p>From these, we can derive additional rules:</p>
+      <ul>
+        <li><strong>Union:</strong> If α→β and α→γ, then α→βγ</li>
+        <li><strong>Decomposition:</strong> If α→βγ, then α→β and α→γ</li>
+        <li><strong>Pseudo-transitivity:</strong> If α→β and βγ→δ, then αγ→δ</li>
+      </ul>
+
+      <p><strong>Attribute Closure (α⁺)</strong> — the set of all attributes that α can determine:</p>
+      <pre>-- Algorithm to compute (AG)+ given F = {A→B, A→C, CG→H, CG→I, B→H}
+result = {A, G}
+Apply A→B  → result = {A, B, G}
+Apply A→C  → result = {A, B, C, G}
+Apply CG→H → result = {A, B, C, G, H}
+Apply CG→I → result = {A, B, C, G, H, I}
+Apply B→H  → H already present
+∴ (AG)+ = {A, B, C, G, H, I}</pre>
+
+      <p><strong>Finding Candidate Keys using Closure:</strong></p>
+      <ol>
+        <li>Find attributes that <em>never appear on the RHS</em> of any FD — they must be in every candidate key.</li>
+        <li>Compute the closure of those attributes.</li>
+        <li>If closure = all attributes of R → those attributes form a candidate key.</li>
+        <li>Check minimality: no proper subset should also give the full closure.</li>
+      </ol>
+      <div class="callout tip"><span class="label">💡 Quick Rule for Candidate Key</span>An attribute that <strong>never appears on the RHS</strong> of any FD cannot be derived from other attributes → it must be part of every candidate key. Start your search there!</div>
+    </div>
+
+    <hr>
+
+    <!-- L24 -->
+    <div class="lecture" id="l24">
+      <div class="lecture-title"><span class="lnum">L24</span><h3>Canonical Cover, Lossless Join & Dependency Preservation</h3></div>
+
+      <p><strong>Canonical Cover (F<sub>c</sub>)</strong> — a minimal, equivalent set of FDs with no redundancy:</p>
+      <ol>
+        <li><strong>Step 1:</strong> Make all RHS single attributes (decompose: A→BC becomes A→B and A→C).</li>
+        <li><strong>Step 2:</strong> Remove extraneous attributes from LHS — for FD X→A, check if any attribute B in X can be removed (i.e., (X−B)+ already determines A).</li>
+        <li><strong>Step 3:</strong> Remove redundant FDs — check if each FD X→A can be derived from the remaining FDs (i.e., A ∈ X+ without that FD).</li>
+      </ol>
+      <pre>-- Example: E = {B→A, D→A, AB→D}
+Step 1: All RHS already single. No decomposition needed.
+Step 2: Check AB→D for extraneous attributes:
+  - Remove A: B+ = {B,A,D} (via B→A then AB→D... actually B→D via B+)
+    B+ with {B→A, D→A, B→D} = {B,A,D} ✓ → A is extraneous!
+  - Replace AB→D with B→D
+Step 3: Current set = {B→A, D→A, B→D}
+  - B→A: without it, B+ = {B,D,A} via B→D, D→A → B→A redundant!
+  - Remove B→A
+Final Canonical Cover: Fc = {B→D, D→A}</pre>
+
+      <p><strong>Lossless-Join Decomposition</strong> — splitting a relation R into R1 and R2 such that we can reconstruct R exactly:</p>
+      <div class="callout def"><span class="label">📌 Lossless Decomposition</span>Decomposition of R into R1 and R2 is lossless if: R1 ∩ R2 → R1 OR R1 ∩ R2 → R2. The common attributes form a key of at least one of R1 or R2.</div>
+      <pre>-- Example: R(A,B,C), F={A→B, B→C}
+-- Decompose into R1(A,B) and R2(B,C)
+-- R1 ∩ R2 = {B}
+-- B → BC (since B→C), so B→R2 ✓ → Lossless!
+
+-- Bad decomposition: R1(A,B) and R2(A,C)
+-- R1 ∩ R2 = {A}
+-- A → AB? Yes. → Lossless too!
+-- But: R1(ID, name) and R2(name, street) would be LOSSY
+-- because name→name is not a key (two people can have same name)</pre>
+
+      <p><strong>Dependency Preservation</strong> — all original FDs can still be checked using individual decomposed relations (without needing joins):</p>
+      <div class="callout warn"><span class="label">⚠️ Trade-off</span>BCNF always achieves lossless decomposition but may NOT preserve all dependencies. 3NF always preserves dependencies and is lossless, but may have some redundancy. In practice, 3NF is often preferred because checking FDs after decomposition is much cheaper than joining tables.</div>
+    </div>
+
+    <hr>
+
+    <!-- L25 -->
+    <div class="lecture" id="l25">
+      <div class="lecture-title"><span class="lnum">L25</span><h3>Problems with NULL Values & Dangling Tuples</h3></div>
+      <p><strong>NULL values</strong> represent missing, unknown, or inapplicable information. They cause serious problems in many operations:</p>
+
+      <p><strong>Problems with NULLs:</strong></p>
+      <ul>
+        <li><strong>Comparisons:</strong> NULL = NULL is UNKNOWN (not TRUE). You can't use <code>=</code> with NULL; must use <code>IS NULL</code>.</li>
+        <li><strong>Arithmetic:</strong> Any arithmetic with NULL returns NULL. 5 + NULL = NULL.</li>
+        <li><strong>Aggregates:</strong> COUNT(*) counts NULLs, but SUM/AVG/MAX/MIN ignore them.</li>
+        <li><strong>Three-valued logic:</strong> SQL uses TRUE, FALSE, UNKNOWN. A WHERE clause includes only TRUE rows.</li>
+      </ul>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Expression</th><th>Result</th></tr>
+          <tr><td>NULL = NULL</td><td>UNKNOWN</td></tr>
+          <tr><td>NULL > 5</td><td>UNKNOWN</td></tr>
+          <tr><td>NULL AND TRUE</td><td>UNKNOWN</td></tr>
+          <tr><td>NULL OR TRUE</td><td>TRUE</td></tr>
+          <tr><td>NOT NULL</td><td>UNKNOWN</td></tr>
+          <tr><td>NULL IS NULL</td><td>TRUE</td></tr>
+        </table>
+      </div>
+
+      <p><strong>Dangling Tuples</strong> — tuples that fail to join with any tuple in the other relation. In a natural/inner join, such tuples are simply lost from the result.</p>
+      <div class="callout warn"><span class="label">⚠️ Example</span>If a student has <code>dept_name = NULL</code> and you do <code>student NATURAL JOIN department</code>, that student disappears from the result — a dangling tuple! Use LEFT OUTER JOIN to preserve such tuples with NULLs filled in for missing department columns.</div>
+      <p><strong>Why decomposition can create dangling tuples:</strong> If we decompose relation R into R1 and R2 based on a lossy decomposition, re-joining R1 ⋈ R2 may produce <em>spurious tuples</em> (extra wrong rows) not in original R. Lossless decomposition prevents this.</p>
+    </div>
+
+    <hr>
+
+    <!-- L26 -->
+    <div class="lecture" id="l26">
+      <div class="lecture-title"><span class="lnum">L26</span><h3>1NF and 2NF — First and Second Normal Form</h3></div>
+
+      <p><strong>Why Normalize?</strong> — Poor database design causes anomalies:</p>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Anomaly</th><th>Problem</th><th>Example</th></tr>
+          <tr><td>Insertion Anomaly</td><td>Can't insert new fact without inserting unrelated data</td><td>Can't add a new course unless a student enrolls</td></tr>
+          <tr><td>Deletion Anomaly</td><td>Deleting one fact accidentally deletes another</td><td>Deleting only student in OS course deletes the course info</td></tr>
+          <tr><td>Update Anomaly</td><td>Same data stored in multiple places — partial update = inconsistency</td><td>Instructor change must be updated in every row</td></tr>
+        </table>
+      </div>
+
+      <p><strong>First Normal Form (1NF)</strong></p>
+      <div class="callout def"><span class="label">📌 1NF Rule</span>A relation is in 1NF if every attribute contains <em>atomic</em> (indivisible) values — no multi-valued attributes, no repeating groups, no sets/lists in any cell.</div>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>❌ Not in 1NF</th></tr>
+          <tr><td>Student_ID: 101, Name: Amit, Phone: {9876, 8765}</td></tr>
+        </table>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>✅ 1NF Version</th></tr>
+          <tr><td>101 | Amit | 9876</td></tr>
+          <tr><td>101 | Amit | 8765</td></tr>
+        </table>
+      </div>
+
+      <p><strong>Second Normal Form (2NF)</strong></p>
+      <div class="callout def"><span class="label">📌 2NF Rule</span>A relation is in 2NF if:
+        <ol style="margin-top:8px"><li>It is already in 1NF, AND</li><li>There is <em>no partial dependency</em> — every non-prime attribute must depend on the <em>entire</em> candidate key, not just part of it.</li></ol>
+      </div>
+      <div class="callout key"><span class="label">🔑 Partial dependency only matters when the candidate key is COMPOSITE</span>If the candidate key has only one attribute, partial dependency is impossible (you can't partially depend on a single attribute) → relation is automatically in 2NF if it's in 1NF.</div>
+      <pre>-- Example: R(A, B, C, D, E, F), F = {A→C, B→DE, AB→F}
+-- Step 1: Candidate Key?
+--   A never appears on RHS, B never appears on RHS
+--   Compute (AB)+ = {A,B,C,D,E,F} = all attributes → AB is CK!
+-- Step 2: Prime attrs = {A, B}  |  Non-prime = {C, D, E, F}
+-- Step 3: Check for partial deps:
+--   A → C   : C depends on only A (part of AB) → PARTIAL DEP!
+--   B → DE  : D,E depend on only B (part of AB) → PARTIAL DEP!
+-- ∴ R is NOT in 2NF
+
+-- Fix: Decompose!
+-- R1(A, C)   [A→C]
+-- R2(B, D, E) [B→DE]
+-- R3(A, B, F) [AB→F] — the original key with the remaining attr</pre>
+      <div class="callout tip"><span class="label">💡 Exam Shortcut for 2NF</span>
+        <ol>
+          <li>Find candidate key(s).</li>
+          <li>Identify prime (in CK) and non-prime attributes.</li>
+          <li>If CK is single attribute → automatically 2NF.</li>
+          <li>If CK is composite → check every non-prime attr: does it depend on the full CK or just part?</li>
+          <li>Any non-prime attr depending on part of CK = partial dep = NOT 2NF.</li>
+        </ol>
+      </div>
+
+      <p><strong>Preview of 3NF & BCNF (L27 onwards — beyond MTE scope but good to know):</strong></p>
+      <div class="tbl-wrap">
+        <table>
+          <tr><th>Normal Form</th><th>Eliminates</th><th>Rule</th></tr>
+          <tr><td>1NF</td><td>Multi-valued cells</td><td>All attributes atomic</td></tr>
+          <tr><td>2NF</td><td>Partial dependencies</td><td>No non-prime attr depends on part of composite CK</td></tr>
+          <tr><td>3NF</td><td>Transitive dependencies</td><td>For X→A: X is superkey OR A is prime</td></tr>
+          <tr><td>BCNF</td><td>All non-trivial anomalies</td><td>For X→Y: X must be a superkey (stricter than 3NF)</td></tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<div style="text-align:center; padding: 40px 0 20px; color: var(--muted); font-size: .8rem;">
+  <p>CSC2103 · RDBMS Theory · Manipal University Jaipur · Lectures 1–26 (MTE Coverage)</p>
+  <p style="margin-top:4px">Based on: Silberschatz, Korth & Sudarshan — <em>Database System Concepts, 7th Ed.</em></p>
+</div>
+
+</main>
+</div>
+
+<script>
+  // Highlight active sidebar link on scroll
+  const sections = document.querySelectorAll('[id^="l"]');
+  const links = document.querySelectorAll('.sidebar a');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector(`.sidebar a[href="#${e.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3, rootMargin: '-80px 0px -50% 0px' });
+  sections.forEach(s => obs.observe(s));
+</script>
 </body>
 </html>

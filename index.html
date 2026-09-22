@@ -1,1070 +1,1375 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>CSC2101 DSA — Complete Study Guide</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>DSA MTE Study Guide — L10 to L25</title>
 <style>
   :root {
-    --bg: #0d1117;
-    --surface: #161b22;
-    --surface2: #1e2530;
-    --border: #30363d;
-    --text: #e6edf3;
-    --muted: #8b949e;
-    --theory: #58a6ff;
-    --formula: #3fb950;
-    --code-accent: #f78166;
-    --tag-bg: #1c2a3a;
-    --mono: 'IBM Plex Mono', monospace;
-    --sans: 'IBM Plex Sans', sans-serif;
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #22263a;
+    --border: #2e3250;
+    --accent: #6c63ff;
+    --accent2: #00d4aa;
+    --accent3: #ff6b6b;
+    --accent4: #ffd93d;
+    --text: #e8eaf6;
+    --text-muted: #8892b0;
+    --code-bg: #0d1117;
+    --green: #00d4aa;
+    --red: #ff6b6b;
+    --yellow: #ffd93d;
+    --blue: #64b5f6;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
   body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
     background: var(--bg);
     color: var(--text);
-    font-family: var(--sans);
-    font-size: 15px;
-    line-height: 1.6;
-    min-height: 100vh;
-    padding-top: env(safe-area-inset-top, 0px);
+    line-height: 1.7;
     padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-top: env(safe-area-inset-top, 0px);
   }
 
-  /* ── HEADER ── */
-  .site-header {
+  /* SIDEBAR */
+  .layout { display: flex; min-height: 100vh; }
+  .sidebar {
+    width: 260px;
     background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 18px 24px 14px;
-    position: sticky;
-    top: env(safe-area-inset-top, 0px);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    overflow-y: auto;
+    padding: 0;
     z-index: 100;
     display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
+    flex-direction: column;
   }
-  .site-header h1 {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--text);
-    letter-spacing: 0.01em;
+  .sidebar-logo {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    padding: 20px 18px 16px;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
   }
-  .site-header p {
-    font-size: 12px;
-    color: var(--muted);
-    font-family: var(--mono);
+  .sidebar-logo span { display: block; font-size: 0.72rem; font-weight: 400; opacity: 0.85; margin-top: 2px; }
+  .sidebar-nav { flex: 1; padding: 12px 0; }
+  .nav-group-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 14px 18px 4px;
   }
-  .header-left { flex: 1; min-width: 200px; }
-
-  /* ── NAV PILLS ── */
-  .nav-tabs {
-    display: flex;
-    gap: 6px;
-    overflow-x: auto;
-    padding: 12px 24px;
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    scrollbar-width: none;
-    position: sticky;
-    top: calc(60px + env(safe-area-inset-top, 0px));
-    z-index: 99;
-  }
-  .nav-tabs::-webkit-scrollbar { display: none; }
-  .nav-tab {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    padding: 5px 14px;
-    border-radius: 20px;
-    font-size: 12.5px;
-    font-family: var(--sans);
-    cursor: pointer;
-    white-space: nowrap;
+  .nav-link {
+    display: block;
+    padding: 7px 18px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.82rem;
+    border-left: 3px solid transparent;
     transition: all 0.15s;
   }
-  .nav-tab:hover { color: var(--text); border-color: var(--muted); }
-  .nav-tab.active { background: var(--theory); border-color: var(--theory); color: #000; font-weight: 600; }
+  .nav-link:hover, .nav-link.active {
+    color: var(--text);
+    background: var(--surface2);
+    border-left-color: var(--accent);
+  }
+  .nav-link .lnum { font-size: 0.7rem; opacity: 0.6; margin-right: 5px; }
 
-  /* ── MAIN CONTENT ── */
-  .content { padding: 28px 24px 60px; max-width: 960px; margin: 0 auto; }
+  /* MAIN */
+  .main { margin-left: 260px; max-width: 1100px; padding: 40px 44px 80px; }
 
-  .topic-section { display: none; }
-  .topic-section.active { display: block; }
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #1a1d27 0%, #12162a 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 40px;
+    margin-bottom: 40px;
+  }
+  .hero h1 { font-size: 2rem; font-weight: 800; background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero p { color: var(--text-muted); margin-top: 8px; font-size: 0.95rem; }
+  .badges { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .badge { background: var(--surface2); border: 1px solid var(--border); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; color: var(--text-muted); }
+  .badge.warning { border-color: var(--yellow); color: var(--yellow); }
 
-  /* ── SECTION BADGES ── */
-  .section-label {
-    display: inline-flex;
+  /* SECTION */
+  .section { margin-bottom: 60px; }
+  .section-header {
+    display: flex;
     align-items: center;
-    gap: 6px;
-    font-size: 10.5px;
-    font-weight: 600;
-    font-family: var(--mono);
-    letter-spacing: 0.08em;
-    padding: 3px 10px;
-    border-radius: 4px;
-    margin-bottom: 10px;
-  }
-  .label-theory { background: #0c2040; color: var(--theory); }
-  .label-formula { background: #0c2d14; color: var(--formula); }
-  .label-code { background: #2d0c0c; color: var(--code-accent); }
-
-  h2.topic-title {
-    font-size: 22px;
-    font-weight: 700;
+    gap: 14px;
     margin-bottom: 24px;
-    padding-bottom: 12px;
+    padding-bottom: 14px;
     border-bottom: 1px solid var(--border);
-    color: var(--text);
   }
-
-  h3.block-title {
-    font-size: 14px;
-    font-weight: 600;
-    margin: 28px 0 12px;
-    color: var(--text);
+  .section-num {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white;
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
   }
+  .section-title { font-size: 1.4rem; font-weight: 700; }
+  .section-subtitle { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
 
-  /* ── CARDS ── */
+  /* CARDS */
   .card {
     background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 18px 20px;
-    margin-bottom: 16px;
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 18px;
   }
-  .card p, .card li { color: #c9d1d9; font-size: 14px; line-height: 1.65; }
-  .card ul { padding-left: 18px; }
-  .card ul li { margin-bottom: 6px; }
-  .card strong { color: var(--text); }
+  .card h3 { font-size: 1rem; font-weight: 600; color: var(--accent2); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .card h4 { font-size: 0.9rem; font-weight: 600; color: var(--accent); margin: 14px 0 6px; }
+  .card p, .card li { font-size: 0.88rem; color: var(--text-muted); line-height: 1.75; }
+  .card ul, .card ol { padding-left: 20px; }
+  .card li { margin-bottom: 4px; }
 
-  /* ── FORMULA BOX ── */
-  .formula-box {
-    background: var(--surface2);
-    border: 1px solid #1f4a2a;
-    border-left: 3px solid var(--formula);
-    border-radius: 6px;
-    padding: 14px 18px;
-    margin-bottom: 12px;
-    font-family: var(--mono);
-    font-size: 13px;
-    color: #b1e4b9;
+  /* CODE BLOCKS */
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    overflow-x: auto;
+    font-size: 0.78rem;
+    line-height: 1.6;
+    margin: 12px 0;
+    font-family: 'Fira Code', 'Courier New', monospace;
+  }
+  code { font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.82rem; }
+  .kw { color: #bb86fc; } /* keywords */
+  .fn { color: #64b5f6; } /* functions */
+  .cm { color: #546e7a; font-style: italic; } /* comments */
+  .num { color: #f48fb1; } /* numbers */
+  .str { color: #a5d6a7; } /* strings */
+  .type { color: #ffd93d; } /* types */
+
+  /* ALGO BOXES */
+  .algo {
+    background: #0d111e;
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+    font-size: 0.82rem;
+    font-family: 'Fira Code', monospace;
     line-height: 1.8;
   }
-  .formula-box .formula-title {
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    color: var(--formula);
-    margin-bottom: 8px;
-    font-family: var(--sans);
-  }
+  .algo .algo-title { font-weight: 700; color: var(--accent); font-family: inherit; margin-bottom: 10px; font-size: 0.88rem; }
 
-  /* ── COMPLEXITY TABLE ── */
-  .complexity-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-    margin-bottom: 16px;
-  }
-  .complexity-table th {
-    background: var(--surface2);
-    color: var(--muted);
-    font-weight: 500;
-    font-size: 11px;
-    letter-spacing: 0.05em;
-    padding: 8px 12px;
-    text-align: left;
-    border-bottom: 1px solid var(--border);
-  }
-  .complexity-table td {
-    padding: 9px 12px;
-    border-bottom: 1px solid #21262d;
-    color: #c9d1d9;
-    font-family: var(--mono);
-    font-size: 12.5px;
-  }
-  .complexity-table tr:last-child td { border-bottom: none; }
-  .complexity-table .op { font-family: var(--sans); color: var(--text); }
-  .good { color: var(--formula); }
-  .mid { color: #e3b341; }
-  .bad { color: var(--code-accent); }
+  /* TABLES */
+  table { width: 100%; border-collapse: collapse; font-size: 0.83rem; margin: 14px 0; }
+  th { background: var(--surface2); color: var(--accent); padding: 10px 14px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+  td { padding: 9px 14px; border: 1px solid var(--border); color: var(--text-muted); }
+  tr:nth-child(even) td { background: #161925; }
 
-  /* ── CODE BLOCK ── */
-  pre.code-block {
-    background: #0d1117;
+  /* TREE VISUALS */
+  .tree-visual {
+    background: var(--code-bg);
     border: 1px solid var(--border);
-    border-left: 3px solid var(--code-accent);
-    border-radius: 6px;
-    padding: 16px 18px;
-    font-family: var(--mono);
-    font-size: 12.5px;
-    line-height: 1.7;
-    color: #c9d1d9;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    font-family: monospace;
+    font-size: 0.82rem;
     overflow-x: auto;
-    margin-bottom: 16px;
     white-space: pre;
+    color: var(--accent2);
+    margin: 14px 0;
   }
-  .code-comment { color: #6e7681; }
-  .code-keyword { color: #ff7b72; }
-  .code-type { color: #79c0ff; }
-  .code-fn { color: #d2a8ff; }
-  .code-num { color: var(--formula); }
-  .code-str { color: #a5d6ff; }
 
-  /* ── INFO GRID ── */
-  .info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 12px;
-    margin-bottom: 16px;
+  /* HIGHLIGHT BOXES */
+  .highlight {
+    border-left: 4px solid var(--accent);
+    background: rgba(108,99,255,0.07);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin: 14px 0;
+    font-size: 0.87rem;
   }
-  .info-cell {
-    background: var(--surface);
+  .highlight.success { border-color: var(--green); background: rgba(0,212,170,0.07); }
+  .highlight.warning { border-color: var(--yellow); background: rgba(255,217,61,0.07); }
+  .highlight.danger { border-color: var(--red); background: rgba(255,107,107,0.07); }
+  .highlight p { color: var(--text); }
+  .highlight strong { color: var(--accent2); }
+
+  /* COMPLEXITY PILL */
+  .cplx { display: inline-block; background: var(--surface2); border: 1px solid var(--border); padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; color: var(--accent); font-family: monospace; margin: 2px; }
+  .cplx.good { border-color: var(--green); color: var(--green); }
+  .cplx.bad { border-color: var(--red); color: var(--red); }
+
+  /* GRID */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 14px 0; }
+
+  /* CASES */
+  .case-box {
+    background: var(--surface2);
     border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 14px 16px;
+    border-radius: 10px;
+    padding: 16px;
   }
-  .info-cell .cell-key {
-    font-size: 11px;
-    color: var(--muted);
-    font-weight: 500;
-    margin-bottom: 4px;
-    font-family: var(--mono);
-  }
-  .info-cell .cell-val {
-    font-size: 14px;
-    color: var(--text);
-    font-weight: 500;
-  }
+  .case-box .case-title { font-size: 0.82rem; font-weight: 700; color: var(--yellow); margin-bottom: 8px; }
+  .case-box p { font-size: 0.81rem; color: var(--text-muted); }
 
-  /* ── ALERT / NOTE ── */
-  .alert {
-    border-radius: 6px;
-    padding: 12px 16px;
-    margin-bottom: 14px;
-    font-size: 13.5px;
-    line-height: 1.6;
-  }
-  .alert-warn { background: #2d1f00; border-left: 3px solid #e3b341; color: #d0a84a; }
-  .alert-info { background: #0c2040; border-left: 3px solid var(--theory); color: #79b8ff; }
-  .alert-tip { background: #0c2d14; border-left: 3px solid var(--formula); color: #7ee787; }
-
-  /* rotation table */
-  .rot-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 16px; }
-  .rot-table th { background: var(--surface2); color: var(--muted); font-size: 11px; letter-spacing: 0.05em; padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); }
-  .rot-table td { padding: 9px 12px; border-bottom: 1px solid #21262d; color: #c9d1d9; font-size: 13px; }
-  .rot-table tr:last-child td { border-bottom: none; }
-
-  /* ── SCROLLBAR ── */
+  /* SCROLLBAR */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
   ::-webkit-scrollbar-track { background: var(--bg); }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
-  @media (max-width: 600px) {
-    .content { padding: 20px 16px 50px; }
-    .site-header { padding: 14px 16px 10px; }
-    .nav-tabs { padding: 10px 16px; }
-    pre.code-block { font-size: 11.5px; }
+  /* MOBILE MENU */
+  .menu-btn { display: none; }
+  .mobile-overlay { display: none; }
+
+  @media (max-width: 900px) {
+    .sidebar { transform: translateX(-100%); transition: transform 0.25s; }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; padding: 20px 18px 60px; }
+    .hero { padding: 22px 20px; }
+    .hero h1 { font-size: 1.4rem; }
+    .grid2, .grid3 { grid-template-columns: 1fr; }
+    .menu-btn {
+      display: flex;
+      position: fixed;
+      bottom: 20px; right: 20px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 52px; height: 52px;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      cursor: pointer;
+      z-index: 200;
+      box-shadow: 0 4px 20px rgba(108,99,255,0.4);
+    }
+    .mobile-overlay {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 99;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+    .mobile-overlay.show { opacity: 1; pointer-events: all; }
   }
 </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-left">
-    <h1>CSC2101 — Data Structures & Algorithms</h1>
-    <p>B.Tech CSE · III Sem · MUJ · July–Nov 2026</p>
-  </div>
-</header>
+<div class="mobile-overlay" id="overlay" onclick="closeSidebar()"></div>
+<button class="menu-btn" onclick="toggleSidebar()">☰</button>
 
-<nav class="nav-tabs">
-  <button class="nav-tab active" onclick="show('trees')">Trees Intro</button>
-  <button class="nav-tab" onclick="show('binary-tree')">Binary Tree</button>
-  <button class="nav-tab" onclick="show('bst')">BST</button>
-  <button class="nav-tab" onclick="show('avl')">AVL Trees</button>
-  <button class="nav-tab" onclick="show('rbt')">Red-Black Tree</button>
-  <button class="nav-tab" onclick="show('btree')">B-Trees</button>
-  <button class="nav-tab" onclick="show('heap')">Heaps & Sort</button>
-  <button class="nav-tab" onclick="show('graph')">Graphs</button>
-</nav>
+<div class="layout">
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-logo">📚 DSA MTE Guide <span>L10 – L25 | CSC2101</span></div>
+    <div class="sidebar-nav">
+      <div class="nav-group-label">Binary Search Trees</div>
+      <a class="nav-link" href="#l10"><span class="lnum">L10-11</span> BST Insert & Delete</a>
+      <a class="nav-link" href="#l12"><span class="lnum">L12-13</span> BST Traversal & Search</a>
+      <div class="nav-group-label">Self-Balancing Trees</div>
+      <a class="nav-link" href="#l14"><span class="lnum">L14-15</span> AVL Trees & Rotations</a>
+      <a class="nav-link" href="#l16"><span class="lnum">L16-17</span> Red-Black Trees</a>
+      <div class="nav-group-label">Advanced Trees</div>
+      <a class="nav-link" href="#l18"><span class="lnum">L18-19</span> B-Trees</a>
+      <a class="nav-link" href="#l20"><span class="lnum">L20</span> Tree Comparison</a>
+      <div class="nav-group-label">Heaps & Graphs</div>
+      <a class="nav-link" href="#l21"><span class="lnum">L21-22</span> Heaps & Heap Sort</a>
+      <a class="nav-link" href="#l23"><span class="lnum">L23</span> Intro to Graphs</a>
+      <a class="nav-link" href="#l24"><span class="lnum">L24</span> Graph Representation</a>
+      <a class="nav-link" href="#l25"><span class="lnum">L25</span> Graph Applications</a>
+      <div class="nav-group-label">Quick Reference</div>
+      <a class="nav-link" href="#quickref">⚡ Complexity Cheatsheet</a>
+    </div>
+  </nav>
 
-<main class="content">
+  <!-- MAIN CONTENT -->
+  <main class="main">
 
-<!-- ════════════════ TREES INTRO ════════════════ -->
-<section class="topic-section active" id="trees">
-  <h2 class="topic-title">Trees — Introduction & Terminology</h2>
+    <!-- HERO -->
+    <div class="hero">
+      <h1>🎓 DSA MTE Exam Preparation</h1>
+      <p>Comprehensive study guide for Lectures 10–25 | Data Structures & Algorithms (CSC2101) | Prof. Akash Yadav | AY 2026-27</p>
+      <div class="badges">
+        <span class="badge">BST Operations</span>
+        <span class="badge">AVL Trees</span>
+        <span class="badge">Red-Black Trees</span>
+        <span class="badge">B-Trees</span>
+        <span class="badge">Heaps</span>
+        <span class="badge">Graphs</span>
+        <span class="badge warning">⚠ RB Tree Deletion NOT in MTE</span>
+      </div>
+    </div>
 
-  <div class="section-label label-theory">THEORY</div>
-  <h3 class="block-title">What is a Tree?</h3>
-  <div class="card">
-    <p>A <strong>tree</strong> is a non-linear, hierarchical data structure. Each element is called a <strong>node</strong>, and nodes are connected by <strong>edges</strong>. Every tree has exactly one <strong>root</strong> (topmost node), every non-root node has exactly one parent, and there is exactly one path from root to any node. A tree with <em>n</em> nodes has exactly <em>n − 1</em> edges.</p>
-  </div>
+    <!-- ===== L10-11: BST INSERT & DELETE ===== -->
+    <section class="section" id="l10">
+      <div class="section-header">
+        <div class="section-num">L10-11</div>
+        <div>
+          <div class="section-title">BST Insertion & Deletion</div>
+          <div class="section-subtitle">The core property, two-pointer insertion, three deletion cases</div>
+        </div>
+      </div>
 
-  <h3 class="block-title">Key Terminology</h3>
-  <div class="info-grid">
-    <div class="info-cell"><div class="cell-key">Root</div><div class="cell-val">Topmost node; no parent</div></div>
-    <div class="info-cell"><div class="cell-key">Leaf / External Node</div><div class="cell-val">No children</div></div>
-    <div class="info-cell"><div class="cell-key">Internal Node</div><div class="cell-val">Has at least one child</div></div>
-    <div class="info-cell"><div class="cell-key">Siblings</div><div class="cell-val">Same parent</div></div>
-    <div class="info-cell"><div class="cell-key">Depth of node</div><div class="cell-val">Edges from root to that node</div></div>
-    <div class="info-cell"><div class="cell-key">Height of node</div><div class="cell-val">Edges on longest path to leaf</div></div>
-    <div class="info-cell"><div class="cell-key">Height of tree</div><div class="cell-val">Height of the root node</div></div>
-    <div class="info-cell"><div class="cell-key">Degree of node</div><div class="cell-val">Number of children</div></div>
-    <div class="info-cell"><div class="cell-key">Degree of tree</div><div class="cell-val">Max degree among all nodes</div></div>
-    <div class="info-cell"><div class="cell-key">Ancestor</div><div class="cell-val">Any node on path from root to node</div></div>
-    <div class="info-cell"><div class="cell-key">Descendant</div><div class="cell-val">Any node below a given node</div></div>
-  </div>
+      <div class="card">
+        <h3>🔑 The ONE Rule That Everything Rests On</h3>
+        <p>For every node N in a BST:</p>
+        <div class="highlight success">
+          <p><strong>Left subtree values &lt; N &lt; Right subtree values</strong><br>
+          This applies to <em>every node recursively</em>, not just the root. The subtree rule is the most commonly missed point!</p>
+        </div>
+        <div class="tree-visual">       12
+      /    \
+     5      18
+    / \    /  \
+   2   9  15   19
+  / \ /    \
+ 1  3 (no) 17
 
-  <div class="section-label label-formula">FORMULAS</div>
-  <h3 class="block-title">Core Formulas</h3>
-  <div class="formula-box">
-    <div class="formula-title">TREE PROPERTIES</div>
-    Edges in a tree with n nodes  =  n − 1<br><br>
-    Depth of root  =  0<br>
-    Height of leaf  =  0<br><br>
-    <strong>Perfect Binary Tree (height h):</strong><br>
-    Total nodes      =  2^(h+1) − 1<br>
-    Leaf nodes       =  2^h<br>
-    Internal nodes   =  2^h − 1
-  </div>
+In-order: 1,2,3,5,9,12,15,17,18,19 → Always SORTED ✓</div>
+      </div>
 
-  <div class="formula-box">
-    <div class="formula-title">ARRAY REPRESENTATION (0-based index i)</div>
-    Parent index    =  ⌊(i − 1) / 2⌋<br>
-    Left child      =  2i + 1<br>
-    Right child     =  2i + 2<br><br>
-    <strong>1-based index i:</strong><br>
-    Parent index    =  ⌊i / 2⌋<br>
-    Left child      =  2i<br>
-    Right child     =  2i + 1
-  </div>
+      <div class="card">
+        <h3>➕ BST Insertion — The Two-Pointer Walk</h3>
+        <p>Key insight: <strong>A new key always becomes a leaf.</strong> Use two pointers — <code>current</code> (walks down) and <code>parent</code> (trails one step behind).</p>
 
-  <div class="section-label label-theory">THEORY</div>
-  <h3 class="block-title">Types of Binary Trees</h3>
-  <table class="complexity-table">
-    <tr><th>Type</th><th>Rule</th><th>Key Use</th></tr>
-    <tr><td class="op">General Tree</td><td>Any number of children per node</td><td>File systems, org charts</td></tr>
-    <tr><td class="op">Binary Tree</td><td>At most 2 children per node</td><td>Basis for all tree variants</td></tr>
-    <tr><td class="op">Full Binary Tree</td><td>Every node has 0 or 2 children</td><td>Expression trees, Huffman coding</td></tr>
-    <tr><td class="op">Complete Binary Tree</td><td>All levels full except last; last filled L→R</td><td>Heaps, priority queues</td></tr>
-    <tr><td class="op">Perfect Binary Tree</td><td>All internals have 2 children; all leaves at same level</td><td>Tournament trees</td></tr>
-    <tr><td class="op">Balanced Binary Tree</td><td>Height diff between L and R subtrees ≤ 1 at every node</td><td>AVL, Red-Black trees</td></tr>
-    <tr><td class="op">Skewed Binary Tree</td><td>Every node has only one child (left or right)</td><td>Worst case BST — like a linked list</td></tr>
-  </table>
+        <div class="highlight warning">
+          <p><strong>Example: Insert 13 into the tree above</strong><br>
+          Step 1: 13 &gt; 12 → go RIGHT (current=18, parent=12)<br>
+          Step 2: 13 &lt; 18 → go LEFT (current=15, parent=18)<br>
+          Step 3: 13 &lt; 15 → go LEFT (current=NULL, parent=15)<br>
+          → Attach 13 as LEFT child of 15 ✓</p>
+        </div>
 
-  <div class="alert alert-warn">⚠ A skewed tree is the BST worst case. Inserting sorted data into a plain BST gives a skewed tree where all operations are O(n) instead of O(log n). This is why AVL and Red-Black trees exist.</div>
-</section>
+        <h4>Non-Recursive (Iterative) Insertion</h4>
+<pre><span class="type">struct</span> <span class="type">Node</span>* <span class="fn">createNode</span>(<span class="type">int</span> data) {
+    <span class="type">struct</span> <span class="type">Node</span>* node = (<span class="type">struct</span> <span class="type">Node</span>*)<span class="fn">malloc</span>(<span class="kw">sizeof</span>(<span class="type">struct</span> <span class="type">Node</span>));
+    node->data = data;
+    node->left = node->right = <span class="num">NULL</span>;
+    <span class="kw">return</span> node;
+}
 
-<!-- ════════════════ BINARY TREE ════════════════ -->
-<section class="topic-section" id="binary-tree">
-  <h2 class="topic-title">Binary Tree Representation</h2>
+<span class="type">struct</span> <span class="type">Node</span>* <span class="fn">insertIterative</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> key) {
+    <span class="type">struct</span> <span class="type">Node</span>* newNode = <span class="fn">createNode</span>(key);
+    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span> newNode;  <span class="cm">// empty tree</span>
 
-  <div class="section-label label-theory">THEORY</div>
-  <h3 class="block-title">Array vs Linked List — Comparison</h3>
-  <table class="complexity-table">
-    <tr><th>Feature</th><th>Array-Based</th><th>Linked List-Based</th></tr>
-    <tr><td class="op">Memory</td><td>Static / fixed size</td><td>Dynamic as needed</td></tr>
-    <tr><td class="op">Parent/Child Access</td><td class="good">O(1) via formula</td><td>Follow pointer</td></tr>
-    <tr><td class="op">Insertion</td><td>Hard if not complete; may resize</td><td class="good">Easy, adjust pointers</td></tr>
-    <tr><td class="op">Wasted space</td><td>Bad for sparse trees</td><td class="good">No unused positions</td></tr>
-    <tr><td class="op">Best for</td><td>Complete trees, Heaps</td><td>BSTs, AVL, Red-Black, Expression trees</td></tr>
-    <tr><td class="op">Search / Traversal</td><td>O(n)</td><td>O(n)</td></tr>
-  </table>
+    <span class="type">struct</span> <span class="type">Node</span>* current = root;
+    <span class="type">struct</span> <span class="type">Node</span>* parent = <span class="num">NULL</span>;
 
-  <div class="section-label label-formula">FORMULAS</div>
-  <h3 class="block-title">Operation Complexities</h3>
-  <table class="complexity-table">
-    <tr><th>Operation</th><th>Array</th><th>Linked List</th><th>Note</th></tr>
-    <tr><td class="op">Create tree</td><td class="mid">O(n)</td><td class="good">O(1)</td><td>Array must init all n slots</td></tr>
-    <tr><td class="op">Insert node</td><td class="good">O(1)</td><td class="mid">O(n)</td><td>LL needs level-order traversal</td></tr>
-    <tr><td class="op">Access node</td><td class="good">O(1)</td><td class="mid">O(n)</td><td>Array uses direct index</td></tr>
-    <tr><td class="op">Access parent/child</td><td class="good">O(1)</td><td>O(1)</td><td>Array uses formula; LL uses pointer</td></tr>
-    <tr><td class="op">Search node</td><td class="mid">O(n)</td><td class="mid">O(n)</td><td>Must traverse</td></tr>
-    <tr><td class="op">Traversal</td><td class="mid">O(n)</td><td class="mid">O(n) time, O(h) space</td><td>h = height</td></tr>
-  </table>
+    <span class="kw">while</span> (current != <span class="num">NULL</span>) {
+        parent = current;                   <span class="cm">// trail one step behind</span>
+        <span class="kw">if</span> (key &lt; current->data)
+            current = current->left;
+        <span class="kw">else</span>
+            current = current->right;
+    }
 
-  <div class="section-label label-code">CODE</div>
-  <h3 class="block-title">Node Structure (C)</h3>
-  <pre class="code-block"><span class="code-type">struct</span> <span class="code-fn">Node</span> {
-    <span class="code-type">int</span> data;
-    <span class="code-type">struct</span> Node* left;
-    <span class="code-type">struct</span> Node* right;
+    <span class="cm">// parent is now where new node attaches</span>
+    <span class="kw">if</span> (key &lt; parent->data)
+        parent->left = newNode;
+    <span class="kw">else</span>
+        parent->right = newNode;
+
+    <span class="kw">return</span> root;
+}</pre>
+
+        <h4>Recursive Insertion</h4>
+<pre><span class="type">struct</span> <span class="type">Node</span>* <span class="fn">insertRecursive</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> key) {
+    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span> <span class="fn">createNode</span>(key);  <span class="cm">// base case: empty slot</span>
+    
+    <span class="kw">if</span> (key &lt; root->data)
+        root->left = <span class="fn">insertRecursive</span>(root->left, key);
+    <span class="kw">else if</span> (key > root->data)
+        root->right = <span class="fn">insertRecursive</span>(root->right, key);
+    <span class="cm">// if key == root->data, do nothing (no duplicates)</span>
+    
+    <span class="kw">return</span> root;
+}</pre>
+      </div>
+
+      <div class="card">
+        <h3>❌ BST Deletion — Three Cases</h3>
+        <div class="grid3">
+          <div class="case-box">
+            <div class="case-title">Case 1: Leaf Node (0 children)</div>
+            <p>Simply detach the node. Set parent's pointer to NULL.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Case 2: One Child</div>
+            <p>The child takes the deleted node's place. Bypass the node.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Case 3: Two Children</div>
+            <p>Find the <strong>in-order successor</strong> (smallest in right subtree), copy its value, then delete the successor.</p>
+          </div>
+        </div>
+
+<pre><span class="cm">// Find minimum node (used for in-order successor)</span>
+<span class="type">struct</span> <span class="type">Node</span>* <span class="fn">findMin</span>(<span class="type">struct</span> <span class="type">Node</span>* node) {
+    <span class="kw">while</span> (node->left != <span class="num">NULL</span>)
+        node = node->left;
+    <span class="kw">return</span> node;
+}
+
+<span class="type">struct</span> <span class="type">Node</span>* <span class="fn">deleteNode</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> key) {
+    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span> <span class="num">NULL</span>;
+
+    <span class="kw">if</span> (key &lt; root->data)
+        root->left  = <span class="fn">deleteNode</span>(root->left, key);
+    <span class="kw">else if</span> (key > root->data)
+        root->right = <span class="fn">deleteNode</span>(root->right, key);
+    <span class="kw">else</span> {
+        <span class="cm">// Found the node to delete</span>
+        <span class="kw">if</span> (root->left == <span class="num">NULL</span>) {  <span class="cm">// Case 1 & 2 (no left child)</span>
+            <span class="type">struct</span> <span class="type">Node</span>* temp = root->right;
+            <span class="fn">free</span>(root);
+            <span class="kw">return</span> temp;
+        } <span class="kw">else if</span> (root->right == <span class="num">NULL</span>) {  <span class="cm">// Case 2 (no right child)</span>
+            <span class="type">struct</span> <span class="type">Node</span>* temp = root->left;
+            <span class="fn">free</span>(root);
+            <span class="kw">return</span> temp;
+        }
+        <span class="cm">// Case 3: Two children — find in-order successor</span>
+        <span class="type">struct</span> <span class="type">Node</span>* successor = <span class="fn">findMin</span>(root->right);
+        root->data = successor->data;  <span class="cm">// copy successor value</span>
+        root->right = <span class="fn">deleteNode</span>(root->right, successor->data);
+    }
+    <span class="kw">return</span> root;
+}</pre>
+
+        <div class="highlight">
+          <p><strong>Time Complexity:</strong> <span class="cplx good">O(log n)</span> balanced | <span class="cplx bad">O(n)</span> skewed (sorted input)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== L12-13: BST TRAVERSAL & SEARCH ===== -->
+    <section class="section" id="l12">
+      <div class="section-header">
+        <div class="section-num">L12-13</div>
+        <div>
+          <div class="section-title">BST Traversal & Searching</div>
+          <div class="section-subtitle">Inorder, Preorder, Postorder + Recursive & Non-Recursive Search</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🔄 The Three Traversals</h3>
+        <div class="grid3">
+          <div class="case-box">
+            <div class="case-title">Inorder: Left → Root → Right</div>
+            <p>Output is <strong>always sorted</strong> for a BST. Used for sorting.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Preorder: Root → Left → Right</div>
+            <p>Used to <strong>clone/serialize</strong> a tree. Root comes first.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Postorder: Left → Right → Root</div>
+            <p>Used to <strong>delete</strong> a tree safely. Children deleted before parent.</p>
+          </div>
+        </div>
+
+        <div class="tree-visual">    Example Tree:
+         5
+        / \
+       3   7
+      / \ / \
+     2  4 9  X
+
+Inorder:   2 → 3 → 4 → 5 → 7 → 9  (SORTED ✓)
+Preorder:  5 → 3 → 2 → 4 → 7 → 9
+Postorder: 2 → 4 → 3 → 9 → 7 → 5</div>
+
+        <h4>Recursive Traversals (C Code)</h4>
+<pre><span class="kw">void</span> <span class="fn">inorder</span>(<span class="type">struct</span> <span class="type">Node</span>* root) {
+    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span>;
+    <span class="fn">inorder</span>(root->left);     <span class="cm">// L</span>
+    <span class="fn">printf</span>(<span class="str">"%d "</span>, root->data); <span class="cm">// N</span>
+    <span class="fn">inorder</span>(root->right);    <span class="cm">// R</span>
+}
+
+<span class="kw">void</span> <span class="fn">preorder</span>(<span class="type">struct</span> <span class="type">Node</span>* root) {
+    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span>;
+    <span class="fn">printf</span>(<span class="str">"%d "</span>, root->data); <span class="cm">// N</span>
+    <span class="fn">preorder</span>(root->left);    <span class="cm">// L</span>
+    <span class="fn">preorder</span>(root->right);   <span class="cm">// R</span>
+}
+
+<span class="kw">void</span> <span class="fn">postorder</span>(<span class="type">struct</span> <span class="type">Node</span>* root) {
+    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span>;
+    <span class="fn">postorder</span>(root->left);   <span class="cm">// L</span>
+    <span class="fn">postorder</span>(root->right);  <span class="cm">// R</span>
+    <span class="fn">printf</span>(<span class="str">"%d "</span>, root->data); <span class="cm">// N</span>
+}</pre>
+
+        <h4>Non-Recursive Inorder (Using Stack)</h4>
+<pre><span class="kw">void</span> <span class="fn">inorderIterative</span>(<span class="type">struct</span> <span class="type">Node</span>* root) {
+    <span class="type">struct</span> <span class="type">Node</span>* stack[<span class="num">100</span>];
+    <span class="type">int</span> top = -<span class="num">1</span>;
+    <span class="type">struct</span> <span class="type">Node</span>* curr = root;
+
+    <span class="kw">while</span> (curr != <span class="num">NULL</span> || top >= <span class="num">0</span>) {
+        <span class="kw">while</span> (curr != <span class="num">NULL</span>) {
+            stack[++top] = curr;   <span class="cm">// push</span>
+            curr = curr->left;     <span class="cm">// go left</span>
+        }
+        curr = stack[top--];       <span class="cm">// pop</span>
+        <span class="fn">printf</span>(<span class="str">"%d "</span>, curr->data);  <span class="cm">// visit</span>
+        curr = curr->right;        <span class="cm">// go right</span>
+    }
+}</pre>
+      </div>
+
+      <div class="card">
+        <h3>🔍 Searching in BST</h3>
+        <h4>Recursive Search</h4>
+<pre><span class="type">struct</span> <span class="type">Node</span>* <span class="fn">searchRecursive</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> key) {
+    <span class="kw">if</span> (root == <span class="num">NULL</span> || root->data == key) <span class="kw">return</span> root;
+    
+    <span class="kw">if</span> (key &lt; root->data)
+        <span class="kw">return</span> <span class="fn">searchRecursive</span>(root->left, key);
+    <span class="kw">else</span>
+        <span class="kw">return</span> <span class="fn">searchRecursive</span>(root->right, key);
+} <span class="cm">// O(h) time</span></pre>
+
+        <h4>Non-Recursive (Iterative) Search</h4>
+<pre><span class="type">struct</span> <span class="type">Node</span>* <span class="fn">searchIterative</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> key) {
+    <span class="type">struct</span> <span class="type">Node</span>* ptr = root;
+    <span class="kw">while</span> (ptr != <span class="num">NULL</span>) {
+        <span class="kw">if</span> (key == ptr->data) <span class="kw">return</span> ptr;    <span class="cm">// found!</span>
+        <span class="kw">else if</span> (key &lt; ptr->data) ptr = ptr->left;
+        <span class="kw">else</span> ptr = ptr->right;
+    }
+    <span class="kw">return</span> <span class="num">NULL</span>;  <span class="cm">// not found</span>
+}</pre>
+
+        <h4>Find Min and Max</h4>
+<pre><span class="cm">// Minimum: keep going LEFT until NULL</span>
+<span class="type">struct</span> <span class="type">Node</span>* <span class="fn">findMin</span>(<span class="type">struct</span> <span class="type">Node</span>* root) {
+    <span class="kw">while</span> (root->left != <span class="num">NULL</span>) root = root->left;
+    <span class="kw">return</span> root;  <span class="cm">// leftmost node</span>
+}
+<span class="cm">// Maximum: keep going RIGHT until NULL</span>
+<span class="type">struct</span> <span class="type">Node</span>* <span class="fn">findMax</span>(<span class="type">struct</span> <span class="type">Node</span>* root) {
+    <span class="kw">while</span> (root->right != <span class="num">NULL</span>) root = root->right;
+    <span class="kw">return</span> root;  <span class="cm">// rightmost node</span>
+}</pre>
+      </div>
+    </section>
+
+    <!-- ===== L14-15: AVL TREES ===== -->
+    <section class="section" id="l14">
+      <div class="section-header">
+        <div class="section-num">L14-15</div>
+        <div>
+          <div class="section-title">AVL Trees — Self-Balancing BST</div>
+          <div class="section-subtitle">Invented by Adelson-Velsky & Landis (1962). Four rotations to maintain balance.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🤔 Why AVL Trees?</h3>
+        <p>A plain BST becomes a linked list if you insert sorted data (e.g., 10→20→30→40→50), making every operation O(n). AVL trees guarantee O(log n) for all operations by keeping the tree height-balanced.</p>
+        <div class="tree-visual">BST (sorted input = disaster!)    AVL Tree (always balanced)
+10                                    30
+  \                                  /  \
+   20              vs.             10    40
+     \                              \   /  \
+      30                            20 35   50
+        \
+         40
+           \
+            50   ← O(n) search!      ← O(log n) search ✓</div>
+      </div>
+
+      <div class="card">
+        <h3>📐 Balance Factor (BF)</h3>
+        <div class="highlight success">
+          <p><strong>BF(node) = Height(Left Subtree) − Height(Right Subtree)</strong><br>
+          Valid values: <strong>-1, 0, +1</strong> only. Any other value means the tree is unbalanced → rotation needed!</p>
+        </div>
+        <table>
+          <tr><th>BF Value</th><th>Meaning</th></tr>
+          <tr><td>+1</td><td>Left subtree is one level higher (Left-Heavy)</td></tr>
+          <tr><td>0</td><td>Both subtrees equal height (Balanced)</td></tr>
+          <tr><td>-1</td><td>Right subtree is one level higher (Right-Heavy)</td></tr>
+          <tr><td>+2 or more</td><td>❌ Unbalanced — needs rotation</td></tr>
+        </table>
+
+        <h4>Example: Calculate BF</h4>
+        <div class="tree-visual">      12 (BF=+1)
+     /  \
+   8(+1)  18(+1)
+   /       /
+  5(0)   17(0)
+  Height of leaf = 0, Height of NULL = -1
+  BF(18) = h(left:17) - h(right:NULL) = 0 - (-1) = +1 ✓</div>
+      </div>
+
+      <div class="card">
+        <h3>🔄 The Four AVL Rotations</h3>
+        <div class="grid2">
+          <div class="case-box">
+            <div class="case-title">LL Rotation (Single Right Rotation)</div>
+            <p>New node inserted in <strong>Left child's Left subtree</strong>. Tree becomes Left-Heavy (BF &gt; +1).<br><strong>Fix: Rotate Right at imbalanced node.</strong></p>
+<pre style="font-size:0.72rem; margin-top:8px;">Before:        After (Right Rotate A):
+    A(+2)           B
+   /               / \
+  B(+1)    →      C   A
+ /
+C</pre>
+          </div>
+          <div class="case-box">
+            <div class="case-title">RR Rotation (Single Left Rotation)</div>
+            <p>New node inserted in <strong>Right child's Right subtree</strong>. Tree becomes Right-Heavy (BF &lt; -1).<br><strong>Fix: Rotate Left at imbalanced node.</strong></p>
+<pre style="font-size:0.72rem; margin-top:8px;">Before:        After (Left Rotate A):
+A(-2)              B
+  \               / \
+   B(-1)  →      A   C
+     \
+      C</pre>
+          </div>
+          <div class="case-box">
+            <div class="case-title">LR Rotation (Double: Left then Right)</div>
+            <p>New node in <strong>Left child's Right subtree</strong>.<br><strong>Fix: First Left-rotate B, then Right-rotate A.</strong></p>
+<pre style="font-size:0.72rem; margin-top:8px;">Before:     Step1(LR on B): Step2(RR on A):
+  A(+2)         A               C
+ /             /               / \
+B(-1)  →      C       →       B   A
+  \          /
+   C        B</pre>
+          </div>
+          <div class="case-box">
+            <div class="case-title">RL Rotation (Double: Right then Left)</div>
+            <p>New node in <strong>Right child's Left subtree</strong>.<br><strong>Fix: First Right-rotate B, then Left-rotate A.</strong></p>
+<pre style="font-size:0.72rem; margin-top:8px;">Before:     Step1(RR on B): Step2(LL on A):
+A(-2)           A               C
+  \               \             / \
+   B(+1)  →        C    →      A   B
+  /                  \
+ C                    B</pre>
+          </div>
+        </div>
+
+        <div class="highlight warning">
+          <p><strong>Memory Trick:</strong> The name tells you WHERE the new node went.<br>
+          LL = new node is in Left's Left → fix with single Right rotation<br>
+          RR = new node is in Right's Right → fix with single Left rotation<br>
+          LR = Left's Right → fix with Left rotation first, then Right<br>
+          RL = Right's Left → fix with Right rotation first, then Left</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📊 AVL Tree Complexity</h3>
+        <table>
+          <tr><th>Operation</th><th>Time Complexity</th><th>Why?</th></tr>
+          <tr><td>Search</td><td><span class="cplx good">O(log n)</span></td><td>Height always O(log n)</td></tr>
+          <tr><td>Insert</td><td><span class="cplx good">O(log n)</span></td><td>Search + at most 2 rotations</td></tr>
+          <tr><td>Delete</td><td><span class="cplx good">O(log n)</span></td><td>Search + rebalancing up the path</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== L16-17: RED-BLACK TREES ===== -->
+    <section class="section" id="l16">
+      <div class="section-header">
+        <div class="section-num">L16-17</div>
+        <div>
+          <div class="section-title">Red-Black Trees (Insertion Only)</div>
+          <div class="section-subtitle">⚠️ Deletion NOT in MTE — focus on properties and insertion cases</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🔴⚫ Why Red-Black Trees?</h3>
+        <p>AVL trees are strictly balanced → great for searching but expensive to maintain (many rotations). RB Trees are <strong>loosely balanced</strong> → fewer rotations on insert/delete, faster updates.</p>
+        <div class="grid2">
+          <div class="case-box">
+            <div class="case-title">AVL Tree</div>
+            <p>BF must be -1, 0, +1 at every node. More rotations on update. Better search performance.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Red-Black Tree</div>
+            <p>Colour-based balance. At most 2 rotations per insert. Slightly taller but faster updates.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📜 The 5 Red-Black Tree Properties</h3>
+        <ol style="padding-left:20px; color: var(--text-muted); font-size:0.88rem; line-height:2;">
+          <li><strong style="color:var(--text)">Every node is either RED or BLACK.</strong></li>
+          <li><strong style="color:var(--text)">The root is always BLACK.</strong></li>
+          <li><strong style="color:var(--text)">Every leaf (NIL sentinel) is BLACK.</strong></li>
+          <li><strong style="color:var(--text)">If a node is RED, both its children must be BLACK.</strong> (No two consecutive red nodes!)</li>
+          <li><strong style="color:var(--text)">For any node, all paths to descendant leaves contain the same number of BLACK nodes.</strong> (Black-height property)</li>
+        </ol>
+        <div class="highlight warning">
+          <p><strong>Black-Height (bh):</strong> Number of black nodes on any path from a node to a leaf (not counting the node itself). This must be equal on every path.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>➕ RB Tree Insertion — The 4 Cases</h3>
+        <p>When we insert, we always colour the new node <strong>RED</strong> first. Then we fix violations.</p>
+        <div class="highlight">
+          <p><strong>Key Rule:</strong> A RED node cannot have a RED parent. If this happens → fix using one of these cases.</p>
+        </div>
+
+        <div class="grid2">
+          <div class="case-box">
+            <div class="case-title">Case 1: Uncle is RED (Recoloring)</div>
+            <p>Parent and Uncle are both RED. <br>→ Recolour: Parent = BLACK, Uncle = BLACK, Grandparent = RED.<br>→ Move the problem up to Grandparent.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Case 2: Uncle is BLACK + Triangle</div>
+            <p>New node and Parent form a triangle (zigzag). <br>→ Rotate Parent to straighten into a line (sets up Case 3).</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Case 3: Uncle is BLACK + Line</div>
+            <p>New node, Parent, Grandparent form a straight line.<br>→ Rotate Grandparent away. Swap colours of Parent and Grandparent.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Case 4: Root is RED</div>
+            <p>After fixing, if root becomes RED.<br>→ Simply recolour root to BLACK. (Increases black-height by 1)</p>
+          </div>
+        </div>
+
+        <div class="highlight danger">
+          <p><strong>⚠️ Remember for MTE:</strong> RB Tree DELETION is NOT in scope. Focus only on the 5 properties + insertion cases. Time complexity for all operations: <span class="cplx good">O(log n)</span></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📊 AVL vs Red-Black Tree</h3>
+        <table>
+          <tr><th>Feature</th><th>AVL Tree</th><th>Red-Black Tree</th></tr>
+          <tr><td>Balance Condition</td><td>BF ∈ {-1, 0, +1}</td><td>Color-based (no two consecutive RED)</td></tr>
+          <tr><td>Height Bound</td><td>≈ 1.44 log n (tighter)</td><td>≤ 2 log(n+1) (looser)</td></tr>
+          <tr><td>Rotations on Insert</td><td>≤ 2</td><td>≤ 2</td></tr>
+          <tr><td>Rotations on Delete</td><td>O(log n)</td><td>≤ 3</td></tr>
+          <tr><td>Best for</td><td>Frequent reads</td><td>Frequent inserts/deletes</td></tr>
+          <tr><td>Used in</td><td>Databases</td><td>Linux kernel, Java TreeMap</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== L18-19: B-TREES ===== -->
+    <section class="section" id="l18">
+      <div class="section-header">
+        <div class="section-num">L18-19</div>
+        <div>
+          <div class="section-title">B-Trees: Properties, Insertion & Deletion</div>
+          <div class="section-subtitle">Multi-way search tree for disk storage and databases</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>💾 Why B-Trees?</h3>
+        <p>BST, AVL, RB trees store 1 key per node → many disk accesses for large datasets. B-Trees store <strong>many keys per node</strong>, making the tree very wide and short → drastically fewer disk reads.</p>
+        <div class="highlight success">
+          <p><strong>Real World Example:</strong> A database with 1 billion records. BST height ≈ 30. B-Tree of order 1000 height ≈ 3. That's 27 fewer disk accesses per query!</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📋 B-Tree of Order m — Rules</h3>
+        <div class="grid2">
+          <div>
+            <ul style="padding-left:20px; font-size:0.85rem; color:var(--text-muted); line-height:2.2;">
+              <li>Every node has <strong>at most m children</strong></li>
+              <li>Every node (except root) has <strong>at least ⌈m/2⌉ children</strong></li>
+              <li>Root has at least <strong>2 children</strong> (if not a leaf)</li>
+              <li>A node with k children has <strong>k-1 keys</strong></li>
+              <li>All leaves appear at the <strong>same level</strong></li>
+              <li>Keys within each node are <strong>sorted</strong></li>
+            </ul>
+          </div>
+          <div>
+            <div class="tree-visual" style="font-size:0.72rem;">B-Tree of Order 3 (max 2 keys, 3 children):
+       [17]
+      /    \
+  [8]      [25 | 48]
+  / \      /   |   \
+[1,2][12,14][20][30][52,60]
+
+Max keys per node = m-1 = 2
+Min keys (non-root) = ⌈m/2⌉-1 = 1</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>➕ B-Tree Insertion</h3>
+        <div class="algo">
+          <div class="algo-title">ALGORITHM: B-Tree Insert(key)</div>
+          1. Start at root, find the appropriate leaf node<br>
+          2. Insert key in sorted order within that node<br>
+          3. IF node has ≤ (m-1) keys → DONE (no overflow)<br>
+          4. IF node overflows (m keys):<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;a. Find the MIDDLE key (position ⌈m/2⌉)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;b. SPLIT node into two halves<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;c. PROMOTE middle key to parent<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;d. If parent overflows → repeat from step 4<br>
+          5. If ROOT splits → create new root (tree grows taller by 1)
+        </div>
+
+        <div class="highlight warning">
+          <p><strong>Worked Example — Build B-Tree of Order 5</strong><br>
+          Inserting: 1, 12, 8, 2, 25, 6, 14, 28, 17...<br>
+          Max keys = 4 (m-1). Min keys (non-root) = 2.<br>
+          First 4 keys fit in root: [1|2|8|12]<br>
+          Insert 25 → overflow → middle key = 8 → promote 8<br>
+          Root becomes [8], Left child = [1|2], Right child = [12|25]<br>
+          Insert 6 → goes to left child → [1|2|6]<br>
+          Insert 14 → goes to right child → [12|14|25]<br>
+          Insert 28 → right child = [12|14|25|28] (full but ok)<br>
+          Insert 17 → right child would be [12|14|17|25|28] → overflow!<br>
+          Middle = 17 → promote 17 → root becomes [8|17]</p>
+        </div>
+
+        <h4>Split with One Middle Key (Odd overflow)</h4>
+<pre style="font-size:0.78rem;">Overflow node: [10 | 20 | 30 | 40 | 50]
+Middle key = 30 → promote to parent
+
+           [30]
+          /    \
+    [10|20]    [40|50]</pre>
+
+        <h4>Split with Two Middle Keys (Even overflow)</h4>
+<pre style="font-size:0.78rem;">Overflow node: [10 | 20 | 30 | 40]
+Two middles: 20 and 30 — pick one (be consistent!)
+
+Option A (promote 20):    Option B (promote 30):
+    [20]                      [30]
+   /    \                    /    \
+ [10]  [30|40]          [10|20]  [40]</pre>
+      </div>
+
+      <div class="card">
+        <h3>❌ B-Tree Deletion</h3>
+        <div class="algo">
+          <div class="algo-title">Cases for B-Tree Deletion</div>
+          <strong>Case 1: Key is in a LEAF node</strong><br>
+          &nbsp;→ Simply remove it. If node still has ≥ ⌈m/2⌉−1 keys → DONE.<br><br>
+          <strong>Case 2: Key is in an INTERNAL node</strong><br>
+          &nbsp;→ Replace with in-order predecessor OR successor (from a leaf).<br>
+          &nbsp;→ Then delete that predecessor/successor from the leaf.<br><br>
+          <strong>Underflow after deletion:</strong><br>
+          &nbsp;Option A — BORROW from a sibling (if sibling has extra keys).<br>
+          &nbsp;Option B — MERGE with a sibling + pull down parent key.
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-muted);">Time Complexity: <span class="cplx good">O(log n)</span> for all operations</p>
+      </div>
+    </section>
+
+    <!-- ===== L20: TREE COMPARISON ===== -->
+    <section class="section" id="l20">
+      <div class="section-header">
+        <div class="section-num">L20</div>
+        <div>
+          <div class="section-title">Comparative Study of All Trees</div>
+          <div class="section-subtitle">Know when to use which tree — exam favourite!</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>📊 Master Comparison Table</h3>
+        <table>
+          <tr><th>Feature</th><th>BST</th><th>AVL</th><th>Red-Black</th><th>B-Tree</th></tr>
+          <tr><td>Keys per node</td><td>1</td><td>1</td><td>1</td><td>m-1 (many)</td></tr>
+          <tr><td>Balance type</td><td>None</td><td>Strict (BF)</td><td>Colour-based</td><td>Order-based</td></tr>
+          <tr><td>Height</td><td>O(n) worst</td><td>O(log n)</td><td>O(log n)</td><td>O(log_m n)</td></tr>
+          <tr><td>Search</td><td>O(n) worst</td><td>O(log n)</td><td>O(log n)</td><td>O(log n)</td></tr>
+          <tr><td>Insert</td><td>O(n) worst</td><td>O(log n)</td><td>O(log n)</td><td>O(log n)</td></tr>
+          <tr><td>Delete</td><td>O(n) worst</td><td>O(log n)</td><td>O(log n)</td><td>O(log n)</td></tr>
+          <tr><td>Rotations on insert</td><td>0</td><td>1-2</td><td>≤2</td><td>None</td></tr>
+          <tr><td>Best for</td><td>Small/random data</td><td>Many reads</td><td>Many updates</td><td>Disk/DB storage</td></tr>
+          <tr><td>Examples</td><td>Symbol tables</td><td>Memory DBs</td><td>Linux kernel</td><td>MySQL, File systems</td></tr>
+        </table>
+        <div class="highlight">
+          <p><strong>Rule of Thumb for Exams:</strong><br>
+          Data on disk/large dataset → <strong>B-Tree</strong><br>
+          Frequent reads, memory-based → <strong>AVL Tree</strong><br>
+          Frequent inserts/deletes → <strong>Red-Black Tree</strong><br>
+          Simple, small dataset → <strong>BST</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== L21-22: HEAPS ===== -->
+    <section class="section" id="l21">
+      <div class="section-header">
+        <div class="section-num">L21-22</div>
+        <div>
+          <div class="section-title">Heaps & Heap Sort</div>
+          <div class="section-subtitle">Complete binary tree stored as array, with the heap property</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🌳 What is a Heap?</h3>
+        <div class="grid2">
+          <div>
+            <h4>Max-Heap</h4>
+            <p style="font-size:0.85rem; color:var(--text-muted);">Every node's value ≥ its children. <strong>Root = Maximum element.</strong></p>
+            <div class="tree-visual" style="font-size:0.75rem;">      16
+     /  \
+   14    10
+  / \   / \
+ 8   7  9   3
+/ \
+2   4
+Array: [16,14,10,8,7,9,3,2,4]</div>
+          </div>
+          <div>
+            <h4>Min-Heap</h4>
+            <p style="font-size:0.85rem; color:var(--text-muted);">Every node's value ≤ its children. <strong>Root = Minimum element.</strong></p>
+            <div class="tree-visual" style="font-size:0.75rem;">      2
+     /  \
+   4     6
+  / \   / \
+ 8   10 12  14
+
+Array: [2,4,6,8,10,12,14]</div>
+          </div>
+        </div>
+
+        <div class="highlight success">
+          <p><strong>Key Property:</strong> A heap is ALWAYS a <strong>Complete Binary Tree</strong> (all levels full except possibly the last, filled left to right).<br>
+          This makes array representation perfect: for index i (0-based):<br>
+          Parent = (i-1)/2 | Left child = 2i+1 | Right child = 2i+2</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>⬆️ Heapify — The Core Operation</h3>
+        <p>MAX-HEAPIFY: Given a node that violates the heap property, fix it by swapping down.</p>
+<pre><span class="kw">void</span> <span class="fn">maxHeapify</span>(<span class="type">int</span> arr[], <span class="type">int</span> n, <span class="type">int</span> i) {
+    <span class="type">int</span> largest = i;        <span class="cm">// assume root is largest</span>
+    <span class="type">int</span> left  = <span class="num">2</span>*i + <span class="num">1</span>;
+    <span class="type">int</span> right = <span class="num">2</span>*i + <span class="num">2</span>;
+
+    <span class="kw">if</span> (left  &lt; n && arr[left]  > arr[largest]) largest = left;
+    <span class="kw">if</span> (right &lt; n && arr[right] > arr[largest]) largest = right;
+
+    <span class="kw">if</span> (largest != i) {
+        <span class="cm">// swap and continue fixing downward</span>
+        <span class="type">int</span> temp = arr[i];
+        arr[i] = arr[largest];
+        arr[largest] = temp;
+        <span class="fn">maxHeapify</span>(arr, n, largest);  <span class="cm">// recurse</span>
+    }
+}</pre>
+
+        <h4>Build Heap from Array — O(n)</h4>
+<pre><span class="kw">void</span> <span class="fn">buildMaxHeap</span>(<span class="type">int</span> arr[], <span class="type">int</span> n) {
+    <span class="cm">// Start from last non-leaf node (n/2 - 1) and go up</span>
+    <span class="kw">for</span> (<span class="type">int</span> i = n/<span class="num">2</span> - <span class="num">1</span>; i >= <span class="num">0</span>; i--)
+        <span class="fn">maxHeapify</span>(arr, n, i);
+} <span class="cm">// O(n) — not O(n log n) !</span></pre>
+        <div class="highlight warning">
+          <p><strong>Exam Tip:</strong> BUILD-MAX-HEAP starts from index n/2-1 (last non-leaf) down to 0, calling heapify on each. This is O(n) due to the mathematical analysis of how many nodes exist at each level.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📈 Heap Sort Algorithm</h3>
+        <div class="algo">
+          <div class="algo-title">HEAP-SORT(A)</div>
+          Step 1: BUILD-MAX-HEAP(A) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ O(n)<br>
+          Step 2: for i from n-1 downto 1:<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Swap A[0] (max) with A[i] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ place max at end<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Reduce heap size by 1<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;MAX-HEAPIFY(A, 0, i) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ O(log n) per step<br>
+          Total: O(n log n)
+        </div>
+<pre><span class="kw">void</span> <span class="fn">heapSort</span>(<span class="type">int</span> arr[], <span class="type">int</span> n) {
+    <span class="fn">buildMaxHeap</span>(arr, n);  <span class="cm">// Step 1</span>
+    
+    <span class="kw">for</span> (<span class="type">int</span> i = n - <span class="num">1</span>; i > <span class="num">0</span>; i--) {
+        <span class="cm">// Move current root (max) to end</span>
+        <span class="type">int</span> temp = arr[<span class="num">0</span>];
+        arr[<span class="num">0</span>] = arr[i];
+        arr[i] = temp;
+        <span class="cm">// Heapify the reduced heap</span>
+        <span class="fn">maxHeapify</span>(arr, i, <span class="num">0</span>);
+    }
+}</pre>
+        <table>
+          <tr><th>Property</th><th>Value</th></tr>
+          <tr><td>Time Complexity</td><td><span class="cplx good">O(n log n)</span> — all cases</td></tr>
+          <tr><td>Space Complexity</td><td><span class="cplx good">O(1)</span> — in-place sorting</td></tr>
+          <tr><td>Stable?</td><td>❌ Not stable</td></tr>
+          <tr><td>Build Heap</td><td><span class="cplx good">O(n)</span></td></tr>
+          <tr><td>Root Access</td><td><span class="cplx good">O(1)</span></td></tr>
+          <tr><td>Insert / Delete root</td><td><span class="cplx good">O(log n)</span></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== L23: INTRO TO GRAPHS ===== -->
+    <section class="section" id="l23">
+      <div class="section-header">
+        <div class="section-num">L23</div>
+        <div>
+          <div class="section-title">Introduction to Graphs</div>
+          <div class="section-subtitle">G = (V, E) — the most general data structure for relationships</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📖 What is a Graph?</h3>
+        <p>A graph G = (V, E) is an ordered pair where V = set of vertices (nodes) and E = set of edges (connections between pairs of vertices).</p>
+        <div class="highlight">
+          <p><strong>Tree vs Graph:</strong> A tree is a restricted graph (connected, acyclic, n nodes have n-1 edges, one unique path between any two nodes). A graph is more general — can have cycles, multiple paths, disconnected components.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📚 Key Graph Terms</h3>
+        <table>
+          <tr><th>Term</th><th>Definition</th></tr>
+          <tr><td>Vertex (Node)</td><td>A point in the graph</td></tr>
+          <tr><td>Edge</td><td>A connection between two vertices</td></tr>
+          <tr><td>Adjacency</td><td>Two vertices are adjacent if connected by an edge</td></tr>
+          <tr><td>Walk</td><td>A sequence of vertices where consecutive pairs are connected</td></tr>
+          <tr><td>Path</td><td>A walk where no vertex is repeated (no repeated nodes)</td></tr>
+          <tr><td>Circuit</td><td>A closed walk (start = end) where no vertex repeats (except start/end)</td></tr>
+          <tr><td>Degree</td><td>Number of edges incident to a vertex</td></tr>
+          <tr><td>In-degree</td><td>Number of edges ENTERING a vertex (directed graph)</td></tr>
+          <tr><td>Out-degree</td><td>Number of edges LEAVING a vertex (directed graph)</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>🗂️ Types of Graphs</h3>
+        <div class="grid2">
+          <div class="case-box">
+            <div class="case-title">Directed Graph (Digraph)</div>
+            <p>Edges have direction (a,b) ≠ (b,a). Example: web links, one-way roads.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Undirected Graph</div>
+            <p>Edges have no direction {a,b} = {b,a}. Example: social networks, roads.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Weighted Graph</div>
+            <p>Each edge has a numerical value (weight). Example: road distances, costs.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Complete Graph</div>
+            <p>Every vertex connects to every other vertex. Directed: n(n-1) edges. Undirected: n(n-1)/2 edges.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Connected Graph</div>
+            <p>There is a path between every pair of vertices. Opposite = Disconnected.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Cyclic / Acyclic</div>
+            <p>Cyclic: has at least one cycle. Acyclic: no cycles (DAG = Directed Acyclic Graph).</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Multigraph</div>
+            <p>Multiple edges allowed between the same pair of vertices.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Pseudograph</div>
+            <p>Allows self-loops (edge from a vertex to itself) + multiple edges.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== L24: GRAPH REPRESENTATION ===== -->
+    <section class="section" id="l24">
+      <div class="section-header">
+        <div class="section-num">L24</div>
+        <div>
+          <div class="section-title">Graph Representation & Operations</div>
+          <div class="section-subtitle">Adjacency Matrix vs Adjacency List — the core trade-off</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📋 Adjacency Matrix</h3>
+        <p>A V×V matrix where matrix[i][j] = 1 if edge exists between i and j (or the edge weight for weighted graphs).</p>
+<pre><span class="cm">// Graph: A-B, A-C, B-D, C-D, D-E</span>
+<span class="type">int</span> adjMatrix[<span class="num">5</span>][<span class="num">5</span>] = {
+<span class="cm">//  A  B  C  D  E</span>
+  { <span class="num">0</span>, <span class="num">1</span>, <span class="num">1</span>, <span class="num">0</span>, <span class="num">0</span> },  <span class="cm">// A</span>
+  { <span class="num">1</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">1</span>, <span class="num">0</span> },  <span class="cm">// B</span>
+  { <span class="num">1</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">1</span>, <span class="num">0</span> },  <span class="cm">// C</span>
+  { <span class="num">0</span>, <span class="num">1</span>, <span class="num">1</span>, <span class="num">0</span>, <span class="num">1</span> },  <span class="cm">// D</span>
+  { <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">1</span>, <span class="num">0</span> }   <span class="cm">// E</span>
 };
+<span class="cm">// Symmetric for undirected graphs
+// Check edge A-D: adjMatrix[0][3] = 0 → No edge → O(1)!</span></pre>
+        <div class="grid2">
+          <div class="case-box">
+            <div class="case-title">✅ Pros</div>
+            <p>O(1) edge lookup. Simple to implement. Easy to check if edge exists.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">❌ Cons</div>
+            <p>O(V²) space always — wasteful for sparse graphs (few edges). Vertex addition requires resizing entire matrix.</p>
+          </div>
+        </div>
+      </div>
 
-<span class="code-type">struct</span> Node* <span class="code-fn">createNode</span>(<span class="code-type">int</span> val) {
-    <span class="code-type">struct</span> Node* newNode = (<span class="code-type">struct</span> Node*)malloc(sizeof(<span class="code-type">struct</span> Node));
-    newNode->data  = val;
-    newNode->left  = NULL;
-    newNode->right = NULL;
-    <span class="code-keyword">return</span> newNode;
+      <div class="card">
+        <h3>📝 Adjacency List</h3>
+        <p>An array of linked lists. List[i] stores all vertices adjacent to vertex i.</p>
+<pre><span class="cm">// Same graph using linked list</span>
+<span class="type">struct</span> <span class="type">AdjNode</span> { <span class="type">int</span> vertex; <span class="type">struct</span> <span class="type">AdjNode</span>* next; };
+<span class="type">struct</span> <span class="type">AdjNode</span>* adjList[<span class="num">5</span>];
+
+<span class="cm">// A: → B → C</span>
+<span class="cm">// B: → A → D</span>
+<span class="cm">// C: → A → D</span>
+<span class="cm">// D: → B → C → E</span>
+<span class="cm">// E: → D</span>
+
+<span class="type">void</span> <span class="fn">addEdge</span>(<span class="type">struct</span> <span class="type">AdjNode</span>* adjList[], <span class="type">int</span> src, <span class="type">int</span> dest) {
+    <span class="type">struct</span> <span class="type">AdjNode</span>* newNode = (<span class="type">struct</span> <span class="type">AdjNode</span>*)<span class="fn">malloc</span>(<span class="kw">sizeof</span>(<span class="type">struct</span> <span class="type">AdjNode</span>));
+    newNode->vertex = dest;
+    newNode->next = adjList[src];
+    adjList[src] = newNode;
+    <span class="cm">// For undirected, also add reverse edge</span>
 }</pre>
-
-  <h3 class="block-title">Level-Order Insertion (Linked List BT)</h3>
-  <pre class="code-block"><span class="code-type">struct</span> Node* <span class="code-fn">insert</span>(<span class="code-type">struct</span> Node* root, <span class="code-type">int</span> value) {
-    <span class="code-type">struct</span> Node* newNode = <span class="code-fn">createNode</span>(value);
-    <span class="code-keyword">if</span> (root == NULL) <span class="code-keyword">return</span> newNode;
-
-    <span class="code-type">struct</span> Node* queue[<span class="code-num">100</span>];
-    <span class="code-type">int</span> front = <span class="code-num">0</span>, rear = <span class="code-num">0</span>;
-    queue[rear++] = root;
-
-    <span class="code-keyword">while</span> (front < rear) {
-        <span class="code-type">struct</span> Node* temp = queue[front++];
-
-        <span class="code-keyword">if</span> (temp->left == NULL)  { temp->left  = newNode; <span class="code-keyword">return</span> root; }
-        <span class="code-keyword">else</span>                      queue[rear++] = temp->left;
-
-        <span class="code-keyword">if</span> (temp->right == NULL) { temp->right = newNode; <span class="code-keyword">return</span> root; }
-        <span class="code-keyword">else</span>                      queue[rear++] = temp->right;
-    }
-    <span class="code-keyword">return</span> root;
-}</pre>
-
-  <h3 class="block-title">Tree Traversals (Recursive)</h3>
-  <pre class="code-block"><span class="code-comment">// Inorder: LEFT → ROOT → RIGHT  (gives sorted output for BST)</span>
-<span class="code-type">void</span> <span class="code-fn">inorder</span>(<span class="code-type">struct</span> Node* root) {
-    <span class="code-keyword">if</span> (root == NULL) <span class="code-keyword">return</span>;
-    <span class="code-fn">inorder</span>(root->left);
-    <span class="code-fn">printf</span>(<span class="code-str">"%d "</span>, root->data);
-    <span class="code-fn">inorder</span>(root->right);
-}
-
-<span class="code-comment">// Preorder: ROOT → LEFT → RIGHT  (prefix expression, copy tree)</span>
-<span class="code-type">void</span> <span class="code-fn">preorder</span>(<span class="code-type">struct</span> Node* root) {
-    <span class="code-keyword">if</span> (root == NULL) <span class="code-keyword">return</span>;
-    <span class="code-fn">printf</span>(<span class="code-str">"%d "</span>, root->data);
-    <span class="code-fn">preorder</span>(root->left);
-    <span class="code-fn">preorder</span>(root->right);
-}
-
-<span class="code-comment">// Postorder: LEFT → RIGHT → ROOT  (delete tree, postfix expression)</span>
-<span class="code-type">void</span> <span class="code-fn">postorder</span>(<span class="code-type">struct</span> Node* root) {
-    <span class="code-keyword">if</span> (root == NULL) <span class="code-keyword">return</span>;
-    <span class="code-fn">postorder</span>(root->left);
-    <span class="code-fn">postorder</span>(root->right);
-    <span class="code-fn">printf</span>(<span class="code-str">"%d "</span>, root->data);
-}</pre>
-</section>
-
-<!-- ════════════════ BST ════════════════ -->
-<section class="topic-section" id="bst">
-  <h2 class="topic-title">Binary Search Trees (BST)</h2>
-
-  <div class="section-label label-theory">THEORY</div>
-  <h3 class="block-title">The BST Property</h3>
-  <div class="card">
-    <p>For every node N: <strong>all keys in the left subtree &lt; N &lt; all keys in the right subtree.</strong> This must hold at every ancestor, not just immediate parent. An in-order traversal of a BST always gives a sorted sequence.</p>
-    <ul style="margin-top:10px">
-      <li><strong>Insertion:</strong> New node is always a leaf. Walk down comparing until you fall off — hang node there.</li>
-      <li><strong>Deletion Case 1 (leaf):</strong> Just detach.</li>
-      <li><strong>Deletion Case 2 (one child):</strong> Parent points directly to the child (bypass deleted node).</li>
-      <li><strong>Deletion Case 3 (two children):</strong> Replace with in-order successor (right once, then left as far as possible), then delete the successor (which is Case 1 or 2).</li>
-    </ul>
-  </div>
-
-  <div class="alert alert-warn">⚠ BST operations are O(h), NOT O(log n). They're only O(log n) when height is controlled (balanced). Inserting sorted data → skewed tree → O(n).</div>
-
-  <div class="section-label label-formula">FORMULAS</div>
-  <h3 class="block-title">Complexity</h3>
-  <table class="complexity-table">
-    <tr><th>Operation</th><th>Balanced (avg)</th><th>Skewed (worst)</th><th>Space — Iterative</th><th>Space — Recursive</th></tr>
-    <tr><td class="op">Search</td><td class="good">O(log n)</td><td class="bad">O(n)</td><td class="good">O(1)</td><td class="mid">O(h)</td></tr>
-    <tr><td class="op">Insert</td><td class="good">O(log n)</td><td class="bad">O(n)</td><td class="good">O(1)</td><td class="mid">O(h)</td></tr>
-    <tr><td class="op">Delete</td><td class="good">O(log n)</td><td class="bad">O(n)</td><td class="good">O(1)</td><td class="mid">O(h)</td></tr>
-    <tr><td class="op">Traversal</td><td class="mid">O(n)</td><td class="mid">O(n)</td><td class="mid">O(h)</td><td class="mid">O(h)</td></tr>
-    <tr><td class="op">Min / Max</td><td class="good">O(log n)</td><td class="bad">O(n)</td><td class="good">O(1)</td><td class="mid">O(h)</td></tr>
-  </table>
-
-  <div class="alert alert-info">Min = go left until NULL. Max = go right until NULL.</div>
-
-  <div class="section-label label-code">CODE</div>
-  <h3 class="block-title">Search (Iterative + Recursive)</h3>
-  <pre class="code-block"><span class="code-comment">// Iterative Search — O(h) time, O(1) space</span>
-<span class="code-type">struct</span> Node* <span class="code-fn">searchIter</span>(<span class="code-type">struct</span> Node* root, <span class="code-type">int</span> key) {
-    <span class="code-keyword">while</span> (root != NULL && root->data != key) {
-        root = (key < root->data) ? root->left : root->right;
-    }
-    <span class="code-keyword">return</span> root; <span class="code-comment">// NULL if not found</span>
-}
-
-<span class="code-comment">// Recursive Search — O(h) time, O(h) space</span>
-<span class="code-type">struct</span> Node* <span class="code-fn">searchRec</span>(<span class="code-type">struct</span> Node* root, <span class="code-type">int</span> key) {
-    <span class="code-keyword">if</span> (root == NULL || root->data == key) <span class="code-keyword">return</span> root;
-    <span class="code-keyword">if</span> (key < root->data) <span class="code-keyword">return</span> <span class="code-fn">searchRec</span>(root->left, key);
-    <span class="code-keyword">return</span> <span class="code-fn">searchRec</span>(root->right, key);
-}</pre>
-
-  <h3 class="block-title">Insertion (Iterative + Recursive)</h3>
-  <pre class="code-block"><span class="code-comment">// Iterative Insert — O(h) time, O(1) space</span>
-<span class="code-type">struct</span> Node* <span class="code-fn">insertIter</span>(<span class="code-type">struct</span> Node* root, <span class="code-type">int</span> key) {
-    <span class="code-type">struct</span> Node* newNode = <span class="code-fn">createNode</span>(key);
-    <span class="code-keyword">if</span> (root == NULL) <span class="code-keyword">return</span> newNode;
-
-    <span class="code-type">struct</span> Node* parent = NULL;
-    <span class="code-type">struct</span> Node* current = root;
-
-    <span class="code-keyword">while</span> (current != NULL) {
-        parent = current;
-        current = (key < current->data) ? current->left : current->right;
-    }
-
-    <span class="code-keyword">if</span> (key < parent->data) parent->left  = newNode;
-    <span class="code-keyword">else</span>                     parent->right = newNode;
-    <span class="code-keyword">return</span> root;
-}
-
-<span class="code-comment">// Recursive Insert — O(h) time, O(h) space</span>
-<span class="code-type">struct</span> Node* <span class="code-fn">insertRec</span>(<span class="code-type">struct</span> Node* root, <span class="code-type">int</span> key) {
-    <span class="code-keyword">if</span> (root == NULL) <span class="code-keyword">return</span> <span class="code-fn">createNode</span>(key);
-    <span class="code-keyword">if</span> (key < root->data) root->left  = <span class="code-fn">insertRec</span>(root->left,  key);
-    <span class="code-keyword">else</span>                   root->right = <span class="code-fn">insertRec</span>(root->right, key);
-    <span class="code-keyword">return</span> root;
-}</pre>
-
-  <h3 class="block-title">Deletion (Recursive)</h3>
-  <pre class="code-block"><span class="code-comment">// Helper: find minimum node in a subtree</span>
-<span class="code-type">struct</span> Node* <span class="code-fn">findMin</span>(<span class="code-type">struct</span> Node* node) {
-    <span class="code-keyword">while</span> (node->left != NULL) node = node->left;
-    <span class="code-keyword">return</span> node;
-}
-
-<span class="code-comment">// Recursive Delete — O(h) time, O(h) space</span>
-<span class="code-type">struct</span> Node* <span class="code-fn">deleteRec</span>(<span class="code-type">struct</span> Node* root, <span class="code-type">int</span> key) {
-    <span class="code-keyword">if</span> (root == NULL) <span class="code-keyword">return</span> NULL;
-
-    <span class="code-keyword">if</span>      (key < root->data) root->left  = <span class="code-fn">deleteRec</span>(root->left,  key);
-    <span class="code-keyword">else if</span> (key > root->data) root->right = <span class="code-fn">deleteRec</span>(root->right, key);
-    <span class="code-keyword">else</span> {                          <span class="code-comment">// Found the node</span>
-        <span class="code-comment">// Case 1 & 2: 0 or 1 child</span>
-        <span class="code-keyword">if</span> (root->left  == NULL) { <span class="code-type">struct</span> Node* t = root->right; free(root); <span class="code-keyword">return</span> t; }
-        <span class="code-keyword">if</span> (root->right == NULL) { <span class="code-type">struct</span> Node* t = root->left;  free(root); <span class="code-keyword">return</span> t; }
-        <span class="code-comment">// Case 3: 2 children — replace with in-order successor</span>
-        <span class="code-type">struct</span> Node* successor = <span class="code-fn">findMin</span>(root->right);
-        root->data  = successor->data;
-        root->right = <span class="code-fn">deleteRec</span>(root->right, successor->data);
-    }
-    <span class="code-keyword">return</span> root;
-}</pre>
-</section>
-
-<!-- ════════════════ AVL ════════════════ -->
-<section class="topic-section" id="avl">
-  <h2 class="topic-title">AVL Trees</h2>
-
-  <div class="section-label label-theory">THEORY</div>
-  <h3 class="block-title">What is an AVL Tree?</h3>
-  <div class="card">
-    <p>An <strong>AVL Tree</strong> is a self-balancing BST (Adelson-Velsky & Landis, 1962). For every node, the heights of the left and right subtrees differ by at most 1. This guarantees O(log n) height always.</p>
-    <p style="margin-top:10px">Insertion/Deletion proceed like a BST, but are followed by <strong>rotations</strong> to restore balance if needed.</p>
-  </div>
-
-  <div class="section-label label-formula">FORMULAS</div>
-  <div class="formula-box">
-    <div class="formula-title">BALANCE FACTOR (BF)</div>
-    BF(node)  =  height(left subtree) − height(right subtree)<br><br>
-    BF = +1  →  Left-Heavy (valid)<br>
-    BF =  0  →  Balanced (valid)<br>
-    BF = −1  →  Right-Heavy (valid)<br>
-    |BF| > 1  →  UNBALANCED → rotation needed<br><br>
-    <strong>Height guarantee:</strong>  h = O(log n)
-  </div>
-
-  <div class="formula-box">
-    <div class="formula-title">MIN NODES FOR HEIGHT h</div>
-    N(1) = 1,  N(2) = 2<br>
-    N(h) = 1 + N(h−1) + N(h−2)   (like Fibonacci)<br><br>
-    Conversely: max height for n nodes ≈ 1.44 log₂(n)
-  </div>
-
-  <table class="complexity-table">
-    <tr><th>Operation</th><th>Time Complexity</th><th>Space</th></tr>
-    <tr><td class="op">Search</td><td class="good">O(log n)</td><td class="good">O(1) iter / O(log n) rec</td></tr>
-    <tr><td class="op">Insert</td><td class="good">O(log n)</td><td class="good">O(log n)</td></tr>
-    <tr><td class="op">Delete</td><td class="good">O(log n)</td><td class="good">O(log n)</td></tr>
-    <tr><td class="op">Rotation</td><td class="good">O(1)</td><td class="good">O(1)</td></tr>
-  </table>
-
-  <div class="section-label label-theory">THEORY</div>
-  <h3 class="block-title">The Four Rotations</h3>
-  <div class="alert alert-info">The imbalanced node is called the <strong>critical node (A)</strong>. Identify which subtree the new node is in relative to A.</div>
-
-  <table class="rot-table">
-    <tr><th>Imbalance Type</th><th>Condition</th><th>Rotation</th><th>Steps</th></tr>
-    <tr>
-      <td><strong>LL</strong></td>
-      <td>New node in <em>Left</em> subtree of <em>Left</em> child of A (BF &gt; +1)</td>
-      <td>Single Right Rotation at A</td>
-      <td>B becomes root; A becomes B's right child; B's right subtree becomes A's left child</td>
-    </tr>
-    <tr>
-      <td><strong>RR</strong></td>
-      <td>New node in <em>Right</em> subtree of <em>Right</em> child of A (BF &lt; −1)</td>
-      <td>Single Left Rotation at A</td>
-      <td>B becomes root; A becomes B's left child; B's left subtree becomes A's right child</td>
-    </tr>
-    <tr>
-      <td><strong>LR</strong></td>
-      <td>New node in <em>Right</em> subtree of <em>Left</em> child of A</td>
-      <td>Double: Left at B, then Right at A</td>
-      <td>First rotate left on B (left child of A), then rotate right on A</td>
-    </tr>
-    <tr>
-      <td><strong>RL</strong></td>
-      <td>New node in <em>Left</em> subtree of <em>Right</em> child of A</td>
-      <td>Double: Right at B, then Left at A</td>
-      <td>First rotate right on B (right child of A), then rotate left on A</td>
-    </tr>
-  </table>
-
-  <div class="alert alert-tip">Quick memory trick: LL → opposite rotation (Right). RR → opposite rotation (Left). LR/RL → double (two rotations).</div>
-
-  <h3 class="block-title">Deletion Rotation Guide</h3>
-  <table class="rot-table">
-    <tr><th>BF of critical A</th><th>BF of child B</th><th>Rotation</th></tr>
-    <tr><td>+2 (left heavy)</td><td>0</td><td>R0 — single right at A</td></tr>
-    <tr><td>+2 (left heavy)</td><td>+1</td><td>R1 — single right at A</td></tr>
-    <tr><td>+2 (left heavy)</td><td>−1</td><td>R(−1) — double: left at B, right at A</td></tr>
-    <tr><td>−2 (right heavy)</td><td>0</td><td>L0 — single left at A</td></tr>
-    <tr><td>−2 (right heavy)</td><td>−1</td><td>L(−1) — single left at A</td></tr>
-    <tr><td>−2 (right heavy)</td><td>+1</td><td>L1 — double: right at B, left at A</td></tr>
-  </table>
-
-  <div class="alert alert-warn">⚠ In deletion, unlike insertion, multiple ancestors may become unbalanced — you may need to apply rotations all the way up to the root.</div>
-
-  <div class="section-label label-code">CODE</div>
-  <h3 class="block-title">AVL Node + Helper Functions</h3>
-  <pre class="code-block"><span class="code-type">struct</span> Node {
-    <span class="code-type">int</span> key, height;
-    <span class="code-type">struct</span> Node *left, *right;
-};
-
-<span class="code-type">int</span> <span class="code-fn">height</span>(<span class="code-type">struct</span> Node* n) { <span class="code-keyword">return</span> n ? n->height : <span class="code-num">0</span>; }
-<span class="code-type">int</span> <span class="code-fn">max</span>(<span class="code-type">int</span> a, <span class="code-type">int</span> b) { <span class="code-keyword">return</span> a > b ? a : b; }
-<span class="code-type">int</span> <span class="code-fn">getBalance</span>(<span class="code-type">struct</span> Node* n) { <span class="code-keyword">return</span> n ? <span class="code-fn">height</span>(n->left) - <span class="code-fn">height</span>(n->right) : <span class="code-num">0</span>; }
-
-<span class="code-comment">// Right Rotation (for LL imbalance)</span>
-<span class="code-type">struct</span> Node* <span class="code-fn">rotateRight</span>(<span class="code-type">struct</span> Node* y) {
-    <span class="code-type">struct</span> Node* x  = y->left;
-    <span class="code-type">struct</span> Node* T2 = x->right;
-    x->right = y; y->left = T2;
-    y->height = <span class="code-fn">max</span>(<span class="code-fn">height</span>(y->left), <span class="code-fn">height</span>(y->right)) + <span class="code-num">1</span>;
-    x->height = <span class="code-fn">max</span>(<span class="code-fn">height</span>(x->left), <span class="code-fn">height</span>(x->right)) + <span class="code-num">1</span>;
-    <span class="code-keyword">return</span> x;
-}
-
-<span class="code-comment">// Left Rotation (for RR imbalance)</span>
-<span class="code-type">struct</span> Node* <span class="code-fn">rotateLeft</span>(<span class="code-type">struct</span> Node* x) {
-    <span class="code-type">struct</span> Node* y  = x->right;
-    <span class="code-type">struct</span> Node* T2 = y->left;
-    y->left = x; x->right = T2;
-    x->height = <span class="code-fn">max</span>(<span class="code-fn">height</span>(x->left), <span class="code-fn">height</span>(x->right)) + <span class="code-num">1</span>;
-    y->height = <span class="code-fn">max</span>(<span class="code-fn">height</span>(y->left), <span class="code-fn">height</span>(y->right)) + <span class="code-num">1</span>;
-    <span class="code-keyword">return</span> y;
-}
-
-<span class="code-comment">// AVL Insert</span>
-<span class="code-type">struct</span> Node* <span class="code-fn">insert</span>(<span class="code-type">struct</span> Node* node, <span class="code-type">int</span> key) {
-    <span class="code-keyword">if</span> (!node) <span class="code-keyword">return</span> <span class="code-fn">newNode</span>(key);
-    <span class="code-keyword">if</span>      (key < node->key) node->left  = <span class="code-fn">insert</span>(node->left,  key);
-    <span class="code-keyword">else if</span> (key > node->key) node->right = <span class="code-fn">insert</span>(node->right, key);
-    <span class="code-keyword">else</span> <span class="code-keyword">return</span> node; <span class="code-comment">// No duplicates</span>
-
-    node->height = <span class="code-num">1</span> + <span class="code-fn">max</span>(<span class="code-fn">height</span>(node->left), <span class="code-fn">height</span>(node->right));
-    <span class="code-type">int</span> bf = <span class="code-fn">getBalance</span>(node);
-
-    <span class="code-keyword">if</span> (bf > <span class="code-num">1</span>  && key < node->left->key)  <span class="code-keyword">return</span> <span class="code-fn">rotateRight</span>(node);      <span class="code-comment">// LL</span>
-    <span class="code-keyword">if</span> (bf < -<span class="code-num">1</span> && key > node->right->key) <span class="code-keyword">return</span> <span class="code-fn">rotateLeft</span>(node);       <span class="code-comment">// RR</span>
-    <span class="code-keyword">if</span> (bf > <span class="code-num">1</span>  && key > node->left->key)  { node->left = <span class="code-fn">rotateLeft</span>(node->left);  <span class="code-keyword">return</span> <span class="code-fn">rotateRight</span>(node); } <span class="code-comment">// LR</span>
-    <span class="code-keyword">if</span> (bf < -<span class="code-num">1</span> && key < node->right->key) { node->right = <span class="code-fn">rotateRight</span>(node->right); <span class="code-keyword">return</span> <span class="code-fn">rotateLeft</span>(node);  } <span class="code-comment">// RL</span>
-    <span class="code-keyword">return</span> node;
-}</pre>
-</section>
-
-<!-- ════════════════ RED-BLACK TREE ════════════════ -->
-<section class="topic-section" id="rbt">
-  <h2 class="topic-title">Red-Black Trees</h2>
-
-  <div class="section-label label-theory">THEORY</div>
-  <h3 class="block-title">What is a Red-Black Tree?</h3>
-  <div class="card">
-    <p>A <strong>Red-Black Tree</strong> is a self-balancing BST where each node stores an extra attribute: <strong>color</strong> (Red or Black). It is less strictly balanced than AVL but faster for frequent insertions/deletions because it requires fewer rotations (at most 2 per insert vs up to O(log n) for AVL).</p>
-  </div>
-
-  <h3 class="block-title">The 5 Properties (Must Know)</h3>
-  <div class="card">
-    <ol style="padding-left:18px; color:#c9d1d9; font-size:14px; line-height:2">
-      <li>Every node is either <strong>Red</strong> or <strong>Black</strong>.</li>
-      <li>The <strong>root</strong> is always <strong>Black</strong>.</li>
-      <li>Every <strong>leaf (NULL)</strong> is <strong>Black</strong>.</li>
-      <li>If a node is <strong>Red</strong>, both its children are <strong>Black</strong> (no two consecutive red nodes).</li>
-      <li>For any node, all paths from that node to descendant leaves have the <strong>same number of Black nodes</strong> (Black-Height).</li>
-    </ol>
-  </div>
-
-  <div class="section-label label-formula">FORMULAS</div>
-  <div class="formula-box">
-    <div class="formula-title">HEIGHT GUARANTEE</div>
-    Height h ≤ 2 log₂(n + 1)  =  O(log n)<br><br>
-    Black-Height (bh) = number of black nodes on any path from root to leaf (not counting root)<br><br>
-    Minimum nodes for black-height bh  =  2^bh − 1
-  </div>
-
-  <table class="complexity-table">
-    <tr><th>Operation</th><th>Time Complexity</th><th>vs AVL</th></tr>
-    <tr><td class="op">Search</td><td class="good">O(log n)</td><td>Similar (AVL slightly faster due to stricter balance)</td></tr>
-    <tr><td class="op">Insert</td><td class="good">O(log n)</td><td>RB faster (≤ 2 rotations vs more for AVL)</td></tr>
-    <tr><td class="op">Delete</td><td class="good">O(log n)</td><td>RB faster (≤ 3 rotations)</td></tr>
-  </table>
-
-  <h3 class="block-title">AVL vs Red-Black — When to Use Which</h3>
-  <table class="complexity-table">
-    <tr><th>Criterion</th><th>AVL Tree</th><th>Red-Black Tree</th></tr>
-    <tr><td class="op">Balance strictness</td><td>Strict (BF ≤ 1)</td><td>Relaxed (height ≤ 2 log n)</td></tr>
-    <tr><td class="op">Search speed</td><td class="good">Slightly faster</td><td>Slightly slower</td></tr>
-    <tr><td class="op">Insert/Delete speed</td><td>Slower</td><td class="good">Faster</td></tr>
-    <tr><td class="op">Best for</td><td>Read-heavy workloads</td><td class="good">Frequent writes (most practical uses)</td></tr>
-    <tr><td class="op">Used in</td><td>Databases (read-heavy)</td><td>Linux kernel, C++ std::map/set, Java TreeMap</td></tr>
-  </table>
-
-  <div class="section-label label-theory">THEORY</div>
-  <h3 class="block-title">Insertion Cases (after inserting as Red)</h3>
-  <div class="card">
-    <p>New node is always inserted as <strong>Red</strong>. If the parent is Black, done. If parent is Red (violation of Property 4), fix using:</p>
-    <ul style="margin-top:10px">
-      <li><strong>Case 1 — Uncle is Red:</strong> Recolor parent + uncle to Black, grandparent to Red. Move up to grandparent and repeat.</li>
-      <li><strong>Case 2 — Uncle is Black, node is inner grandchild:</strong> Rotate parent in opposite direction → converts to Case 3.</li>
-      <li><strong>Case 3 — Uncle is Black, node is outer grandchild:</strong> Rotate grandparent, swap colors of parent and grandparent.</li>
-    </ul>
-    <p style="margin-top:10px">At most <strong>2 rotations</strong> needed per insertion. Always ensure root stays Black at the end.</p>
-  </div>
-
-  <div class="section-label label-code">CODE</div>
-  <h3 class="block-title">RB Node Structure</h3>
-  <pre class="code-block"><span class="code-keyword">#define</span> RED   <span class="code-num">0</span>
-<span class="code-keyword">#define</span> BLACK <span class="code-num">1</span>
-
-<span class="code-type">struct</span> RBNode {
-    <span class="code-type">int</span>  data;
-    <span class="code-type">int</span>  color;     <span class="code-comment">// RED or BLACK</span>
-    <span class="code-type">struct</span> RBNode *left, *right, *parent;
-};
-
-<span class="code-comment">// Key operations: same BST insert, then fix violations
-// Fix function checks uncle color and applies
-// Case 1 (recolor) or Case 2/3 (rotate + recolor)</span></pre>
-</section>
-
-<!-- ════════════════ B-TREE ════════════════ -->
-<section class="topic-section" id="btree">
-  <h2 class="topic-title">B-Trees</h2>
-
-  <div class="section-label label-theory">THEORY</div>
-  <h3 class="block-title">Why B-Trees?</h3>
-  <div class="card">
-    <p>B-Trees are designed for <strong>disk/external storage</strong> where reading a single node costs an entire block access. By storing many keys per node, B-Trees minimize disk accesses (height is very small even for millions of records).</p>
-    <p style="margin-top:8px">A <strong>B-Tree of order m</strong> (minimum degree t) satisfies: each node holds between t−1 and 2t−1 keys, and between t and 2t children (except root which can have as few as 1 key).</p>
-  </div>
-
-  <h3 class="block-title">B-Tree Properties (Order m / Min-Degree t)</h3>
-  <div class="card">
-    <ul>
-      <li>All leaves are at the <strong>same level</strong> (perfectly balanced)</li>
-      <li>Each non-root node has at least <strong>⌈m/2⌉ − 1</strong> keys (minimum degree t: at least t−1 keys)</li>
-      <li>Each node has at most <strong>m − 1</strong> keys (or 2t−1 keys)</li>
-      <li>A node with k keys has <strong>k + 1</strong> children</li>
-      <li>Keys within a node are <strong>sorted</strong></li>
-      <li>All leaf nodes are at the same depth</li>
-    </ul>
-  </div>
-
-  <div class="section-label label-formula">FORMULAS</div>
-  <div class="formula-box">
-    <div class="formula-title">B-TREE HEIGHT & COMPLEXITY</div>
-    Height h ≤ log_t ⌈(n+1)/2⌉  ≈  O(log_t n)<br><br>
-    Number of disk accesses per operation ≈ O(h) = O(log_t n)<br><br>
-    <strong>Each node of order m:</strong><br>
-    Max keys per node  = m − 1<br>
-    Min keys (non-root) = ⌈m/2⌉ − 1<br>
-    Max children        = m<br>
-    Min children (non-root internal) = ⌈m/2⌉
-  </div>
-
-  <table class="complexity-table">
-    <tr><th>Operation</th><th>Time Complexity</th><th>Disk Accesses</th></tr>
-    <tr><td class="op">Search</td><td class="good">O(t · log_t n)</td><td class="good">O(log_t n)</td></tr>
-    <tr><td class="op">Insert</td><td class="good">O(t · log_t n)</td><td class="good">O(log_t n)</td></tr>
-    <tr><td class="op">Delete</td><td class="good">O(t · log_t n)</td><td class="good">O(log_t n)</td></tr>
-  </table>
-
-  <div class="section-label label-theory">THEORY</div>
-  <h3 class="block-title">Insertion Algorithm</h3>
-  <div class="card">
-    <ol style="padding-left:18px; color:#c9d1d9; font-size:14px; line-height:2">
-      <li>Find the appropriate <strong>leaf node</strong> using search.</li>
-      <li>Insert the key in <strong>sorted order</strong> within that node.</li>
-      <li>If node does <strong>not overflow</strong> → done.</li>
-      <li>If node <strong>overflows</strong> (has m keys): <strong>split</strong> at the median key.</li>
-      <li>Push median key <strong>up to parent</strong>; left and right halves become two nodes.</li>
-      <li>If parent also overflows → repeat upward. If root splits → new root (height increases by 1).</li>
-    </ol>
-  </div>
-  <div class="alert alert-info">Split example (order 5, node [10|20|30|40|50]): median = 30. Promote 30 to parent. Left child = [10|20], Right child = [40|50].</div>
-
-  <h3 class="block-title">Deletion Algorithm</h3>
-  <div class="card">
-    <ul style="padding-left:18px; color:#c9d1d9; font-size:14px; line-height:2">
-      <li><strong>Key in leaf:</strong> Simply delete.</li>
-      <li><strong>Key in internal node:</strong> Replace with in-order predecessor or successor (from a leaf), then delete from leaf.</li>
-      <li><strong>Underflow (node has t−1 keys after deletion):</strong> Borrow from sibling (through parent), or merge with sibling (pull parent key down).</li>
-      <li>Merging may propagate upward, possibly reducing tree height.</li>
-    </ul>
-  </div>
-</section>
-
-<!-- ════════════════ HEAPS ════════════════ -->
-<section class="topic-section" id="heap">
-  <h2 class="topic-title">Heaps & Heap Sort</h2>
-
-  <div class="section-label label-theory">THEORY</div>
-  <h3 class="block-title">What is a Heap?</h3>
-  <div class="card">
-    <p>A <strong>Heap</strong> is a <strong>complete binary tree</strong> satisfying the heap property:</p>
-    <ul style="margin-top:8px">
-      <li><strong>Max-Heap:</strong> Parent ≥ both children → largest element always at root.</li>
-      <li><strong>Min-Heap:</strong> Parent ≤ both children → smallest element always at root.</li>
-    </ul>
-    <p style="margin-top:8px">Heaps are always stored as <strong>arrays</strong> (efficient since they're complete binary trees). The largest element of a max-heap is always at index 0 (or index 1 for 1-based).</p>
-  </div>
-
-  <div class="section-label label-formula">FORMULAS</div>
-  <div class="formula-box">
-    <div class="formula-title">HEAP ARRAY INDEXING (0-based)</div>
-    Left child   =  2i + 1<br>
-    Right child  =  2i + 2<br>
-    Parent       =  ⌊(i − 1) / 2⌋<br><br>
-    Leaves are at indices  ⌊n/2⌋  to  n−1<br>
-    BUILD-MAX-HEAP starts heapify from  ⌊n/2⌋ − 1  downto  0
-  </div>
-
-  <table class="complexity-table">
-    <tr><th>Operation</th><th>Time</th><th>Note</th></tr>
-    <tr><td class="op">MAX-HEAPIFY</td><td class="good">O(log n)</td><td>Sift down one element</td></tr>
-    <tr><td class="op">BUILD-MAX-HEAP</td><td class="good">O(n)</td><td>Not O(n log n)! Tighter analysis gives O(n)</td></tr>
-    <tr><td class="op">HEAP-SORT</td><td class="good">O(n log n)</td><td>O(n) build + n × O(log n) extractions</td></tr>
-    <tr><td class="op">Insert into heap</td><td class="good">O(log n)</td><td>Insert at end, bubble up</td></tr>
-    <tr><td class="op">Extract-Max</td><td class="good">O(log n)</td><td>Remove root, replace with last, heapify down</td></tr>
-    <tr><td class="op">Get-Max</td><td class="good">O(1)</td><td>Root is always max</td></tr>
-    <tr><td class="op">Space</td><td>O(1) extra</td><td>In-place sort (no extra array needed)</td></tr>
-  </table>
-
-  <div class="alert alert-warn">⚠ BUILD-MAX-HEAP is O(n) NOT O(n log n). Heap sort overall is O(n log n) and sorts in-place (unlike merge sort which needs extra space).</div>
-
-  <div class="section-label label-code">CODE</div>
-  <h3 class="block-title">MAX-HEAPIFY + BUILD-MAX-HEAP + HEAPSORT</h3>
-  <pre class="code-block"><span class="code-comment">// MAX-HEAPIFY — restore heap property at index i, heap size n
-// Assumes left[i] and right[i] are valid max-heaps</span>
-<span class="code-type">void</span> <span class="code-fn">maxHeapify</span>(<span class="code-type">int</span> A[], <span class="code-type">int</span> i, <span class="code-type">int</span> n) {
-    <span class="code-type">int</span> left    = <span class="code-num">2</span>*i + <span class="code-num">1</span>;
-    <span class="code-type">int</span> right   = <span class="code-num">2</span>*i + <span class="code-num">2</span>;
-    <span class="code-type">int</span> largest = i;
-
-    <span class="code-keyword">if</span> (left  < n && A[left]  > A[largest]) largest = left;
-    <span class="code-keyword">if</span> (right < n && A[right] > A[largest]) largest = right;
-
-    <span class="code-keyword">if</span> (largest != i) {
-        <span class="code-comment">// swap A[i] and A[largest]</span>
-        <span class="code-type">int</span> tmp = A[i]; A[i] = A[largest]; A[largest] = tmp;
-        <span class="code-fn">maxHeapify</span>(A, largest, n);  <span class="code-comment">// recurse on displaced element</span>
-    }
-}
-
-<span class="code-comment">// BUILD-MAX-HEAP — O(n)
-// Start from last internal node (index n/2 - 1) going to root</span>
-<span class="code-type">void</span> <span class="code-fn">buildMaxHeap</span>(<span class="code-type">int</span> A[], <span class="code-type">int</span> n) {
-    <span class="code-keyword">for</span> (<span class="code-type">int</span> i = n/<span class="code-num">2</span> - <span class="code-num">1</span>; i >= <span class="code-num">0</span>; i--)
-        <span class="code-fn">maxHeapify</span>(A, i, n);
-}
-
-<span class="code-comment">// HEAP SORT — O(n log n), in-place</span>
-<span class="code-type">void</span> <span class="code-fn">heapSort</span>(<span class="code-type">int</span> A[], <span class="code-type">int</span> n) {
-    <span class="code-fn">buildMaxHeap</span>(A, n);               <span class="code-comment">// Step 1: build heap</span>
-    <span class="code-keyword">for</span> (<span class="code-type">int</span> i = n - <span class="code-num">1</span>; i >= <span class="code-num">1</span>; i--) { <span class="code-comment">// Step 2: repeatedly extract max</span>
-        <span class="code-comment">// swap root (max) with last element</span>
-        <span class="code-type">int</span> tmp = A[<span class="code-num">0</span>]; A[<span class="code-num">0</span>] = A[i]; A[i] = tmp;
-        <span class="code-fn">maxHeapify</span>(A, <span class="code-num">0</span>, i);           <span class="code-comment">// restore heap on reduced array</span>
-    }
-    <span class="code-comment">// Array is now sorted ascending</span>
-}</pre>
-
-  <h3 class="block-title">Heap Sort Step-by-Step (example: [4,10,3,5,1])</h3>
-  <div class="card">
-    <p><strong>Step 1 — Build max-heap:</strong> Start from index 1 (n/2 - 1 = 1).</p>
-    <ul style="font-family:var(--mono); font-size:13px; color:#b1e4b9; margin:8px 0 0 16px; line-height:2">
-      <li>Heapify(1): 10 &gt; 4, swap → [4,10,3,5,1] → compare 4 with 5 → swap → [10,5,3,4,1]</li>
-      <li>Heapify(0): 10 already largest → [10,5,3,4,1] ✓ (max-heap built)</li>
-    </ul>
-    <p style="margin-top:10px"><strong>Step 2 — Extract max repeatedly:</strong></p>
-    <ul style="font-family:var(--mono); font-size:13px; color:#b1e4b9; margin:8px 0 0 16px; line-height:2">
-      <li>Swap A[0]↔A[4]: [1,5,3,4, <strong>10</strong>] → heapify(0,4) → [5,4,3,1, 10]</li>
-      <li>Swap A[0]↔A[3]: [1,4,3, <strong>5</strong>,10] → heapify(0,3) → [4,1,3, 5,10]</li>
-      <li>Swap A[0]↔A[2]: [3,1, <strong>4</strong>,5,10] → heapify(0,2) → [3,1, 4,5,10]</li>
-      <li>Swap A[0]↔A[1]: [<strong>1,3</strong>,4,5,10] → Done! Sorted: [1,3,4,5,10]</li>
-    </ul>
-  </div>
-</section>
-
-<!-- ════════════════ GRAPHS ════════════════ -->
-<section class="topic-section" id="graph">
-  <h2 class="topic-title">Graphs, BFS & DFS</h2>
-
-  <div class="section-label label-theory">THEORY</div>
-  <h3 class="block-title">Graph Basics</h3>
-  <div class="card">
-    <p>A <strong>Graph G = (V, E)</strong> is a set of vertices V and edges E. Unlike trees, graphs can have cycles and disconnected components.</p>
-    <ul style="margin-top:8px">
-      <li><strong>Undirected graph:</strong> edges have no direction</li>
-      <li><strong>Directed graph (Digraph):</strong> edges have direction; (u,v) ≠ (v,u)</li>
-      <li><strong>Weighted graph:</strong> each edge has a value/weight</li>
-      <li><strong>Dense graph:</strong> |E| ≈ |V|²</li>
-      <li><strong>Sparse graph:</strong> |E| &lt;&lt; |V|²</li>
-    </ul>
-  </div>
-
-  <div class="section-label label-formula">FORMULAS</div>
-  <div class="formula-box">
-    <div class="formula-title">GRAPH EDGE COUNTS</div>
-    Max edges in undirected graph with V vertices  =  V(V−1)/2<br>
-    Max edges in directed graph with V vertices    =  V(V−1)<br><br>
-    <strong>Adjacency Matrix space:</strong>  O(V²)<br>
-    <strong>Adjacency List space:</strong>   O(V + E)
-  </div>
-
-  <h3 class="block-title">Representation Comparison</h3>
-  <table class="complexity-table">
-    <tr><th>Feature</th><th>Adjacency Matrix</th><th>Adjacency List</th></tr>
-    <tr><td class="op">Space</td><td class="bad">O(V²)</td><td class="good">O(V + E)</td></tr>
-    <tr><td class="op">Check edge (u,v)</td><td class="good">O(1)</td><td class="mid">O(degree(u))</td></tr>
-    <tr><td class="op">All neighbors of u</td><td class="bad">O(V)</td><td class="good">O(degree(u))</td></tr>
-    <tr><td class="op">Best for</td><td>Dense graphs</td><td class="good">Sparse graphs (usual choice)</td></tr>
-  </table>
-
-  <div class="alert alert-tip">Adjacency List is almost always preferred in practice since most real-world graphs are sparse.</div>
-
-  <div class="section-label label-theory">THEORY</div>
-  <h3 class="block-title">BFS vs DFS</h3>
-  <table class="complexity-table">
-    <tr><th>Property</th><th>BFS</th><th>DFS</th></tr>
-    <tr><td class="op">Data structure</td><td>Queue (FIFO)</td><td>Stack (recursion or explicit)</td></tr>
-    <tr><td class="op">Time complexity</td><td class="good">O(V + E)</td><td class="good">O(V + E)</td></tr>
-    <tr><td class="op">Space complexity</td><td class="mid">O(V) for queue</td><td class="mid">O(V) for stack/recursion</td></tr>
-    <tr><td class="op">Explores</td><td>Level by level (breadth)</td><td>As deep as possible first</td></tr>
-    <tr><td class="op">Shortest path</td><td class="good">Yes (unweighted)</td><td>No</td></tr>
-    <tr><td class="op">Detects cycle</td><td>Yes</td><td class="good">Yes (more naturally)</td></tr>
-    <tr><td class="op">Vertex coloring</td><td>White→Gray→Black</td><td>White→Gray→Black + timestamps</td></tr>
-    <tr><td class="op">Key applications</td><td>Shortest path, social networks, web crawlers</td><td>Topological sort, connected components, maze solving</td></tr>
-  </table>
-
-  <div class="section-label label-code">CODE</div>
-  <h3 class="block-title">BFS Algorithm</h3>
-  <pre class="code-block"><span class="code-comment">// BFS from source s — finds shortest paths (unweighted)
-// Time: O(V+E),  Space: O(V) for queue + color arrays</span>
-<span class="code-type">void</span> <span class="code-fn">BFS</span>(Graph G, <span class="code-type">int</span> s) {
-    <span class="code-comment">// Initialize all vertices</span>
-    <span class="code-keyword">for</span> (<span class="code-type">int</span> u = <span class="code-num">0</span>; u < G.V; u++) {
-        color[u] = WHITE;
-        d[u]     = INF;      <span class="code-comment">// distance from s</span>
-        pi[u]    = -<span class="code-num">1</span>;      <span class="code-comment">// predecessor</span>
-    }
-    color[s] = GRAY;
-    d[s]     = <span class="code-num">0</span>;
-
-    Queue Q;
-    <span class="code-fn">enqueue</span>(Q, s);
-
-    <span class="code-keyword">while</span> (!<span class="code-fn">isEmpty</span>(Q)) {
-        <span class="code-type">int</span> u = <span class="code-fn">dequeue</span>(Q);
-        <span class="code-keyword">for</span> each v in <span class="code-fn">Adj</span>[u] {
-            <span class="code-keyword">if</span> (color[v] == WHITE) {
-                color[v] = GRAY;
-                d[v]     = d[u] + <span class="code-num">1</span>;  <span class="code-comment">// one hop further</span>
-                pi[v]    = u;
-                <span class="code-fn">enqueue</span>(Q, v);
+        <div class="grid2">
+          <div class="case-box">
+            <div class="case-title">✅ Pros</div>
+            <p>O(V+E) space — efficient for sparse graphs. Fast neighbor traversal (O(degree(v))).</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">❌ Cons</div>
+            <p>Edge lookup is O(degree(v)) — must scan the list. More complex to implement.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>⚖️ Comparison Table</h3>
+        <table>
+          <tr><th>Operation</th><th>Adjacency Matrix</th><th>Adjacency List</th></tr>
+          <tr><td>Space</td><td><span class="cplx bad">O(V²)</span></td><td><span class="cplx good">O(V+E)</span></td></tr>
+          <tr><td>Check edge (u,v)</td><td><span class="cplx good">O(1)</span></td><td><span class="cplx">O(degree(v))</span></td></tr>
+          <tr><td>Add/Remove edge</td><td><span class="cplx good">O(1)</span></td><td><span class="cplx">O(degree(v))</span></td></tr>
+          <tr><td>List all neighbours</td><td><span class="cplx bad">O(V)</span></td><td><span class="cplx good">O(degree(v))</span></td></tr>
+          <tr><td>Add vertex</td><td><span class="cplx bad">O(V²)</span> (resize)</td><td><span class="cplx good">O(1)</span></td></tr>
+          <tr><td>Best for</td><td>Dense graphs</td><td>Sparse graphs</td></tr>
+        </table>
+        <div class="highlight success">
+          <p><strong>Decision Rule:</strong> If E ≈ V² (dense) → use Matrix. If E ≪ V² (sparse) → use List.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🔍 BFS and DFS Traversals</h3>
+        <div class="grid2">
+          <div>
+            <h4>BFS — Breadth First Search (Uses Queue)</h4>
+<pre style="font-size:0.76rem;"><span class="kw">void</span> <span class="fn">BFS</span>(<span class="type">int</span> graph[][], <span class="type">int</span> start, <span class="type">int</span> V) {
+    <span class="type">bool</span> visited[V] = {<span class="kw">false</span>};
+    <span class="type">int</span> queue[V], front=<span class="num">0</span>, rear=<span class="num">0</span>;
+    
+    visited[start] = <span class="kw">true</span>;
+    queue[rear++] = start;
+    
+    <span class="kw">while</span> (front &lt; rear) {
+        <span class="type">int</span> node = queue[front++];
+        <span class="fn">printf</span>(<span class="str">"%d "</span>, node);
+        <span class="kw">for</span> (<span class="type">int</span> i=<span class="num">0</span>; i&lt;V; i++) {
+            <span class="kw">if</span> (graph[node][i] && !visited[i]) {
+                visited[i] = <span class="kw">true</span>;
+                queue[rear++] = i;
             }
         }
-        color[u] = BLACK;  <span class="code-comment">// fully explored</span>
     }
-}
-<span class="code-comment">// After BFS: d[v] = shortest path length from s to v
-// pi[v]    = parent in BFS tree (reconstruct path by tracing back)</span></pre>
+}</pre>
+          </div>
+          <div>
+            <h4>DFS — Depth First Search (Recursive)</h4>
+<pre style="font-size:0.76rem;"><span class="type">bool</span> visited[<span class="num">100</span>] = {<span class="kw">false</span>};
 
-  <h3 class="block-title">DFS Algorithm</h3>
-  <pre class="code-block"><span class="code-comment">// DFS — Time: O(V+E),  Space: O(V) for recursion stack</span>
-<span class="code-type">int</span> time = <span class="code-num">0</span>;
-
-<span class="code-type">void</span> <span class="code-fn">DFS</span>(Graph G) {
-    <span class="code-keyword">for</span> each vertex u in G.V {
-        color[u] = WHITE;
-        pi[u]    = -<span class="code-num">1</span>;
-    }
-    time = <span class="code-num">0</span>;
-    <span class="code-keyword">for</span> each vertex u in G.V {
-        <span class="code-keyword">if</span> (color[u] == WHITE)
-            <span class="code-fn">DFS_VISIT</span>(u);  <span class="code-comment">// handles disconnected graphs</span>
-    }
-}
-
-<span class="code-type">void</span> <span class="code-fn">DFS_VISIT</span>(<span class="code-type">int</span> u) {
-    color[u] = GRAY;
-    d[u]     = ++time;   <span class="code-comment">// discovery timestamp</span>
-
-    <span class="code-keyword">for</span> each v in <span class="code-fn">Adj</span>[u] {
-        <span class="code-keyword">if</span> (color[v] == WHITE) {
-            pi[v] = u;
-            <span class="code-fn">DFS_VISIT</span>(v);
+<span class="kw">void</span> <span class="fn">DFS</span>(<span class="type">int</span> graph[][], <span class="type">int</span> node, <span class="type">int</span> V) {
+    visited[node] = <span class="kw">true</span>;
+    <span class="fn">printf</span>(<span class="str">"%d "</span>, node);
+    
+    <span class="kw">for</span> (<span class="type">int</span> i=<span class="num">0</span>; i&lt;V; i++) {
+        <span class="kw">if</span> (graph[node][i] && !visited[i]) {
+            <span class="fn">DFS</span>(graph, i, V);
         }
     }
-    color[u] = BLACK;
-    f[u]     = ++time;   <span class="code-comment">// finish timestamp</span>
-}
-<span class="code-comment">// d[u]/f[u] = discovery/finish times (useful for cycle detection, topological sort)</span></pre>
-
-  <h3 class="block-title">Graph Representation (Adjacency List in C)</h3>
-  <pre class="code-block"><span class="code-keyword">#define</span> V <span class="code-num">5</span>
-
-<span class="code-comment">// Adjacency Matrix (for dense graphs)</span>
-<span class="code-type">int</span> adjMatrix[V][V] = {<span class="code-num">0</span>};
-<span class="code-comment">// To add edge (u, v) in undirected: adjMatrix[u][v] = adjMatrix[v][u] = 1;</span>
-<span class="code-comment">// Directed: adjMatrix[u][v] = 1;</span>
-
-<span class="code-comment">// Adjacency List (for sparse graphs)</span>
-<span class="code-type">struct</span> AdjNode { <span class="code-type">int</span> dest; <span class="code-type">struct</span> AdjNode* next; };
-<span class="code-type">struct</span> AdjNode* adjList[V];  <span class="code-comment">// array of linked lists</span>
-
-<span class="code-type">void</span> <span class="code-fn">addEdge</span>(<span class="code-type">int</span> u, <span class="code-type">int</span> v) {
-    <span class="code-type">struct</span> AdjNode* node = <span class="code-fn">malloc</span>(sizeof(<span class="code-type">struct</span> AdjNode));
-    node->dest = v; node->next = adjList[u]; adjList[u] = node;
-    <span class="code-comment">// For undirected, also add edge (v, u)</span>
-    node = <span class="code-fn">malloc</span>(sizeof(<span class="code-type">struct</span> AdjNode));
-    node->dest = u; node->next = adjList[v]; adjList[v] = node;
 }</pre>
-</section>
+          </div>
+        </div>
+      </div>
+    </section>
 
-</main>
+    <!-- ===== L25: GRAPH APPLICATIONS ===== -->
+    <section class="section" id="l25">
+      <div class="section-header">
+        <div class="section-num">L25</div>
+        <div>
+          <div class="section-title">Applications of Graphs</div>
+          <div class="section-subtitle">Real-world problems modelled as graphs</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🌍 Real-World Graph Applications</h3>
+        <table>
+          <tr><th>Application</th><th>Vertices</th><th>Edges</th><th>Algorithm Used</th></tr>
+          <tr><td>Social Networks</td><td>Person / User</td><td>Friendship / Follow</td><td>BFS, DFS, Connected Components</td></tr>
+          <tr><td>Maps & Navigation</td><td>City / Junction</td><td>Road (weighted: distance)</td><td>Dijkstra, Bellman-Ford</td></tr>
+          <tr><td>Computer Networks</td><td>Computer / Router</td><td>Network link</td><td>BFS, Dijkstra, MST</td></tr>
+          <tr><td>Web Page Ranking</td><td>Web page</td><td>Hyperlink (directed)</td><td>DFS traversal, PageRank</td></tr>
+          <tr><td>Image Processing</td><td>Pixel</td><td>Adjacent pixel</td><td>BFS for segmentation</td></tr>
+          <tr><td>Software Dependencies</td><td>Package/Library</td><td>Dependency (directed)</td><td>Topological Sort, DFS</td></tr>
+          <tr><td>Version Control (Git)</td><td>Commit</td><td>Parent relationship</td><td>DAG traversal</td></tr>
+        </table>
+
+        <div class="highlight success">
+          <p><strong>Key Algorithms to Know:</strong><br>
+          <strong>BFS/DFS</strong> → Connectivity, shortest path (unweighted)<br>
+          <strong>Dijkstra's</strong> → Shortest path (non-negative weights)<br>
+          <strong>Topological Sort</strong> → Task scheduling, dependency resolution<br>
+          <strong>MST (Prim/Kruskal)</strong> → Minimum cost network</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== QUICK REFERENCE ===== -->
+    <section class="section" id="quickref">
+      <div class="section-header">
+        <div class="section-num" style="background:linear-gradient(135deg,#ffd93d,#ff6b6b)">⚡</div>
+        <div>
+          <div class="section-title">Complexity Cheatsheet</div>
+          <div class="section-subtitle">Everything you need for the MTE — one glance</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🎯 All Operations at a Glance</h3>
+        <table>
+          <tr><th>Data Structure</th><th>Search</th><th>Insert</th><th>Delete</th><th>Space</th></tr>
+          <tr><td>BST (avg)</td><td class="cplx good" style="background:none">O(log n)</td><td class="cplx good" style="background:none">O(log n)</td><td class="cplx good" style="background:none">O(log n)</td><td>O(n)</td></tr>
+          <tr><td>BST (worst)</td><td style="color:var(--red)">O(n)</td><td style="color:var(--red)">O(n)</td><td style="color:var(--red)">O(n)</td><td>O(n)</td></tr>
+          <tr><td>AVL Tree</td><td style="color:var(--green)">O(log n)</td><td style="color:var(--green)">O(log n)</td><td style="color:var(--green)">O(log n)</td><td>O(n)</td></tr>
+          <tr><td>Red-Black Tree</td><td style="color:var(--green)">O(log n)</td><td style="color:var(--green)">O(log n)</td><td style="color:var(--green)">O(log n)</td><td>O(n)</td></tr>
+          <tr><td>B-Tree</td><td style="color:var(--green)">O(log n)</td><td style="color:var(--green)">O(log n)</td><td style="color:var(--green)">O(log n)</td><td>O(n)</td></tr>
+          <tr><td>Heap (Insert)</td><td>O(n)</td><td style="color:var(--green)">O(log n)</td><td style="color:var(--green)">O(log n)</td><td>O(n)</td></tr>
+          <tr><td>Heap (Build)</td><td colspan="3" style="color:var(--green); text-align:center">Build-Max-Heap: O(n)</td><td>O(n)</td></tr>
+          <tr><td>Heap Sort</td><td colspan="3" style="color:var(--green); text-align:center">O(n log n) — all cases</td><td>O(1)</td></tr>
+          <tr><td>BFS / DFS (Matrix)</td><td colspan="3" style="color:var(--yellow); text-align:center">O(V²)</td><td>O(V²)</td></tr>
+          <tr><td>BFS / DFS (List)</td><td colspan="3" style="color:var(--green); text-align:center">O(V+E)</td><td>O(V+E)</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>🧠 Must-Remember Facts for MTE</h3>
+        <div class="grid2">
+          <div>
+            <h4>BST</h4>
+            <ul style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; line-height:2;">
+              <li>In-order traversal = sorted output</li>
+              <li>Two-pointer insertion (current + parent)</li>
+              <li>Case 3 deletion: use in-order successor</li>
+              <li>Worst case: sorted input → O(n)</li>
+            </ul>
+            <h4>AVL Tree</h4>
+            <ul style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; line-height:2;">
+              <li>BF = Height(Left) - Height(Right)</li>
+              <li>Valid BF: {-1, 0, +1} only</li>
+              <li>4 rotations: LL, RR, LR, RL</li>
+              <li>LL/RR = single rotation | LR/RL = double</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Red-Black Tree</h4>
+            <ul style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; line-height:2;">
+              <li>5 properties (especially: no two red in a row)</li>
+              <li>New nodes always inserted as RED</li>
+              <li>Uncle RED → recolour | Uncle BLACK → rotate</li>
+              <li>Deletion NOT in MTE ✓</li>
+            </ul>
+            <h4>B-Tree</h4>
+            <ul style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; line-height:2;">
+              <li>Order m: max m-1 keys, min ⌈m/2⌉-1 keys</li>
+              <li>Overflow → split + promote middle key</li>
+              <li>All leaves at same level</li>
+              <li>Root split → tree height increases</li>
+            </ul>
+          </div>
+        </div>
+        <div class="highlight warning">
+          <p><strong>Heap Quick Facts:</strong> Complete binary tree | Array-based (parent=(i-1)/2) | Build in O(n) | Sort in O(n log n) | Root = max (max-heap) or min (min-heap)</p>
+        </div>
+        <div class="highlight">
+          <p><strong>Graph Quick Facts:</strong> V=vertices, E=edges | Matrix: O(1) lookup, O(V²) space | List: O(V+E) space, O(degree) lookup | BFS uses Queue | DFS uses Stack/Recursion</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
 
 <script>
-function show(id) {
-  document.querySelectorAll('.topic-section').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  event.target.classList.add('active');
-  window.scrollTo(0, 0);
-}
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+  }
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+  }
+
+  // Highlight active nav link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Smooth scroll for nav links
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+      if (window.innerWidth <= 900) closeSidebar();
+    });
+  });
 </script>
 </body>
 </html>

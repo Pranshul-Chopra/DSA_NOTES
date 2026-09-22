@@ -4,1265 +4,1372 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>RDBMS – MTE Lecture Notes (L1–L26) | CSC2103</title>
+<title>DSA MTE Study Guide — L10 to L25</title>
 <style>
   :root {
     --bg: #0f1117;
     --surface: #1a1d27;
-    --surface2: #222536;
+    --surface2: #22263a;
     --border: #2e3250;
-    --accent: #6c8eff;
-    --accent2: #a78bfa;
-    --accent3: #34d399;
-    --accent4: #f59e0b;
-    --accent5: #f87171;
-    --text: #e2e8f0;
-    --muted: #8892a4;
+    --accent: #6c63ff;
+    --accent2: #00d4aa;
+    --accent3: #ff6b6b;
+    --accent4: #ffd93d;
+    --text: #e8eaf6;
+    --text-muted: #8892b0;
     --code-bg: #0d1117;
-    --tag-bg: #1e2a3a;
-    font-size: 16px;
+    --green: #00d4aa;
+    --red: #ff6b6b;
+    --yellow: #ffd93d;
+    --blue: #64b5f6;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
     background: var(--bg);
     color: var(--text);
-    font-family: 'Segoe UI', system-ui, sans-serif;
     line-height: 1.7;
     padding-bottom: env(safe-area-inset-bottom, 0px);
+    padding-top: env(safe-area-inset-top, 0px);
   }
 
-  /* ── HEADER ── */
-  .site-header {
-    background: linear-gradient(135deg, #141828 0%, #1a2040 100%);
-    border-bottom: 2px solid var(--accent);
-    padding: 32px 24px 24px;
-    text-align: center;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-  .site-header h1 { font-size: 1.5rem; color: var(--accent); letter-spacing: 1px; }
-  .site-header p { color: var(--muted); font-size: .85rem; margin-top: 4px; }
-
-  /* ── LAYOUT ── */
-  .layout { display: flex; min-height: calc(100vh - 80px); }
-
-  /* ── SIDEBAR ── */
+  /* SIDEBAR */
+  .layout { display: flex; min-height: 100vh; }
   .sidebar {
-    width: 270px;
-    min-width: 270px;
+    width: 260px;
     background: var(--surface);
     border-right: 1px solid var(--border);
-    padding: 20px 0;
-    position: sticky;
-    top: 80px;
-    height: calc(100vh - 80px);
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
     overflow-y: auto;
+    padding: 0;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
   }
-  .sidebar-section { padding: 8px 16px 4px; color: var(--accent); font-size: .7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-top: 12px; }
-  .sidebar a {
-    display: flex; align-items: center; gap: 10px;
-    padding: 7px 20px;
-    color: var(--muted);
+  .sidebar-logo {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    padding: 20px 18px 16px;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  .sidebar-logo span { display: block; font-size: 0.72rem; font-weight: 400; opacity: 0.85; margin-top: 2px; }
+  .sidebar-nav { flex: 1; padding: 12px 0; }
+  .nav-group-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 14px 18px 4px;
+  }
+  .nav-link {
+    display: block;
+    padding: 7px 18px;
+    color: var(--text-muted);
     text-decoration: none;
-    font-size: .83rem;
+    font-size: 0.82rem;
     border-left: 3px solid transparent;
-    transition: all .2s;
+    transition: all 0.15s;
   }
-  .sidebar a:hover, .sidebar a.active {
+  .nav-link:hover, .nav-link.active {
     color: var(--text);
     background: var(--surface2);
     border-left-color: var(--accent);
   }
-  .sidebar a .num {
-    background: var(--surface2);
-    color: var(--accent);
-    font-size: .65rem;
-    font-weight: 700;
-    padding: 1px 6px;
-    border-radius: 10px;
-    min-width: 24px;
-    text-align: center;
+  .nav-link .lnum { font-size: 0.7rem; opacity: 0.6; margin-right: 5px; }
+
+  /* MAIN */
+  .main { margin-left: 260px; max-width: 1100px; padding: 40px 44px 80px; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #1a1d27 0%, #12162a 100%);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px 40px;
+    margin-bottom: 40px;
   }
+  .hero h1 { font-size: 2rem; font-weight: 800; background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero p { color: var(--text-muted); margin-top: 8px; font-size: 0.95rem; }
+  .badges { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .badge { background: var(--surface2); border: 1px solid var(--border); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; color: var(--text-muted); }
+  .badge.warning { border-color: var(--yellow); color: var(--yellow); }
 
-  /* ── CONTENT ── */
-  .content { flex: 1; padding: 32px 48px; max-width: 900px; }
+  /* SECTION */
+  .section { margin-bottom: 60px; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-num {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: white;
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .section-title { font-size: 1.4rem; font-weight: 700; }
+  .section-subtitle { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
 
-  /* ── MODULE SECTION ── */
-  .module {
+  /* CARDS */
+  .card {
     background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 12px;
-    margin-bottom: 40px;
-    overflow: hidden;
+    padding: 20px 24px;
+    margin-bottom: 18px;
   }
-  .module-header {
-    background: linear-gradient(90deg, var(--surface2), var(--surface));
-    padding: 20px 28px;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; gap: 16px;
-  }
-  .module-badge {
-    background: var(--accent);
-    color: #fff;
-    font-size: .7rem;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 20px;
-    white-space: nowrap;
-  }
-  .module-header h2 { font-size: 1.15rem; color: var(--text); }
-  .module-body { padding: 28px; }
+  .card h3 { font-size: 1rem; font-weight: 600; color: var(--accent2); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+  .card h4 { font-size: 0.9rem; font-weight: 600; color: var(--accent); margin: 14px 0 6px; }
+  .card p, .card li { font-size: 0.88rem; color: var(--text-muted); line-height: 1.75; }
+  .card ul, .card ol { padding-left: 20px; }
+  .card li { margin-bottom: 4px; }
 
-  /* ── LECTURE CARD ── */
-  .lecture { margin-bottom: 32px; }
-  .lecture-title {
-    display: flex; align-items: center; gap: 12px;
-    margin-bottom: 14px;
-  }
-  .lecture-title .lnum {
-    background: var(--accent2);
-    color: #fff;
-    font-size: .7rem;
-    font-weight: 700;
-    padding: 2px 9px;
-    border-radius: 12px;
-  }
-  .lecture-title h3 { font-size: 1rem; color: var(--accent2); }
-
-  p { margin-bottom: 12px; color: var(--text); }
-
-  /* ── CODE ── */
-  pre, code {
-    font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
-  }
+  /* CODE BLOCKS */
   pre {
     background: var(--code-bg);
     border: 1px solid var(--border);
-    border-left: 4px solid var(--accent);
-    padding: 16px 20px;
-    border-radius: 8px;
+    border-radius: 10px;
+    padding: 18px 20px;
     overflow-x: auto;
-    font-size: .82rem;
+    font-size: 0.78rem;
+    line-height: 1.6;
+    margin: 12px 0;
+    font-family: 'Fira Code', 'Courier New', monospace;
+  }
+  code { font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.82rem; }
+  .kw { color: #bb86fc; } /* keywords */
+  .fn { color: #64b5f6; } /* functions */
+  .cm { color: #546e7a; font-style: italic; } /* comments */
+  .num { color: #f48fb1; } /* numbers */
+  .str { color: #a5d6a7; } /* strings */
+  .type { color: #ffd93d; } /* types */
+
+  /* ALGO BOXES */
+  .algo {
+    background: #0d111e;
+    border: 1px solid var(--accent);
+    border-radius: 10px;
+    padding: 16px 20px;
     margin: 14px 0;
-    color: #c9d1d9;
+    font-size: 0.82rem;
+    font-family: 'Fira Code', monospace;
+    line-height: 1.8;
   }
-  code {
-    background: var(--surface2);
-    color: var(--accent);
-    padding: 1px 6px;
-    border-radius: 4px;
-    font-size: .87em;
-  }
-  pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+  .algo .algo-title { font-weight: 700; color: var(--accent); font-family: inherit; margin-bottom: 10px; font-size: 0.88rem; }
 
-  /* ── CALLOUTS ── */
-  .callout {
-    border-radius: 8px;
-    padding: 14px 18px;
-    margin: 14px 0;
-    border-left: 4px solid;
-    font-size: .9rem;
-  }
-  .callout.def   { background: #0c1a2e; border-color: var(--accent); }
-  .callout.tip   { background: #0d1f1a; border-color: var(--accent3); }
-  .callout.warn  { background: #1f1400; border-color: var(--accent4); }
-  .callout.key   { background: #1a0f2e; border-color: var(--accent2); }
-  .callout.err   { background: #1f0a0a; border-color: var(--accent5); }
-  .callout .label {
-    font-weight: 700; font-size: .7rem; letter-spacing: 1px; text-transform: uppercase;
-    margin-bottom: 6px;
-    display: block;
-  }
-  .callout.def .label  { color: var(--accent); }
-  .callout.tip .label  { color: var(--accent3); }
-  .callout.warn .label { color: var(--accent4); }
-  .callout.key .label  { color: var(--accent2); }
-  .callout.err .label  { color: var(--accent5); }
+  /* TABLES */
+  table { width: 100%; border-collapse: collapse; font-size: 0.83rem; margin: 14px 0; }
+  th { background: var(--surface2); color: var(--accent); padding: 10px 14px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
+  td { padding: 9px 14px; border: 1px solid var(--border); color: var(--text-muted); }
+  tr:nth-child(even) td { background: #161925; }
 
-  /* ── TABLES ── */
-  .tbl-wrap { overflow-x: auto; margin: 14px 0; }
-  table { border-collapse: collapse; width: 100%; font-size: .85rem; }
-  th { background: var(--surface2); color: var(--accent); padding: 10px 14px; text-align: left; border: 1px solid var(--border); font-size: .75rem; letter-spacing: .5px; }
-  td { padding: 9px 14px; border: 1px solid var(--border); color: var(--text); }
-  tr:nth-child(even) td { background: #151820; }
-
-  /* ── UL / OL ── */
-  ul, ol { padding-left: 22px; margin-bottom: 12px; }
-  li { margin-bottom: 6px; color: var(--text); }
-  li strong { color: var(--accent); }
-
-  /* ── FORMULA ── */
-  .formula {
+  /* TREE VISUALS */
+  .tree-visual {
     background: var(--code-bg);
     border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 12px 20px;
-    text-align: center;
-    font-size: 1.05rem;
-    color: var(--accent3);
-    margin: 14px 0;
-    font-style: italic;
-  }
-
-  /* ── DIVIDER ── */
-  hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
-
-  /* ── TAG ── */
-  .tag {
-    display: inline-block;
-    background: var(--tag-bg);
-    color: var(--accent);
-    font-size: .7rem;
-    padding: 2px 8px;
     border-radius: 10px;
-    margin: 2px;
-    font-weight: 600;
+    padding: 20px;
+    text-align: center;
+    font-family: monospace;
+    font-size: 0.82rem;
+    overflow-x: auto;
+    white-space: pre;
+    color: var(--accent2);
+    margin: 14px 0;
   }
 
-  /* ── MOBILE ── */
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .content { padding: 20px 16px; }
-    .site-header { padding: 20px 16px 14px; top: env(safe-area-inset-top, 0px); }
+  /* HIGHLIGHT BOXES */
+  .highlight {
+    border-left: 4px solid var(--accent);
+    background: rgba(108,99,255,0.07);
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    margin: 14px 0;
+    font-size: 0.87rem;
+  }
+  .highlight.success { border-color: var(--green); background: rgba(0,212,170,0.07); }
+  .highlight.warning { border-color: var(--yellow); background: rgba(255,217,61,0.07); }
+  .highlight.danger { border-color: var(--red); background: rgba(255,107,107,0.07); }
+  .highlight p { color: var(--text); }
+  .highlight strong { color: var(--accent2); }
+
+  /* COMPLEXITY PILL */
+  .cplx { display: inline-block; background: var(--surface2); border: 1px solid var(--border); padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; color: var(--accent); font-family: monospace; margin: 2px; }
+  .cplx.good { border-color: var(--green); color: var(--green); }
+  .cplx.bad { border-color: var(--red); color: var(--red); }
+
+  /* GRID */
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 14px 0; }
+
+  /* CASES */
+  .case-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .case-box .case-title { font-size: 0.82rem; font-weight: 700; color: var(--yellow); margin-bottom: 8px; }
+  .case-box p { font-size: 0.81rem; color: var(--text-muted); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+  /* MOBILE MENU */
+  .menu-btn { display: none; }
+  .mobile-overlay { display: none; }
+
+  @media (max-width: 900px) {
+    .sidebar { transform: translateX(-100%); transition: transform 0.25s; }
+    .sidebar.open { transform: translateX(0); }
+    .main { margin-left: 0; padding: 20px 18px 60px; }
+    .hero { padding: 22px 20px; }
+    .hero h1 { font-size: 1.4rem; }
+    .grid2, .grid3 { grid-template-columns: 1fr; }
+    .menu-btn {
+      display: flex;
+      position: fixed;
+      bottom: 20px; right: 20px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 52px; height: 52px;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      cursor: pointer;
+      z-index: 200;
+      box-shadow: 0 4px 20px rgba(108,99,255,0.4);
+    }
+    .mobile-overlay {
+      display: block;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 99;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+    .mobile-overlay.show { opacity: 1; pointer-events: all; }
   }
 </style>
 </head>
 <body>
 
-<header class="site-header">
-  <h1>📚 RDBMS — MTE Lecture Notes</h1>
-  <p>CSC2103 · Manipal University Jaipur · Lectures 1–26 · By Prof. (Based on Silberschatz 7th Ed.)</p>
-</header>
+<div class="mobile-overlay" id="overlay" onclick="closeSidebar()"></div>
+<button class="menu-btn" onclick="toggleSidebar()">☰</button>
 
 <div class="layout">
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-logo">📚 DSA MTE Guide <span>L10 – L25 | CSC2101</span></div>
+    <div class="sidebar-nav">
+      <div class="nav-group-label">Binary Search Trees</div>
+      <a class="nav-link" href="#l10"><span class="lnum">L10-11</span> BST Insert & Delete</a>
+      <a class="nav-link" href="#l12"><span class="lnum">L12-13</span> BST Traversal & Search</a>
+      <div class="nav-group-label">Self-Balancing Trees</div>
+      <a class="nav-link" href="#l14"><span class="lnum">L14-15</span> AVL Trees & Rotations</a>
+      <a class="nav-link" href="#l16"><span class="lnum">L16-17</span> Red-Black Trees</a>
+      <div class="nav-group-label">Advanced Trees</div>
+      <a class="nav-link" href="#l18"><span class="lnum">L18-19</span> B-Trees</a>
+      <a class="nav-link" href="#l20"><span class="lnum">L20</span> Tree Comparison</a>
+      <div class="nav-group-label">Heaps & Graphs</div>
+      <a class="nav-link" href="#l21"><span class="lnum">L21-22</span> Heaps & Heap Sort</a>
+      <a class="nav-link" href="#l23"><span class="lnum">L23</span> Intro to Graphs</a>
+      <a class="nav-link" href="#l24"><span class="lnum">L24</span> Graph Representation</a>
+      <a class="nav-link" href="#l25"><span class="lnum">L25</span> Graph Applications</a>
+      <div class="nav-group-label">Quick Reference</div>
+      <a class="nav-link" href="#quickref">⚡ Complexity Cheatsheet</a>
+    </div>
+  </nav>
 
-<!-- ════════════════ SIDEBAR ════════════════ -->
-<nav class="sidebar">
-  <div class="sidebar-section">Module 1 – Intro & DBMS</div>
-  <a href="#l1"><span class="num">L1</span> Intro & Significance</a>
-  <a href="#l2"><span class="num">L2</span> DBMS Concepts</a>
-  <a href="#l3"><span class="num">L3</span> DB vs File System</a>
-  <a href="#l4"><span class="num">L4</span> Data Models & Schema</a>
-  <a href="#l5"><span class="num">L5</span> Data Independence</a>
-  <a href="#l6"><span class="num">L6</span> DB Apps, Users & DBA</a>
+  <!-- MAIN CONTENT -->
+  <main class="main">
 
-  <div class="sidebar-section">Module 2 – ER Model</div>
-  <a href="#l7"><span class="num">L7</span> ER Concepts</a>
-  <a href="#l8"><span class="num">L8</span> Relationship Constraints</a>
-  <a href="#l9"><span class="num">L9</span> ER Diagram Examples</a>
-  <a href="#l10"><span class="num">L10</span> Generalization & EER</a>
-  <a href="#l11"><span class="num">L11</span> ER → Relational Tables</a>
-
-  <div class="sidebar-section">Module 3 – Relational Model</div>
-  <a href="#l12"><span class="num">L12</span> Domains, Keys, Attrs</a>
-  <a href="#l13"><span class="num">L13</span> Integrity Constraints</a>
-
-  <div class="sidebar-section">Module 4 – Relational Algebra</div>
-  <a href="#l14"><span class="num">L14</span> Unary & Set Ops</a>
-  <a href="#l15"><span class="num">L15</span> Binary Ops & Joins</a>
-
-  <div class="sidebar-section">Module 5 – SQL</div>
-  <a href="#l16"><span class="num">L16</span> Basic SQL, DDL, DML</a>
-  <a href="#l17"><span class="num">L17</span> SQL Joins</a>
-  <a href="#l18"><span class="num">L18</span> Sub-queries</a>
-  <a href="#l19"><span class="num">L19</span> Aggregates & Cursors</a>
-  <a href="#l20"><span class="num">L20</span> Dynamic SQL</a>
-  <a href="#l21"><span class="num">L21</span> Integrity Constraints SQL</a>
-  <a href="#l22"><span class="num">L22</span> Triggers</a>
-
-  <div class="sidebar-section">Module 6 – DB Design</div>
-  <a href="#l23"><span class="num">L23</span> Armstrong's Axioms</a>
-  <a href="#l24"><span class="num">L24</span> Canonical Cover & Lossless</a>
-  <a href="#l25"><span class="num">L25</span> NULL & Dangling Tuples</a>
-  <a href="#l26"><span class="num">L26</span> 1NF & 2NF</a>
-</nav>
-
-<!-- ════════════════ CONTENT ════════════════ -->
-<main class="content">
-
-<!-- ══════════════════════════════════════════
-     MODULE 1 – INTRODUCTION & DBMS
-══════════════════════════════════════════ -->
-<div class="module">
-  <div class="module-header">
-    <span class="module-badge">MODULE 1</span>
-    <h2>Introduction to Databases & DBMS</h2>
-  </div>
-  <div class="module-body">
-
-    <!-- L1 -->
-    <div class="lecture" id="l1">
-      <div class="lecture-title"><span class="lnum">L1</span><h3>Introduction & Significance of RDBMS</h3></div>
-      <p>A <strong>database</strong> is an organized collection of inter-related data that models some aspect of the real world. A <strong>Database Management System (DBMS)</strong> is software that manages and provides access to a database.</p>
-      <div class="callout def"><span class="label">📌 Definition</span>DBMS = a collection of interrelated data + a set of programs to access that data, with the goals of convenience and efficiency.</div>
-      <p><strong>Where do we find databases?</strong></p>
-      <ul>
-        <li><strong>Banking:</strong> customer info, accounts, loans, transactions</li>
-        <li><strong>Airlines:</strong> reservations, schedules</li>
-        <li><strong>Universities:</strong> registration, grades, courses</li>
-        <li><strong>E-commerce:</strong> order tracking, recommendations</li>
-        <li><strong>Healthcare:</strong> patient records, prescriptions</li>
-        <li><strong>Telecom:</strong> call records, billing, prepaid balances</li>
-      </ul>
-      <div class="callout tip"><span class="label">💡 Why RDBMS matters</span>Nearly every app you use — banking app, college portal, Swiggy, Flipkart — runs on a relational database at its core. Understanding RDBMS is the foundation of backend software engineering.</div>
+    <!-- HERO -->
+    <div class="hero">
+      <h1>🎓 DSA MTE Exam Preparation</h1>
+      <p>Comprehensive study guide for Lectures 10–25 | Data Structures & Algorithms (CSC2101) | Prof. Akash Yadav | AY 2026-27</p>
+      <div class="badges">
+        <span class="badge">BST Operations</span>
+        <span class="badge">AVL Trees</span>
+        <span class="badge">Red-Black Trees</span>
+        <span class="badge">B-Trees</span>
+        <span class="badge">Heaps</span>
+        <span class="badge">Graphs</span>
+        <span class="badge warning">⚠ RB Tree Deletion NOT in MTE</span>
+      </div>
     </div>
 
-    <hr>
+    <!-- ===== L10-11: BST INSERT & DELETE ===== -->
+    <section class="section" id="l10">
+      <div class="section-header">
+        <div class="section-num">L10-11</div>
+        <div>
+          <div class="section-title">BST Insertion & Deletion</div>
+          <div class="section-subtitle">The core property, two-pointer insertion, three deletion cases</div>
+        </div>
+      </div>
 
-    <!-- L2 -->
-    <div class="lecture" id="l2">
-      <div class="lecture-title"><span class="lnum">L2</span><h3>DBMS Concepts, Schema & Instance</h3></div>
-      <div class="callout def"><span class="label">📌 Schema</span>The <em>logical structure</em> of the database — what tables exist, what columns they have, what types those columns are. Think of it as the <em>blueprint</em> of the database.</div>
-      <div class="callout def"><span class="label">📌 Instance</span>The <em>actual data</em> stored in the database at a particular moment in time. The schema is fixed; the instance changes every time data is inserted, updated, or deleted.</div>
-      <div class="tbl-wrap">
+      <div class="card">
+        <h3>🔑 The ONE Rule That Everything Rests On</h3>
+        <p>For every node N in a BST:</p>
+        <div class="highlight success">
+          <p><strong>Left subtree values &lt; N &lt; Right subtree values</strong><br>
+          This applies to <em>every node recursively</em>, not just the root. The subtree rule is the most commonly missed point!</p>
+        </div>
+        <div class="tree-visual">       12
+      /    \
+     5      18
+    / \    /  \
+   2   9  15   19
+  / \ /    \
+ 1  3 (no) 17
+
+In-order: 1,2,3,5,9,12,15,17,18,19 → Always SORTED ✓</div>
+      </div>
+
+      <div class="card">
+        <h3>➕ BST Insertion — The Two-Pointer Walk</h3>
+        <p>Key insight: <strong>A new key always becomes a leaf.</strong> Use two pointers — <code>current</code> (walks down) and <code>parent</code> (trails one step behind).</p>
+
+        <div class="highlight warning">
+          <p><strong>Example: Insert 13 into the tree above</strong><br>
+          Step 1: 13 &gt; 12 → go RIGHT (current=18, parent=12)<br>
+          Step 2: 13 &lt; 18 → go LEFT (current=15, parent=18)<br>
+          Step 3: 13 &lt; 15 → go LEFT (current=NULL, parent=15)<br>
+          → Attach 13 as LEFT child of 15 ✓</p>
+        </div>
+
+        <h4>Non-Recursive (Iterative) Insertion</h4>
+<pre><span class="type">struct</span> <span class="type">Node</span>* <span class="fn">createNode</span>(<span class="type">int</span> data) {
+    <span class="type">struct</span> <span class="type">Node</span>* node = (<span class="type">struct</span> <span class="type">Node</span>*)<span class="fn">malloc</span>(<span class="kw">sizeof</span>(<span class="type">struct</span> <span class="type">Node</span>));
+    node->data = data;
+    node->left = node->right = <span class="num">NULL</span>;
+    <span class="kw">return</span> node;
+}
+
+<span class="type">struct</span> <span class="type">Node</span>* <span class="fn">insertIterative</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> key) {
+    <span class="type">struct</span> <span class="type">Node</span>* newNode = <span class="fn">createNode</span>(key);
+    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span> newNode;  <span class="cm">// empty tree</span>
+
+    <span class="type">struct</span> <span class="type">Node</span>* current = root;
+    <span class="type">struct</span> <span class="type">Node</span>* parent = <span class="num">NULL</span>;
+
+    <span class="kw">while</span> (current != <span class="num">NULL</span>) {
+        parent = current;                   <span class="cm">// trail one step behind</span>
+        <span class="kw">if</span> (key &lt; current->data)
+            current = current->left;
+        <span class="kw">else</span>
+            current = current->right;
+    }
+
+    <span class="cm">// parent is now where new node attaches</span>
+    <span class="kw">if</span> (key &lt; parent->data)
+        parent->left = newNode;
+    <span class="kw">else</span>
+        parent->right = newNode;
+
+    <span class="kw">return</span> root;
+}</pre>
+
+        <h4>Recursive Insertion</h4>
+<pre><span class="type">struct</span> <span class="type">Node</span>* <span class="fn">insertRecursive</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> key) {
+    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span> <span class="fn">createNode</span>(key);  <span class="cm">// base case: empty slot</span>
+    
+    <span class="kw">if</span> (key &lt; root->data)
+        root->left = <span class="fn">insertRecursive</span>(root->left, key);
+    <span class="kw">else if</span> (key > root->data)
+        root->right = <span class="fn">insertRecursive</span>(root->right, key);
+    <span class="cm">// if key == root->data, do nothing (no duplicates)</span>
+    
+    <span class="kw">return</span> root;
+}</pre>
+      </div>
+
+      <div class="card">
+        <h3>❌ BST Deletion — Three Cases</h3>
+        <div class="grid3">
+          <div class="case-box">
+            <div class="case-title">Case 1: Leaf Node (0 children)</div>
+            <p>Simply detach the node. Set parent's pointer to NULL.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Case 2: One Child</div>
+            <p>The child takes the deleted node's place. Bypass the node.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Case 3: Two Children</div>
+            <p>Find the <strong>in-order successor</strong> (smallest in right subtree), copy its value, then delete the successor.</p>
+          </div>
+        </div>
+
+<pre><span class="cm">// Find minimum node (used for in-order successor)</span>
+<span class="type">struct</span> <span class="type">Node</span>* <span class="fn">findMin</span>(<span class="type">struct</span> <span class="type">Node</span>* node) {
+    <span class="kw">while</span> (node->left != <span class="num">NULL</span>)
+        node = node->left;
+    <span class="kw">return</span> node;
+}
+
+<span class="type">struct</span> <span class="type">Node</span>* <span class="fn">deleteNode</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> key) {
+    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span> <span class="num">NULL</span>;
+
+    <span class="kw">if</span> (key &lt; root->data)
+        root->left  = <span class="fn">deleteNode</span>(root->left, key);
+    <span class="kw">else if</span> (key > root->data)
+        root->right = <span class="fn">deleteNode</span>(root->right, key);
+    <span class="kw">else</span> {
+        <span class="cm">// Found the node to delete</span>
+        <span class="kw">if</span> (root->left == <span class="num">NULL</span>) {  <span class="cm">// Case 1 & 2 (no left child)</span>
+            <span class="type">struct</span> <span class="type">Node</span>* temp = root->right;
+            <span class="fn">free</span>(root);
+            <span class="kw">return</span> temp;
+        } <span class="kw">else if</span> (root->right == <span class="num">NULL</span>) {  <span class="cm">// Case 2 (no right child)</span>
+            <span class="type">struct</span> <span class="type">Node</span>* temp = root->left;
+            <span class="fn">free</span>(root);
+            <span class="kw">return</span> temp;
+        }
+        <span class="cm">// Case 3: Two children — find in-order successor</span>
+        <span class="type">struct</span> <span class="type">Node</span>* successor = <span class="fn">findMin</span>(root->right);
+        root->data = successor->data;  <span class="cm">// copy successor value</span>
+        root->right = <span class="fn">deleteNode</span>(root->right, successor->data);
+    }
+    <span class="kw">return</span> root;
+}</pre>
+
+        <div class="highlight">
+          <p><strong>Time Complexity:</strong> <span class="cplx good">O(log n)</span> balanced | <span class="cplx bad">O(n)</span> skewed (sorted input)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== L12-13: BST TRAVERSAL & SEARCH ===== -->
+    <section class="section" id="l12">
+      <div class="section-header">
+        <div class="section-num">L12-13</div>
+        <div>
+          <div class="section-title">BST Traversal & Searching</div>
+          <div class="section-subtitle">Inorder, Preorder, Postorder + Recursive & Non-Recursive Search</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🔄 The Three Traversals</h3>
+        <div class="grid3">
+          <div class="case-box">
+            <div class="case-title">Inorder: Left → Root → Right</div>
+            <p>Output is <strong>always sorted</strong> for a BST. Used for sorting.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Preorder: Root → Left → Right</div>
+            <p>Used to <strong>clone/serialize</strong> a tree. Root comes first.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Postorder: Left → Right → Root</div>
+            <p>Used to <strong>delete</strong> a tree safely. Children deleted before parent.</p>
+          </div>
+        </div>
+
+        <div class="tree-visual">    Example Tree:
+         5
+        / \
+       3   7
+      / \ / \
+     2  4 9  X
+
+Inorder:   2 → 3 → 4 → 5 → 7 → 9  (SORTED ✓)
+Preorder:  5 → 3 → 2 → 4 → 7 → 9
+Postorder: 2 → 4 → 3 → 9 → 7 → 5</div>
+
+        <h4>Recursive Traversals (C Code)</h4>
+<pre><span class="kw">void</span> <span class="fn">inorder</span>(<span class="type">struct</span> <span class="type">Node</span>* root) {
+    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span>;
+    <span class="fn">inorder</span>(root->left);     <span class="cm">// L</span>
+    <span class="fn">printf</span>(<span class="str">"%d "</span>, root->data); <span class="cm">// N</span>
+    <span class="fn">inorder</span>(root->right);    <span class="cm">// R</span>
+}
+
+<span class="kw">void</span> <span class="fn">preorder</span>(<span class="type">struct</span> <span class="type">Node</span>* root) {
+    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span>;
+    <span class="fn">printf</span>(<span class="str">"%d "</span>, root->data); <span class="cm">// N</span>
+    <span class="fn">preorder</span>(root->left);    <span class="cm">// L</span>
+    <span class="fn">preorder</span>(root->right);   <span class="cm">// R</span>
+}
+
+<span class="kw">void</span> <span class="fn">postorder</span>(<span class="type">struct</span> <span class="type">Node</span>* root) {
+    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span>;
+    <span class="fn">postorder</span>(root->left);   <span class="cm">// L</span>
+    <span class="fn">postorder</span>(root->right);  <span class="cm">// R</span>
+    <span class="fn">printf</span>(<span class="str">"%d "</span>, root->data); <span class="cm">// N</span>
+}</pre>
+
+        <h4>Non-Recursive Inorder (Using Stack)</h4>
+<pre><span class="kw">void</span> <span class="fn">inorderIterative</span>(<span class="type">struct</span> <span class="type">Node</span>* root) {
+    <span class="type">struct</span> <span class="type">Node</span>* stack[<span class="num">100</span>];
+    <span class="type">int</span> top = -<span class="num">1</span>;
+    <span class="type">struct</span> <span class="type">Node</span>* curr = root;
+
+    <span class="kw">while</span> (curr != <span class="num">NULL</span> || top >= <span class="num">0</span>) {
+        <span class="kw">while</span> (curr != <span class="num">NULL</span>) {
+            stack[++top] = curr;   <span class="cm">// push</span>
+            curr = curr->left;     <span class="cm">// go left</span>
+        }
+        curr = stack[top--];       <span class="cm">// pop</span>
+        <span class="fn">printf</span>(<span class="str">"%d "</span>, curr->data);  <span class="cm">// visit</span>
+        curr = curr->right;        <span class="cm">// go right</span>
+    }
+}</pre>
+      </div>
+
+      <div class="card">
+        <h3>🔍 Searching in BST</h3>
+        <h4>Recursive Search</h4>
+<pre><span class="type">struct</span> <span class="type">Node</span>* <span class="fn">searchRecursive</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> key) {
+    <span class="kw">if</span> (root == <span class="num">NULL</span> || root->data == key) <span class="kw">return</span> root;
+    
+    <span class="kw">if</span> (key &lt; root->data)
+        <span class="kw">return</span> <span class="fn">searchRecursive</span>(root->left, key);
+    <span class="kw">else</span>
+        <span class="kw">return</span> <span class="fn">searchRecursive</span>(root->right, key);
+} <span class="cm">// O(h) time</span></pre>
+
+        <h4>Non-Recursive (Iterative) Search</h4>
+<pre><span class="type">struct</span> <span class="type">Node</span>* <span class="fn">searchIterative</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> key) {
+    <span class="type">struct</span> <span class="type">Node</span>* ptr = root;
+    <span class="kw">while</span> (ptr != <span class="num">NULL</span>) {
+        <span class="kw">if</span> (key == ptr->data) <span class="kw">return</span> ptr;    <span class="cm">// found!</span>
+        <span class="kw">else if</span> (key &lt; ptr->data) ptr = ptr->left;
+        <span class="kw">else</span> ptr = ptr->right;
+    }
+    <span class="kw">return</span> <span class="num">NULL</span>;  <span class="cm">// not found</span>
+}</pre>
+
+        <h4>Find Min and Max</h4>
+<pre><span class="cm">// Minimum: keep going LEFT until NULL</span>
+<span class="type">struct</span> <span class="type">Node</span>* <span class="fn">findMin</span>(<span class="type">struct</span> <span class="type">Node</span>* root) {
+    <span class="kw">while</span> (root->left != <span class="num">NULL</span>) root = root->left;
+    <span class="kw">return</span> root;  <span class="cm">// leftmost node</span>
+}
+<span class="cm">// Maximum: keep going RIGHT until NULL</span>
+<span class="type">struct</span> <span class="type">Node</span>* <span class="fn">findMax</span>(<span class="type">struct</span> <span class="type">Node</span>* root) {
+    <span class="kw">while</span> (root->right != <span class="num">NULL</span>) root = root->right;
+    <span class="kw">return</span> root;  <span class="cm">// rightmost node</span>
+}</pre>
+      </div>
+    </section>
+
+    <!-- ===== L14-15: AVL TREES ===== -->
+    <section class="section" id="l14">
+      <div class="section-header">
+        <div class="section-num">L14-15</div>
+        <div>
+          <div class="section-title">AVL Trees — Self-Balancing BST</div>
+          <div class="section-subtitle">Invented by Adelson-Velsky & Landis (1962). Four rotations to maintain balance.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🤔 Why AVL Trees?</h3>
+        <p>A plain BST becomes a linked list if you insert sorted data (e.g., 10→20→30→40→50), making every operation O(n). AVL trees guarantee O(log n) for all operations by keeping the tree height-balanced.</p>
+        <div class="tree-visual">BST (sorted input = disaster!)    AVL Tree (always balanced)
+10                                    30
+  \                                  /  \
+   20              vs.             10    40
+     \                              \   /  \
+      30                            20 35   50
+        \
+         40
+           \
+            50   ← O(n) search!      ← O(log n) search ✓</div>
+      </div>
+
+      <div class="card">
+        <h3>📐 Balance Factor (BF)</h3>
+        <div class="highlight success">
+          <p><strong>BF(node) = Height(Left Subtree) − Height(Right Subtree)</strong><br>
+          Valid values: <strong>-1, 0, +1</strong> only. Any other value means the tree is unbalanced → rotation needed!</p>
+        </div>
         <table>
-          <tr><th>Concept</th><th>Programming Analogy</th><th>Example</th></tr>
-          <tr><td>Schema</td><td>Data type declaration (<code>int x;</code>)</td><td><code>instructor(ID, name, dept_name, salary)</code></td></tr>
-          <tr><td>Instance</td><td>Value of variable at runtime</td><td>Row: (10101, "Srinivasan", "Comp.Sci.", 65000)</td></tr>
+          <tr><th>BF Value</th><th>Meaning</th></tr>
+          <tr><td>+1</td><td>Left subtree is one level higher (Left-Heavy)</td></tr>
+          <tr><td>0</td><td>Both subtrees equal height (Balanced)</td></tr>
+          <tr><td>-1</td><td>Right subtree is one level higher (Right-Heavy)</td></tr>
+          <tr><td>+2 or more</td><td>❌ Unbalanced — needs rotation</td></tr>
+        </table>
+
+        <h4>Example: Calculate BF</h4>
+        <div class="tree-visual">      12 (BF=+1)
+     /  \
+   8(+1)  18(+1)
+   /       /
+  5(0)   17(0)
+  Height of leaf = 0, Height of NULL = -1
+  BF(18) = h(left:17) - h(right:NULL) = 0 - (-1) = +1 ✓</div>
+      </div>
+
+      <div class="card">
+        <h3>🔄 The Four AVL Rotations</h3>
+        <div class="grid2">
+          <div class="case-box">
+            <div class="case-title">LL Rotation (Single Right Rotation)</div>
+            <p>New node inserted in <strong>Left child's Left subtree</strong>. Tree becomes Left-Heavy (BF &gt; +1).<br><strong>Fix: Rotate Right at imbalanced node.</strong></p>
+<pre style="font-size:0.72rem; margin-top:8px;">Before:        After (Right Rotate A):
+    A(+2)           B
+   /               / \
+  B(+1)    →      C   A
+ /
+C</pre>
+          </div>
+          <div class="case-box">
+            <div class="case-title">RR Rotation (Single Left Rotation)</div>
+            <p>New node inserted in <strong>Right child's Right subtree</strong>. Tree becomes Right-Heavy (BF &lt; -1).<br><strong>Fix: Rotate Left at imbalanced node.</strong></p>
+<pre style="font-size:0.72rem; margin-top:8px;">Before:        After (Left Rotate A):
+A(-2)              B
+  \               / \
+   B(-1)  →      A   C
+     \
+      C</pre>
+          </div>
+          <div class="case-box">
+            <div class="case-title">LR Rotation (Double: Left then Right)</div>
+            <p>New node in <strong>Left child's Right subtree</strong>.<br><strong>Fix: First Left-rotate B, then Right-rotate A.</strong></p>
+<pre style="font-size:0.72rem; margin-top:8px;">Before:     Step1(LR on B): Step2(RR on A):
+  A(+2)         A               C
+ /             /               / \
+B(-1)  →      C       →       B   A
+  \          /
+   C        B</pre>
+          </div>
+          <div class="case-box">
+            <div class="case-title">RL Rotation (Double: Right then Left)</div>
+            <p>New node in <strong>Right child's Left subtree</strong>.<br><strong>Fix: First Right-rotate B, then Left-rotate A.</strong></p>
+<pre style="font-size:0.72rem; margin-top:8px;">Before:     Step1(RR on B): Step2(LL on A):
+A(-2)           A               C
+  \               \             / \
+   B(+1)  →        C    →      A   B
+  /                  \
+ C                    B</pre>
+          </div>
+        </div>
+
+        <div class="highlight warning">
+          <p><strong>Memory Trick:</strong> The name tells you WHERE the new node went.<br>
+          LL = new node is in Left's Left → fix with single Right rotation<br>
+          RR = new node is in Right's Right → fix with single Left rotation<br>
+          LR = Left's Right → fix with Left rotation first, then Right<br>
+          RL = Right's Left → fix with Right rotation first, then Left</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📊 AVL Tree Complexity</h3>
+        <table>
+          <tr><th>Operation</th><th>Time Complexity</th><th>Why?</th></tr>
+          <tr><td>Search</td><td><span class="cplx good">O(log n)</span></td><td>Height always O(log n)</td></tr>
+          <tr><td>Insert</td><td><span class="cplx good">O(log n)</span></td><td>Search + at most 2 rotations</td></tr>
+          <tr><td>Delete</td><td><span class="cplx good">O(log n)</span></td><td>Search + rebalancing up the path</td></tr>
         </table>
       </div>
-      <p>The <strong>three-level architecture</strong> of a DBMS:</p>
-      <ul>
-        <li><strong>External Level (View):</strong> What the user sees — customized views per user role.</li>
-        <li><strong>Conceptual Level (Logical):</strong> The complete logical structure — all tables, constraints, relationships.</li>
-        <li><strong>Internal Level (Physical):</strong> How data is stored on disk — indexes, file organization, storage blocks.</li>
-      </ul>
-    </div>
+    </section>
 
-    <hr>
-
-    <!-- L3 -->
-    <div class="lecture" id="l3">
-      <div class="lecture-title"><span class="lnum">L3</span><h3>Database System vs File System</h3></div>
-      <p>Before DBMS, applications stored data in flat files. This caused serious problems:</p>
-      <div class="tbl-wrap">
-        <table>
-          <tr><th>Problem</th><th>File System</th><th>DBMS Solution</th></tr>
-          <tr><td>Data Redundancy</td><td>Same data duplicated in multiple files</td><td>Centralized storage, no duplication</td></tr>
-          <tr><td>Inconsistency</td><td>Updates in one file, missed in another</td><td>Single source of truth</td></tr>
-          <tr><td>Isolation</td><td>Data trapped in different formats</td><td>Unified access via SQL</td></tr>
-          <tr><td>Atomicity</td><td>Power failure = partial write = corrupt data</td><td>Transactions ensure all-or-nothing</td></tr>
-          <tr><td>Concurrency</td><td>Two users write simultaneously = data race</td><td>Concurrency control protocols</td></tr>
-          <tr><td>Security</td><td>File-level permissions only</td><td>Fine-grained row/column access control</td></tr>
-          <tr><td>Integrity</td><td>Constraints buried in app code</td><td>Constraints declared in schema (CHECK, FK)</td></tr>
-        </table>
-      </div>
-      <div class="callout tip"><span class="label">💡 Real-World Example</span>Imagine a bank using text files. If you transfer ₹5000: step 1 deducts from your file, step 2 adds to recipient's file. Power cuts between steps → ₹5000 vanishes. A DBMS wraps both steps in a <em>transaction</em> — either both happen or neither does.</div>
-    </div>
-
-    <hr>
-
-    <!-- L4 -->
-    <div class="lecture" id="l4">
-      <div class="lecture-title"><span class="lnum">L4</span><h3>Data Models & Schema Architecture</h3></div>
-      <p>A <strong>data model</strong> is a collection of tools describing data, relationships, semantics, and constraints.</p>
-      <ul>
-        <li><strong>Relational Model:</strong> Data organized in tables (relations). Most widely used. SQL-based.</li>
-        <li><strong>Entity-Relationship (ER) Model:</strong> Conceptual design tool — entities, attributes, relationships.</li>
-        <li><strong>Object-Oriented Model:</strong> Data as objects with methods. Used in specialized systems.</li>
-        <li><strong>Semi-structured Model (XML/JSON):</strong> Flexible schema. Used in NoSQL / web APIs.</li>
-        <li><strong>Hierarchical Model (legacy):</strong> Tree structure. IBM IMS. Predecessor to relational.</li>
-        <li><strong>Network Model (legacy):</strong> Graph structure. CODASYL. More flexible than hierarchical.</li>
-      </ul>
-      <div class="callout key"><span class="label">🔑 Key Insight</span>The Relational Model (invented by E.F. Codd at IBM, 1970) revolutionized databases by separating <em>logical</em> data structure from <em>physical</em> storage — programmers no longer had to care about how data was stored on disk.</div>
-    </div>
-
-    <hr>
-
-    <!-- L5 -->
-    <div class="lecture" id="l5">
-      <div class="lecture-title"><span class="lnum">L5</span><h3>Data Independence, DB Languages & Interfaces</h3></div>
-      <div class="callout def"><span class="label">📌 Physical Data Independence</span>Ability to change the <em>physical schema</em> (how data is stored) without changing the <em>logical schema</em>. You can add/change indexes, reorganize files on disk, and applications keep working.</div>
-      <div class="callout def"><span class="label">📌 Logical Data Independence</span>Ability to change the <em>logical schema</em> (add/remove tables or columns) without changing the external views/applications. Harder to achieve than physical independence.</div>
-      <p><strong>Database Languages:</strong></p>
-      <ul>
-        <li><strong>DDL (Data Definition Language):</strong> CREATE TABLE, ALTER, DROP — defines schema.</li>
-        <li><strong>DML (Data Manipulation Language):</strong> SELECT, INSERT, UPDATE, DELETE — manipulates data.</li>
-        <li><strong>DCL (Data Control Language):</strong> GRANT, REVOKE — controls access.</li>
-        <li><strong>TCL (Transaction Control Language):</strong> COMMIT, ROLLBACK — manages transactions.</li>
-      </ul>
-      <pre>-- DDL example
-CREATE TABLE student (
-  ID       VARCHAR(5),
-  name     VARCHAR(20) NOT NULL,
-  dept_name VARCHAR(20),
-  tot_cred  NUMERIC(3,0),
-  PRIMARY KEY (ID)
-);
-
--- DML example
-SELECT name FROM student WHERE dept_name = 'Comp. Sci.';</pre>
-    </div>
-
-    <hr>
-
-    <!-- L6 -->
-    <div class="lecture" id="l6">
-      <div class="lecture-title"><span class="lnum">L6</span><h3>DB Applications, Database Users & Functions of DBA</h3></div>
-      <p>Different people interact with a database in different ways:</p>
-      <div class="tbl-wrap">
-        <table>
-          <tr><th>User Type</th><th>Who They Are</th><th>How They Interact</th></tr>
-          <tr><td>Naive Users</td><td>End users (bank teller, reservation clerk)</td><td>Pre-built application forms/UI</td></tr>
-          <tr><td>Application Programmers</td><td>Software developers</td><td>Embedded SQL in Java/Python/etc.</td></tr>
-          <tr><td>Sophisticated Users</td><td>Analysts, data scientists</td><td>SQL queries directly on DBMS</td></tr>
-          <tr><td>Database Administrator (DBA)</td><td>DB admin/engineer</td><td>Schema definition, security, tuning</td></tr>
-        </table>
-      </div>
-      <p><strong>Functions of a DBA:</strong></p>
-      <ul>
-        <li>Schema definition and modification</li>
-        <li>Storage structure and access-method definition</li>
-        <li>Granting authorization for data access</li>
-        <li>Routine maintenance (backups, performance monitoring)</li>
-        <li>Integrity-constraint specification</li>
-      </ul>
-    </div>
-
-  </div><!-- /module-body -->
-</div><!-- /module -->
-
-<!-- ══════════════════════════════════════════
-     MODULE 2 – ER MODEL
-══════════════════════════════════════════ -->
-<div class="module">
-  <div class="module-header">
-    <span class="module-badge">MODULE 2</span>
-    <h2>Database Design Using the E-R Model</h2>
-  </div>
-  <div class="module-body">
-
-    <!-- L7 -->
-    <div class="lecture" id="l7">
-      <div class="lecture-title"><span class="lnum">L7</span><h3>ER Model Concepts: Entities, Attributes, Relationships</h3></div>
-      <div class="callout def"><span class="label">📌 Entity</span>A "thing" or "object" in the real world that is <em>distinguishable</em> from other objects. E.g., a specific student (Amit, Roll 101) or a specific course (DBMS, CS201).</div>
-      <div class="callout def"><span class="label">📌 Entity Set</span>A set of all entities of the <em>same type</em> sharing the same properties. E.g., <strong>Student</strong> (all students), <strong>Course</strong> (all courses).</div>
-
-      <p><strong>Types of Attributes:</strong></p>
-      <ul>
-        <li><strong>Simple:</strong> Cannot be divided further. E.g., age, roll_no.</li>
-        <li><strong>Composite:</strong> Can be divided into sub-parts. E.g., Name → (FirstName, LastName), Address → (Street, City, Pin).</li>
-        <li><strong>Single-valued:</strong> One value per entity. E.g., roll_no.</li>
-        <li><strong>Multi-valued:</strong> Multiple values per entity. E.g., phone_numbers. Shown with <em>double ellipse</em> in ER diagram.</li>
-        <li><strong>Derived:</strong> Computed from another attribute. E.g., age derived from date_of_birth. Shown with <em>dashed ellipse</em>.</li>
-        <li><strong>Null:</strong> Attribute has no value for some entity. E.g., middle_name.</li>
-      </ul>
-
-      <div class="callout def"><span class="label">📌 Relationship</span>An association between two or more entities. E.g., student <em>enrolls in</em> course; instructor <em>teaches</em> course.</div>
-      <p><strong>ER Diagram Notation:</strong></p>
-      <div class="tbl-wrap">
-        <table>
-          <tr><th>Symbol</th><th>Represents</th></tr>
-          <tr><td>Rectangle</td><td>Entity Set</td></tr>
-          <tr><td>Ellipse</td><td>Attribute</td></tr>
-          <tr><td>Double Ellipse</td><td>Multi-valued Attribute</td></tr>
-          <tr><td>Dashed Ellipse</td><td>Derived Attribute</td></tr>
-          <tr><td>Diamond</td><td>Relationship Set</td></tr>
-          <tr><td>Double Rectangle</td><td>Weak Entity Set</td></tr>
-          <tr><td>Underline</td><td>Primary Key Attribute</td></tr>
-        </table>
-      </div>
-    </div>
-
-    <hr>
-
-    <!-- L8 -->
-    <div class="lecture" id="l8">
-      <div class="lecture-title"><span class="lnum">L8</span><h3>Relationship Constraints</h3></div>
-      <p><strong>Mapping Cardinalities</strong> — how many entities on one side can be associated with entities on the other side:</p>
-      <div class="tbl-wrap">
-        <table>
-          <tr><th>Type</th><th>Meaning</th><th>Example</th></tr>
-          <tr><td>One-to-One (1:1)</td><td>One entity in A ↔ at most one in B</td><td>Person ↔ Passport</td></tr>
-          <tr><td>One-to-Many (1:N)</td><td>One entity in A ↔ many in B</td><td>Department → Instructor</td></tr>
-          <tr><td>Many-to-One (N:1)</td><td>Many in A ↔ one in B</td><td>Instructor → Department</td></tr>
-          <tr><td>Many-to-Many (M:N)</td><td>Many in A ↔ many in B</td><td>Student ↔ Course</td></tr>
-        </table>
-      </div>
-      <p><strong>Participation Constraints:</strong></p>
-      <ul>
-        <li><strong>Total participation (double line):</strong> Every entity in the set must participate in at least one relationship. E.g., every loan <em>must</em> be associated with a customer.</li>
-        <li><strong>Partial participation (single line):</strong> Some entities may not participate. E.g., not every instructor is an advisor.</li>
-      </ul>
-      <div class="callout tip"><span class="label">💡 Crow's Foot Notation</span>In modern tools (like MySQL Workbench, ERD tools), you'll see crow's foot symbols (|— one, >— many, ||— exactly one, O— zero) instead of lines/numbers. Same concept, different notation.</div>
-    </div>
-
-    <hr>
-
-    <!-- L9 -->
-    <div class="lecture" id="l9">
-      <div class="lecture-title"><span class="lnum">L9</span><h3>ER Diagram Examples</h3></div>
-      <p><strong>Classic University ER Example:</strong></p>
-      <ul>
-        <li><strong>Entity sets:</strong> Student, Instructor, Course, Department, Section</li>
-        <li><strong>Relationships:</strong> <em>takes</em> (Student–Section, M:N), <em>teaches</em> (Instructor–Section, 1:N), <em>advisor</em> (Student–Instructor, M:1), <em>dept_of</em> (Instructor–Department, N:1)</li>
-      </ul>
-      <p><strong>Weak Entity Sets:</strong> An entity set that does <em>not</em> have a primary key of its own and depends on a <em>strong (identifying) entity</em> for its existence.</p>
-      <ul>
-        <li>Example: <strong>Section</strong> depends on <strong>Course</strong>. Sec_id alone (like "1", "2") isn't unique globally — it needs course_id to be meaningful.</li>
-        <li>The partial key of the weak entity is called a <strong>discriminator</strong>.</li>
-        <li>Shown with a double rectangle (weak entity) and double diamond (identifying relationship).</li>
-      </ul>
-    </div>
-
-    <hr>
-
-    <!-- L10 -->
-    <div class="lecture" id="l10">
-      <div class="lecture-title"><span class="lnum">L10</span><h3>Generalization, Specialization & Aggregation (EER)</h3></div>
-      <div class="callout def"><span class="label">📌 Generalization</span>Bottom-up: combining two or more lower-level entity sets into a single higher-level entity set. E.g., Car and Truck → Vehicle.</div>
-      <div class="callout def"><span class="label">📌 Specialization</span>Top-down: taking a higher-level entity set and creating distinct lower-level sub-entity sets based on distinguishing characteristics. E.g., Person → Student, Instructor, Staff.</div>
-      <p>Both use an <strong>ISA triangle</strong> (is-a hierarchy) in the EER diagram.</p>
-      <p><strong>Constraints on Specialization:</strong></p>
-      <ul>
-        <li><strong>Disjoint:</strong> An entity can belong to <em>only one</em> lower-level set. (marked "d")</li>
-        <li><strong>Overlapping:</strong> An entity can belong to <em>more than one</em> lower-level set. (marked "o")</li>
-        <li><strong>Total:</strong> Every higher-level entity <em>must</em> belong to at least one lower-level set. (double line)</li>
-        <li><strong>Partial:</strong> Some higher-level entities may not belong to any lower-level set. (single line)</li>
-      </ul>
-      <div class="callout def"><span class="label">📌 Aggregation</span>Treating a <em>relationship</em> as a higher-level entity so that it can participate in another relationship. Used when a relationship needs to be related to another entity.<br><br>Example: Project is <em>managed by</em> an employee through a relationship, and that management relationship itself has an <em>evaluation_date</em>. The "manages" relationship is aggregated into a box and linked to evaluation.</div>
-    </div>
-
-    <hr>
-
-    <!-- L11 -->
-    <div class="lecture" id="l11">
-      <div class="lecture-title"><span class="lnum">L11</span><h3>Transforming ER Diagram into Relational Tables</h3></div>
-      <p>Mapping rules to convert an ER diagram to a relational schema:</p>
-      <ol>
-        <li><strong>Strong Entity Set:</strong> Becomes a table with all its simple attributes. Composite attributes are flattened. Multi-valued attributes create a separate table.</li>
-        <li><strong>Weak Entity Set:</strong> Becomes a table including the primary key of the identifying entity + its own discriminator attributes.</li>
-        <li><strong>1:N Relationship:</strong> Add the primary key of the "1" side as a foreign key on the "N" side table.</li>
-        <li><strong>M:N Relationship:</strong> Create a new separate table containing the primary keys of both entities as foreign keys (this forms the composite primary key).</li>
-        <li><strong>1:1 Relationship:</strong> Can merge into one table, or add FK to either side.</li>
-        <li><strong>ISA (Specialization):</strong> Option 1: separate table per level. Option 2: single table with null values. Option 3: one table per leaf entity (includes all inherited attributes).</li>
-      </ol>
-      <div class="callout tip"><span class="label">💡 Example – Student enrolls in Course (M:N)</span>
-        <pre style="margin-top:8px">-- Two entity tables:
-Student(s_id, name, dept)
-Course(c_id, title, credits)
-
--- Junction table for M:N:
-Enrollment(s_id, c_id, grade)
-  -- s_id → FK references Student
-  -- c_id → FK references Course
-  -- (s_id, c_id) → composite PK</pre>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     MODULE 3 – RELATIONAL MODEL
-══════════════════════════════════════════ -->
-<div class="module">
-  <div class="module-header">
-    <span class="module-badge">MODULE 3</span>
-    <h2>Relational Data Model</h2>
-  </div>
-  <div class="module-body">
-
-    <!-- L12 -->
-    <div class="lecture" id="l12">
-      <div class="lecture-title"><span class="lnum">L12</span><h3>Domains, Tuples, Attributes, Relations & Keys</h3></div>
-      <div class="callout def"><span class="label">📌 Core Terminology</span>
-        <ul style="margin-top:8px">
-          <li><strong>Relation:</strong> A table with rows and columns. Mathematically, a subset of a Cartesian product of domains.</li>
-          <li><strong>Tuple:</strong> A single row in a relation. Represents one record/entity.</li>
-          <li><strong>Attribute:</strong> A column in a relation. Each attribute has a domain (set of allowed values).</li>
-          <li><strong>Domain:</strong> The set of valid values for an attribute. E.g., domain of dept_name = {"CS", "EE", "Music", ...}</li>
-          <li><strong>Degree:</strong> Number of attributes (columns) in a relation.</li>
-          <li><strong>Cardinality:</strong> Number of tuples (rows) in a relation.</li>
-        </ul>
-      </div>
-      <p><strong>Properties of Relations:</strong></p>
-      <ul>
-        <li>No! two tuples are identical (relations are <em>sets</em>).</li>
-        <li>Tuple order is irrelevant.</li>
-        <li>Attribute order within a tuple is irrelevant (by name, not position).</li>
-        <li>All attribute values are atomic (1NF requirement).</li>
-        <li>NULL is a special marker meaning "unknown" or "not applicable."</li>
-      </ul>
-      <p><strong>Types of Keys:</strong></p>
-      <div class="tbl-wrap">
-        <table>
-          <tr><th>Key Type</th><th>Definition</th><th>Example</th></tr>
-          <tr><td>Super Key</td><td>Set of attributes that uniquely identifies each tuple</td><td>{ID}, {ID, name}, {ID, name, salary}</td></tr>
-          <tr><td>Candidate Key</td><td>Minimal super key (no redundant attributes)</td><td>{ID} only (removing any attr breaks uniqueness)</td></tr>
-          <tr><td>Primary Key</td><td>Chosen candidate key — cannot be NULL</td><td>ID in instructor table</td></tr>
-          <tr><td>Foreign Key</td><td>Attribute that references primary key of another table</td><td>dept_name in instructor → department.dept_name</td></tr>
-        </table>
-      </div>
-    </div>
-
-    <hr>
-
-    <!-- L13 -->
-    <div class="lecture" id="l13">
-      <div class="lecture-title"><span class="lnum">L13</span><h3>Relational Database, Schemas & Integrity Constraints</h3></div>
-      <p><strong>Integrity Constraints</strong> ensure the data in a database is accurate and consistent:</p>
-      <ol>
-        <li><strong>Domain Constraint:</strong> Each attribute value must belong to its defined domain. E.g., salary must be numeric, not a string.</li>
-        <li><strong>Key Constraint:</strong> No two tuples can have the same primary key value. Primary key ≠ NULL.</li>
-        <li><strong>Entity Integrity:</strong> The primary key of any tuple must not be NULL.</li>
-        <li><strong>Referential Integrity:</strong> A foreign key value must either match a primary key in the referenced table OR be NULL. No dangling references.</li>
-      </ol>
-      <div class="callout warn"><span class="label">⚠️ Referential Integrity Example</span>If <code>instructor.dept_name = 'Physics'</code>, then there must be a tuple in <code>department</code> with <code>dept_name = 'Physics'</code>. You can't have an instructor belonging to a department that doesn't exist.</div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     MODULE 4 – RELATIONAL ALGEBRA
-══════════════════════════════════════════ -->
-<div class="module">
-  <div class="module-header">
-    <span class="module-badge">MODULE 4</span>
-    <h2>Relational Algebra</h2>
-  </div>
-  <div class="module-body">
-
-    <!-- L14 -->
-    <div class="lecture" id="l14">
-      <div class="lecture-title"><span class="lnum">L14</span><h3>Relational Algebra Operators – Unary, Binary, Set Operations</h3></div>
-      <div class="callout def"><span class="label">📌 What is Relational Algebra?</span>A <strong>procedural query language</strong> that consists of a set of operations that take one or two relations as input and produce a new relation as output. It is <em>closed</em> — every operation produces a relation, so operations can be chained/nested.</div>
-
-      <p><strong>1. SELECT (σ) — Filter Rows</strong></p>
-      <p>Selects tuples that satisfy a given predicate. Works like the SQL WHERE clause.</p>
-      <div class="formula">σ<sub>predicate</sub>(relation)</div>
-      <pre>-- Find instructors in Physics dept
-σ dept_name = "Physics" (instructor)
-
--- Find instructors in Physics with salary > 90000
-σ dept_name="Physics" ∧ salary > 90000 (instructor)</pre>
-
-      <p><strong>2. PROJECT (Π) — Filter Columns</strong></p>
-      <p>Returns the relation with only the specified attributes. Removes duplicates (set semantics).</p>
-      <div class="formula">Π<sub>A1, A2, ..., Ak</sub>(relation)</div>
-      <pre>-- Show only ID, name, salary of instructors
-Π ID, name, salary (instructor)</pre>
-
-      <p><strong>3. RENAME (ρ) — Rename Relation/Attributes</strong></p>
-      <div class="formula">ρ<sub>new_name</sub>(relation)  or  ρ<sub>new_name(A1, A2...)</sub>(relation)</div>
-
-      <p><strong>4. UNION (∪) — Combine Two Relations</strong></p>
-      <p>Returns all tuples in either relation. Requires both relations to be <em>union compatible</em> (same number and type of attributes).</p>
-      <pre>-- Courses offered in Fall 2009 OR Spring 2010
-Π course_id (σ semester="Fall" ∧ year=2009 (section))
-  ∪
-Π course_id (σ semester="Spring" ∧ year=2010 (section))</pre>
-
-      <p><strong>5. SET DIFFERENCE (−) — In One But Not Other</strong></p>
-      <pre>-- Courses in Fall 2009 but NOT in Spring 2010
-Π course_id (σ semester="Fall" ∧ year=2009 (section))
-  −
-Π course_id (σ semester="Spring" ∧ year=2010 (section))</pre>
-
-      <p><strong>6. CARTESIAN PRODUCT (×) — All Combinations</strong></p>
-      <p>Combines every tuple from relation r with every tuple from relation s. If r has m tuples and s has n tuples, result has m×n tuples.</p>
-      <pre>instructor × department  -- every instructor paired with every department</pre>
-
-      <div class="callout tip"><span class="label">💡 Composition of Operations</span>The power of relational algebra is composing operations. To find names of Physics instructors:<br>
-      <pre style="margin-top:8px">Π name (σ dept_name="Physics" (instructor))</pre>
-      Inner operation runs first: σ filters rows, then Π picks columns.</div>
-    </div>
-
-    <hr>
-
-    <!-- L15 -->
-    <div class="lecture" id="l15">
-      <div class="lecture-title"><span class="lnum">L15</span><h3>Relational Algebra – Binary Operations & Joins</h3></div>
-      <p><strong>7. SET INTERSECTION (∩)</strong> — Tuples in BOTH relations (derived: r ∩ s = r − (r − s))</p>
-      <pre>-- Courses offered in BOTH Fall 2009 AND Spring 2010
-Π course_id (σ semester="Fall" ∧ year=2009 (section))
-  ∩
-Π course_id (σ semester="Spring" ∧ year=2010 (section))</pre>
-
-      <p><strong>8. NATURAL JOIN (⋈)</strong> — Join on common attribute(s), keep one copy</p>
-      <div class="formula">r ⋈ s</div>
-      <p>Automatically matches tuples with the same values on all common attributes. Retains only one copy of the shared attribute.</p>
-      <pre>instructor ⋈ department
--- Joins on dept_name (common attribute)
--- Gives each instructor with their department building & budget</pre>
-
-      <p><strong>9. THETA JOIN (⋈<sub>θ</sub>)</strong> — Join on any condition</p>
-      <div class="formula">r ⋈<sub>θ</sub> s = σ<sub>θ</sub>(r × s)</div>
-
-      <p><strong>10. OUTER JOINS</strong> — Preserve unmatched tuples</p>
-      <div class="tbl-wrap">
-        <table>
-          <tr><th>Type</th><th>Symbol</th><th>Preserves</th></tr>
-          <tr><td>Left Outer Join</td><td>r ⟕ s</td><td>All tuples from r; NULL fills missing s columns</td></tr>
-          <tr><td>Right Outer Join</td><td>r ⟖ s</td><td>All tuples from s; NULL fills missing r columns</td></tr>
-          <tr><td>Full Outer Join</td><td>r ⟗ s</td><td>All tuples from both; NULL fills missing either side</td></tr>
-        </table>
+    <!-- ===== L16-17: RED-BLACK TREES ===== -->
+    <section class="section" id="l16">
+      <div class="section-header">
+        <div class="section-num">L16-17</div>
+        <div>
+          <div class="section-title">Red-Black Trees (Insertion Only)</div>
+          <div class="section-subtitle">⚠️ Deletion NOT in MTE — focus on properties and insertion cases</div>
+        </div>
       </div>
 
-      <p><strong>11. DIVISION (÷)</strong> — "For all" queries</p>
-      <div class="formula">r ÷ s</div>
-      <p>Returns tuples from r that match <em>all</em> tuples in s. Classic use: "Find students who have taken <em>all</em> courses offered by CS dept."</p>
-
-      <p><strong>12. AGGREGATE FUNCTIONS (𝒢)</strong></p>
-      <p>Extended operations not expressible with basic relational algebra:</p>
-      <div class="formula"><sub>G1,G2,...,Gn</sub>𝒢<sub>F1(A1), F2(A2),...,Fm(Am)</sub>(E)</div>
-      <ul>
-        <li>G1...Gn = grouping attributes (like GROUP BY in SQL)</li>
-        <li>F1...Fm = aggregate functions: <strong>sum, avg, count, min, max</strong></li>
-      </ul>
-      <pre>-- Sum of all instructor salaries
-𝒢 sum(salary) (instructor)
-
--- Average salary per department
-dept_name 𝒢 avg(salary) (instructor)
-
--- Count distinct instructors teaching in Spring 2010
-𝒢 count-distinct(ID) (σ semester="Spring" ∧ year=2010 (teaches))</pre>
-    </div>
-
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     MODULE 5 – SQL
-══════════════════════════════════════════ -->
-<div class="module">
-  <div class="module-header">
-    <span class="module-badge">MODULE 5</span>
-    <h2>SQL — Structured Query Language</h2>
-  </div>
-  <div class="module-body">
-
-    <!-- L16 -->
-    <div class="lecture" id="l16">
-      <div class="lecture-title"><span class="lnum">L16</span><h3>Basic SQL, DDL, DML, DCL & Views</h3></div>
-      <p>SQL (Structured Query Language) is the standard language for relational databases. Originally called SEQUEL, developed at IBM in the 1970s.</p>
-
-      <p><strong>DDL — Data Definition Language</strong></p>
-      <pre>-- Create a table
-CREATE TABLE instructor (
-  ID        CHAR(5),
-  name      VARCHAR(20) NOT NULL,
-  dept_name VARCHAR(20),
-  salary    NUMERIC(8,2),
-  PRIMARY KEY (ID),
-  FOREIGN KEY (dept_name) REFERENCES department(dept_name)
-);
-
--- Drop a table
-DROP TABLE instructor;
-
--- Alter: add a column
-ALTER TABLE instructor ADD COLUMN email VARCHAR(50);
-
--- Alter: drop a column
-ALTER TABLE instructor DROP COLUMN email;</pre>
-
-      <p><strong>DML — Data Manipulation Language</strong></p>
-      <pre>-- SELECT: basic query structure
-SELECT name, salary
-FROM instructor
-WHERE dept_name = 'Comp. Sci.' AND salary > 70000
-ORDER BY salary DESC;
-
--- INSERT
-INSERT INTO instructor VALUES ('10111', 'Nirupam', 'CS', 75000);
-
--- UPDATE
-UPDATE instructor SET salary = salary * 1.05
-WHERE dept_name = 'Comp. Sci.';
-
--- DELETE
-DELETE FROM instructor WHERE dept_name = 'Finance';</pre>
-
-      <p><strong>VIEWS — Virtual Tables</strong></p>
-      <pre>-- Create a view
-CREATE VIEW faculty AS
-  SELECT ID, name, dept_name
-  FROM instructor;
-
--- Query the view like a table
-SELECT name FROM faculty WHERE dept_name = 'Physics';</pre>
-      <div class="callout tip"><span class="label">💡 Why Views?</span>Views provide <em>logical data independence</em> — the underlying table can change, but as long as the view still computes the same result, apps keep working. They also implement security by hiding sensitive columns like salary.</div>
-
-      <p><strong>Additional SELECT Clauses:</strong></p>
-      <pre>-- AS: rename in output
-SELECT name AS instructor_name, salary * 12 AS annual_salary
-FROM instructor;
-
--- DISTINCT: remove duplicates
-SELECT DISTINCT dept_name FROM instructor;
-
--- LIKE: pattern matching
-SELECT name FROM instructor WHERE name LIKE 'S%';  -- starts with S
-SELECT name FROM instructor WHERE name LIKE '__a%'; -- 3rd char is 'a'
-
--- NULL checks
-SELECT name FROM instructor WHERE salary IS NULL;
-SELECT name FROM instructor WHERE salary IS NOT NULL;</pre>
-    </div>
-
-    <hr>
-
-    <!-- L17 -->
-    <div class="lecture" id="l17">
-      <div class="lecture-title"><span class="lnum">L17</span><h3>SQL Joins</h3></div>
-      <p>Joins combine rows from two or more tables based on a related column.</p>
-      <pre>-- INNER JOIN (most common): only matching rows
-SELECT s.name, t.course_id
-FROM student s
-INNER JOIN takes t ON s.ID = t.ID;
-
--- Same using NATURAL JOIN (auto-matches common columns)
-SELECT name, course_id
-FROM student NATURAL JOIN takes;
-
--- LEFT OUTER JOIN: all rows from left, NULL for non-matches on right
-SELECT s.name, t.course_id
-FROM student s LEFT OUTER JOIN takes t ON s.ID = t.ID;
--- Shows students even if they haven't taken any course
-
--- RIGHT OUTER JOIN
-SELECT s.name, t.course_id
-FROM student s RIGHT OUTER JOIN takes t ON s.ID = t.ID;
-
--- FULL OUTER JOIN: all rows from both sides
-SELECT s.name, t.course_id
-FROM student s FULL OUTER JOIN takes t ON s.ID = t.ID;</pre>
-      <div class="callout tip"><span class="label">💡 INNER vs OUTER – Key Difference</span>INNER JOIN: only rows that match on both sides. OUTER JOIN: includes unmatched rows too, filling missing columns with NULL. Most real applications use inner joins for data retrieval and outer joins for reporting/analysis.</div>
-    </div>
-
-    <hr>
-
-    <!-- L18 -->
-    <div class="lecture" id="l18">
-      <div class="lecture-title"><span class="lnum">L18</span><h3>SQL Sub-queries</h3></div>
-      <p>A sub-query (nested query) is a SELECT statement inside another SQL statement.</p>
-      <pre>-- Sub-query in WHERE: find instructors earning more than avg salary
-SELECT name FROM instructor
-WHERE salary > (SELECT AVG(salary) FROM instructor);
-
--- IN sub-query: find students who took a course in Fall 2009
-SELECT DISTINCT ID, name FROM student
-WHERE ID IN (
-  SELECT ID FROM takes
-  WHERE semester = 'Fall' AND year = 2009
-);
-
--- NOT IN: students who did NOT take any CS course
-SELECT name FROM student
-WHERE ID NOT IN (
-  SELECT s.ID FROM takes t
-  JOIN course c ON t.course_id = c.course_id
-  WHERE c.dept_name = 'Comp. Sci.'
-);
-
--- EXISTS: find courses with at least one student enrolled
-SELECT course_id FROM course c
-WHERE EXISTS (
-  SELECT 1 FROM takes t WHERE t.course_id = c.course_id
-);
-
--- Scalar sub-query: in SELECT list
-SELECT name, (SELECT COUNT(*) FROM takes t WHERE t.ID = i.ID) AS course_count
-FROM instructor i;</pre>
-    </div>
-
-    <hr>
-
-    <!-- L19 -->
-    <div class="lecture" id="l19">
-      <div class="lecture-title"><span class="lnum">L19</span><h3>SQL Aggregate Operations & Cursors</h3></div>
-      <p><strong>Aggregate Functions</strong> operate on a set of values and return a single value:</p>
-      <pre>-- Basic aggregates
-SELECT COUNT(*) AS total_instructors FROM instructor;
-SELECT AVG(salary) AS avg_salary FROM instructor;
-SELECT SUM(salary) AS total_payroll FROM instructor;
-SELECT MAX(salary) AS highest_salary FROM instructor;
-SELECT MIN(salary) AS lowest_salary FROM instructor;
-
--- COUNT DISTINCT
-SELECT COUNT(DISTINCT dept_name) AS num_departments FROM instructor;
-
--- GROUP BY: compute aggregate per group
-SELECT dept_name, AVG(salary) AS avg_salary
-FROM instructor
-GROUP BY dept_name;
-
--- HAVING: filter on aggregated results (like WHERE but for groups)
-SELECT dept_name, AVG(salary) AS avg_salary
-FROM instructor
-GROUP BY dept_name
-HAVING AVG(salary) > 75000;
-
--- Full example: departments with >2 instructors, showing count & avg salary
-SELECT dept_name, COUNT(*) AS num_instructors, AVG(salary) AS avg_salary
-FROM instructor
-GROUP BY dept_name
-HAVING COUNT(*) > 2
-ORDER BY avg_salary DESC;</pre>
-
-      <div class="callout warn"><span class="label">⚠️ WHERE vs HAVING</span>WHERE filters <em>individual rows before grouping</em>. HAVING filters <em>groups after aggregation</em>. You cannot use aggregate functions in WHERE; use HAVING instead.</div>
-
-      <p><strong>Cursors</strong> allow row-by-row processing of query results (used in PL/SQL / stored procedures):</p>
-      <pre>-- PL/SQL Cursor Example (Oracle)
-DECLARE
-  CURSOR c_instructor IS
-    SELECT name, salary FROM instructor WHERE dept_name = 'CS';
-  v_name    instructor.name%TYPE;
-  v_salary  instructor.salary%TYPE;
-BEGIN
-  OPEN c_instructor;
-  LOOP
-    FETCH c_instructor INTO v_name, v_salary;
-    EXIT WHEN c_instructor%NOTFOUND;
-    DBMS_OUTPUT.PUT_LINE(v_name || ': ' || v_salary);
-  END LOOP;
-  CLOSE c_instructor;
-END;</pre>
-    </div>
-
-    <hr>
-
-    <!-- L20 -->
-    <div class="lecture" id="l20">
-      <div class="lecture-title"><span class="lnum">L20</span><h3>Dynamic SQL</h3></div>
-      <p>Dynamic SQL allows building and executing SQL statements at <em>runtime</em> — the SQL string is constructed dynamically (useful when table name or conditions aren't known at compile time).</p>
-      <pre>-- PL/SQL Dynamic SQL using EXECUTE IMMEDIATE
-DECLARE
-  v_dept   VARCHAR2(20) := 'Physics';
-  v_sql    VARCHAR2(200);
-  v_count  NUMBER;
-BEGIN
-  v_sql := 'SELECT COUNT(*) FROM instructor WHERE dept_name = :1';
-  EXECUTE IMMEDIATE v_sql INTO v_count USING v_dept;
-  DBMS_OUTPUT.PUT_LINE('Count: ' || v_count);
-END;
-
--- Dynamic table name example
-DECLARE
-  v_table VARCHAR2(50) := 'instructor';
-  v_sql   VARCHAR2(200);
-BEGIN
-  v_sql := 'SELECT COUNT(*) FROM ' || v_table;
-  EXECUTE IMMEDIATE v_sql;
-END;</pre>
-      <div class="callout warn"><span class="label">⚠️ SQL Injection Risk</span>Never concatenate user input directly into dynamic SQL strings — this opens a <em>SQL injection vulnerability</em>. Always use bind variables (like <code>:1</code> above) to safely pass user-provided values.</div>
-    </div>
-
-    <hr>
-
-    <!-- L21 -->
-    <div class="lecture" id="l21">
-      <div class="lecture-title"><span class="lnum">L21</span><h3>Integrity Constraints in SQL</h3></div>
-      <pre>CREATE TABLE instructor (
-  ID        CHAR(5)     PRIMARY KEY,
-  name      VARCHAR(20) NOT NULL,
-  dept_name VARCHAR(20),
-  salary    NUMERIC(8,2) CHECK (salary > 0),  -- domain constraint
-  FOREIGN KEY (dept_name) REFERENCES department(dept_name)
-    ON DELETE SET NULL   -- if dept deleted, set to NULL
-    ON UPDATE CASCADE    -- if dept_name changes, propagate here
-);
-
--- Unique constraint (candidate key)
-CREATE TABLE course (
-  course_id CHAR(7) PRIMARY KEY,
-  title     VARCHAR(50) UNIQUE,   -- no two courses with same title
-  credits   NUMERIC(2,0) CHECK (credits > 0 AND credits <= 4)
-);
-
--- Assertion: a constraint across tables (rarely supported)
-CREATE ASSERTION salary_check CHECK (
-  NOT EXISTS (
-    SELECT * FROM instructor i, department d
-    WHERE i.dept_name = d.dept_name AND i.salary > d.budget
-  )
-);</pre>
-      <div class="tbl-wrap">
-        <table>
-          <tr><th>Constraint</th><th>Clause</th><th>Effect</th></tr>
-          <tr><td>NOT NULL</td><td>Column-level</td><td>Attribute must have a value</td></tr>
-          <tr><td>UNIQUE</td><td>Column or table-level</td><td>No duplicate values (allows NULL)</td></tr>
-          <tr><td>PRIMARY KEY</td><td>Table-level</td><td>UNIQUE + NOT NULL</td></tr>
-          <tr><td>FOREIGN KEY</td><td>Table-level</td><td>References PK of another table</td></tr>
-          <tr><td>CHECK</td><td>Column or table-level</td><td>Value must satisfy a predicate</td></tr>
-        </table>
-      </div>
-    </div>
-
-    <hr>
-
-    <!-- L22 -->
-    <div class="lecture" id="l22">
-      <div class="lecture-title"><span class="lnum">L22</span><h3>SQL Triggers</h3></div>
-      <div class="callout def"><span class="label">📌 Trigger</span>A <em>stored procedure</em> that automatically executes (fires) in response to a specific event (INSERT, UPDATE, DELETE) on a specific table.</div>
-      <pre>-- Oracle PL/SQL trigger: auto-update timestamp on salary change
-CREATE OR REPLACE TRIGGER salary_update_log
-AFTER UPDATE OF salary ON instructor
-FOR EACH ROW
-BEGIN
-  INSERT INTO salary_audit(emp_id, old_sal, new_sal, changed_on)
-  VALUES (:OLD.ID, :OLD.salary, :NEW.salary, SYSDATE);
-END;
-
--- BEFORE trigger: prevent negative salary
-CREATE OR REPLACE TRIGGER check_salary
-BEFORE INSERT OR UPDATE ON instructor
-FOR EACH ROW
-BEGIN
-  IF :NEW.salary < 0 THEN
-    RAISE_APPLICATION_ERROR(-20001, 'Salary cannot be negative');
-  END IF;
-END;</pre>
-      <div class="tbl-wrap">
-        <table>
-          <tr><th>Property</th><th>Options</th></tr>
-          <tr><td>Timing</td><td>BEFORE, AFTER, INSTEAD OF</td></tr>
-          <tr><td>Event</td><td>INSERT, UPDATE, DELETE (or combinations)</td></tr>
-          <tr><td>Level</td><td>ROW level (FOR EACH ROW) or Statement level</td></tr>
-          <tr><td>References</td><td>:OLD (previous values), :NEW (new values)</td></tr>
-        </table>
-      </div>
-      <div class="callout warn"><span class="label">⚠️ Use Triggers Carefully</span>Triggers execute invisibly — they can cause unexpected behavior, cascading effects, and performance issues if overused. Prefer constraints when possible; use triggers only for logic that can't be expressed as constraints.</div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════════
-     MODULE 6 – DATABASE DESIGN
-══════════════════════════════════════════ -->
-<div class="module">
-  <div class="module-header">
-    <span class="module-badge">MODULE 6</span>
-    <h2>Database Design — Functional Dependencies & Normalization</h2>
-  </div>
-  <div class="module-body">
-
-    <!-- L23 -->
-    <div class="lecture" id="l23">
-      <div class="lecture-title"><span class="lnum">L23</span><h3>Armstrong's Axioms & Functional Dependencies</h3></div>
-
-      <div class="callout def"><span class="label">📌 Functional Dependency (FD)</span>A constraint X → Y holds on relation R if for any two tuples t1, t2 in R: if t1[X] = t2[X] then t1[Y] = t2[Y]. Knowing the value of X uniquely determines the value of Y.</div>
-
-      <p><strong>Types of Functional Dependencies:</strong></p>
-      <div class="tbl-wrap">
-        <table>
-          <tr><th>Type</th><th>Definition</th><th>Example</th></tr>
-          <tr><td>Trivial FD</td><td>Y ⊆ X (Y is subset of X)</td><td>{A,B} → A (always true)</td></tr>
-          <tr><td>Non-Trivial FD</td><td>Y ⊄ X</td><td>StudentID → Name</td></tr>
-          <tr><td>Full FD</td><td>Y depends on complete X (composite key), not any proper subset</td><td>{SID, CID} → Grade</td></tr>
-          <tr><td>Partial FD</td><td>Y depends on only part of composite key</td><td>SID → StudentName (partial dependency on {SID,CID})</td></tr>
-          <tr><td>Transitive FD</td><td>X→Y and Y→Z implies X→Z where Y is non-key</td><td>RollNo→Dept, Dept→DeptHead ⟹ RollNo→DeptHead</td></tr>
-        </table>
+      <div class="card">
+        <h3>🔴⚫ Why Red-Black Trees?</h3>
+        <p>AVL trees are strictly balanced → great for searching but expensive to maintain (many rotations). RB Trees are <strong>loosely balanced</strong> → fewer rotations on insert/delete, faster updates.</p>
+        <div class="grid2">
+          <div class="case-box">
+            <div class="case-title">AVL Tree</div>
+            <p>BF must be -1, 0, +1 at every node. More rotations on update. Better search performance.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Red-Black Tree</div>
+            <p>Colour-based balance. At most 2 rotations per insert. Slightly taller but faster updates.</p>
+          </div>
+        </div>
       </div>
 
-      <p><strong>Armstrong's Axioms</strong> — complete and sound rules for deriving all FDs from a given set F:</p>
-      <ol>
-        <li><strong>Reflexivity:</strong> If β ⊆ α, then α → β. (Trivial — X always determines a subset of itself)</li>
-        <li><strong>Augmentation:</strong> If α → β, then αγ → βγ. (Adding same attributes to both sides)</li>
-        <li><strong>Transitivity:</strong> If α → β and β → γ, then α → γ.</li>
-      </ol>
-      <p>From these, we can derive additional rules:</p>
-      <ul>
-        <li><strong>Union:</strong> If α→β and α→γ, then α→βγ</li>
-        <li><strong>Decomposition:</strong> If α→βγ, then α→β and α→γ</li>
-        <li><strong>Pseudo-transitivity:</strong> If α→β and βγ→δ, then αγ→δ</li>
-      </ul>
-
-      <p><strong>Attribute Closure (α⁺)</strong> — the set of all attributes that α can determine:</p>
-      <pre>-- Algorithm to compute (AG)+ given F = {A→B, A→C, CG→H, CG→I, B→H}
-result = {A, G}
-Apply A→B  → result = {A, B, G}
-Apply A→C  → result = {A, B, C, G}
-Apply CG→H → result = {A, B, C, G, H}
-Apply CG→I → result = {A, B, C, G, H, I}
-Apply B→H  → H already present
-∴ (AG)+ = {A, B, C, G, H, I}</pre>
-
-      <p><strong>Finding Candidate Keys using Closure:</strong></p>
-      <ol>
-        <li>Find attributes that <em>never appear on the RHS</em> of any FD — they must be in every candidate key.</li>
-        <li>Compute the closure of those attributes.</li>
-        <li>If closure = all attributes of R → those attributes form a candidate key.</li>
-        <li>Check minimality: no proper subset should also give the full closure.</li>
-      </ol>
-      <div class="callout tip"><span class="label">💡 Quick Rule for Candidate Key</span>An attribute that <strong>never appears on the RHS</strong> of any FD cannot be derived from other attributes → it must be part of every candidate key. Start your search there!</div>
-    </div>
-
-    <hr>
-
-    <!-- L24 -->
-    <div class="lecture" id="l24">
-      <div class="lecture-title"><span class="lnum">L24</span><h3>Canonical Cover, Lossless Join & Dependency Preservation</h3></div>
-
-      <p><strong>Canonical Cover (F<sub>c</sub>)</strong> — a minimal, equivalent set of FDs with no redundancy:</p>
-      <ol>
-        <li><strong>Step 1:</strong> Make all RHS single attributes (decompose: A→BC becomes A→B and A→C).</li>
-        <li><strong>Step 2:</strong> Remove extraneous attributes from LHS — for FD X→A, check if any attribute B in X can be removed (i.e., (X−B)+ already determines A).</li>
-        <li><strong>Step 3:</strong> Remove redundant FDs — check if each FD X→A can be derived from the remaining FDs (i.e., A ∈ X+ without that FD).</li>
-      </ol>
-      <pre>-- Example: E = {B→A, D→A, AB→D}
-Step 1: All RHS already single. No decomposition needed.
-Step 2: Check AB→D for extraneous attributes:
-  - Remove A: B+ = {B,A,D} (via B→A then AB→D... actually B→D via B+)
-    B+ with {B→A, D→A, B→D} = {B,A,D} ✓ → A is extraneous!
-  - Replace AB→D with B→D
-Step 3: Current set = {B→A, D→A, B→D}
-  - B→A: without it, B+ = {B,D,A} via B→D, D→A → B→A redundant!
-  - Remove B→A
-Final Canonical Cover: Fc = {B→D, D→A}</pre>
-
-      <p><strong>Lossless-Join Decomposition</strong> — splitting a relation R into R1 and R2 such that we can reconstruct R exactly:</p>
-      <div class="callout def"><span class="label">📌 Lossless Decomposition</span>Decomposition of R into R1 and R2 is lossless if: R1 ∩ R2 → R1 OR R1 ∩ R2 → R2. The common attributes form a key of at least one of R1 or R2.</div>
-      <pre>-- Example: R(A,B,C), F={A→B, B→C}
--- Decompose into R1(A,B) and R2(B,C)
--- R1 ∩ R2 = {B}
--- B → BC (since B→C), so B→R2 ✓ → Lossless!
-
--- Bad decomposition: R1(A,B) and R2(A,C)
--- R1 ∩ R2 = {A}
--- A → AB? Yes. → Lossless too!
--- But: R1(ID, name) and R2(name, street) would be LOSSY
--- because name→name is not a key (two people can have same name)</pre>
-
-      <p><strong>Dependency Preservation</strong> — all original FDs can still be checked using individual decomposed relations (without needing joins):</p>
-      <div class="callout warn"><span class="label">⚠️ Trade-off</span>BCNF always achieves lossless decomposition but may NOT preserve all dependencies. 3NF always preserves dependencies and is lossless, but may have some redundancy. In practice, 3NF is often preferred because checking FDs after decomposition is much cheaper than joining tables.</div>
-    </div>
-
-    <hr>
-
-    <!-- L25 -->
-    <div class="lecture" id="l25">
-      <div class="lecture-title"><span class="lnum">L25</span><h3>Problems with NULL Values & Dangling Tuples</h3></div>
-      <p><strong>NULL values</strong> represent missing, unknown, or inapplicable information. They cause serious problems in many operations:</p>
-
-      <p><strong>Problems with NULLs:</strong></p>
-      <ul>
-        <li><strong>Comparisons:</strong> NULL = NULL is UNKNOWN (not TRUE). You can't use <code>=</code> with NULL; must use <code>IS NULL</code>.</li>
-        <li><strong>Arithmetic:</strong> Any arithmetic with NULL returns NULL. 5 + NULL = NULL.</li>
-        <li><strong>Aggregates:</strong> COUNT(*) counts NULLs, but SUM/AVG/MAX/MIN ignore them.</li>
-        <li><strong>Three-valued logic:</strong> SQL uses TRUE, FALSE, UNKNOWN. A WHERE clause includes only TRUE rows.</li>
-      </ul>
-      <div class="tbl-wrap">
-        <table>
-          <tr><th>Expression</th><th>Result</th></tr>
-          <tr><td>NULL = NULL</td><td>UNKNOWN</td></tr>
-          <tr><td>NULL > 5</td><td>UNKNOWN</td></tr>
-          <tr><td>NULL AND TRUE</td><td>UNKNOWN</td></tr>
-          <tr><td>NULL OR TRUE</td><td>TRUE</td></tr>
-          <tr><td>NOT NULL</td><td>UNKNOWN</td></tr>
-          <tr><td>NULL IS NULL</td><td>TRUE</td></tr>
-        </table>
-      </div>
-
-      <p><strong>Dangling Tuples</strong> — tuples that fail to join with any tuple in the other relation. In a natural/inner join, such tuples are simply lost from the result.</p>
-      <div class="callout warn"><span class="label">⚠️ Example</span>If a student has <code>dept_name = NULL</code> and you do <code>student NATURAL JOIN department</code>, that student disappears from the result — a dangling tuple! Use LEFT OUTER JOIN to preserve such tuples with NULLs filled in for missing department columns.</div>
-      <p><strong>Why decomposition can create dangling tuples:</strong> If we decompose relation R into R1 and R2 based on a lossy decomposition, re-joining R1 ⋈ R2 may produce <em>spurious tuples</em> (extra wrong rows) not in original R. Lossless decomposition prevents this.</p>
-    </div>
-
-    <hr>
-
-    <!-- L26 -->
-    <div class="lecture" id="l26">
-      <div class="lecture-title"><span class="lnum">L26</span><h3>1NF and 2NF — First and Second Normal Form</h3></div>
-
-      <p><strong>Why Normalize?</strong> — Poor database design causes anomalies:</p>
-      <div class="tbl-wrap">
-        <table>
-          <tr><th>Anomaly</th><th>Problem</th><th>Example</th></tr>
-          <tr><td>Insertion Anomaly</td><td>Can't insert new fact without inserting unrelated data</td><td>Can't add a new course unless a student enrolls</td></tr>
-          <tr><td>Deletion Anomaly</td><td>Deleting one fact accidentally deletes another</td><td>Deleting only student in OS course deletes the course info</td></tr>
-          <tr><td>Update Anomaly</td><td>Same data stored in multiple places — partial update = inconsistency</td><td>Instructor change must be updated in every row</td></tr>
-        </table>
-      </div>
-
-      <p><strong>First Normal Form (1NF)</strong></p>
-      <div class="callout def"><span class="label">📌 1NF Rule</span>A relation is in 1NF if every attribute contains <em>atomic</em> (indivisible) values — no multi-valued attributes, no repeating groups, no sets/lists in any cell.</div>
-      <div class="tbl-wrap">
-        <table>
-          <tr><th>❌ Not in 1NF</th></tr>
-          <tr><td>Student_ID: 101, Name: Amit, Phone: {9876, 8765}</td></tr>
-        </table>
-      </div>
-      <div class="tbl-wrap">
-        <table>
-          <tr><th>✅ 1NF Version</th></tr>
-          <tr><td>101 | Amit | 9876</td></tr>
-          <tr><td>101 | Amit | 8765</td></tr>
-        </table>
-      </div>
-
-      <p><strong>Second Normal Form (2NF)</strong></p>
-      <div class="callout def"><span class="label">📌 2NF Rule</span>A relation is in 2NF if:
-        <ol style="margin-top:8px"><li>It is already in 1NF, AND</li><li>There is <em>no partial dependency</em> — every non-prime attribute must depend on the <em>entire</em> candidate key, not just part of it.</li></ol>
-      </div>
-      <div class="callout key"><span class="label">🔑 Partial dependency only matters when the candidate key is COMPOSITE</span>If the candidate key has only one attribute, partial dependency is impossible (you can't partially depend on a single attribute) → relation is automatically in 2NF if it's in 1NF.</div>
-      <pre>-- Example: R(A, B, C, D, E, F), F = {A→C, B→DE, AB→F}
--- Step 1: Candidate Key?
---   A never appears on RHS, B never appears on RHS
---   Compute (AB)+ = {A,B,C,D,E,F} = all attributes → AB is CK!
--- Step 2: Prime attrs = {A, B}  |  Non-prime = {C, D, E, F}
--- Step 3: Check for partial deps:
---   A → C   : C depends on only A (part of AB) → PARTIAL DEP!
---   B → DE  : D,E depend on only B (part of AB) → PARTIAL DEP!
--- ∴ R is NOT in 2NF
-
--- Fix: Decompose!
--- R1(A, C)   [A→C]
--- R2(B, D, E) [B→DE]
--- R3(A, B, F) [AB→F] — the original key with the remaining attr</pre>
-      <div class="callout tip"><span class="label">💡 Exam Shortcut for 2NF</span>
-        <ol>
-          <li>Find candidate key(s).</li>
-          <li>Identify prime (in CK) and non-prime attributes.</li>
-          <li>If CK is single attribute → automatically 2NF.</li>
-          <li>If CK is composite → check every non-prime attr: does it depend on the full CK or just part?</li>
-          <li>Any non-prime attr depending on part of CK = partial dep = NOT 2NF.</li>
+      <div class="card">
+        <h3>📜 The 5 Red-Black Tree Properties</h3>
+        <ol style="padding-left:20px; color: var(--text-muted); font-size:0.88rem; line-height:2;">
+          <li><strong style="color:var(--text)">Every node is either RED or BLACK.</strong></li>
+          <li><strong style="color:var(--text)">The root is always BLACK.</strong></li>
+          <li><strong style="color:var(--text)">Every leaf (NIL sentinel) is BLACK.</strong></li>
+          <li><strong style="color:var(--text)">If a node is RED, both its children must be BLACK.</strong> (No two consecutive red nodes!)</li>
+          <li><strong style="color:var(--text)">For any node, all paths to descendant leaves contain the same number of BLACK nodes.</strong> (Black-height property)</li>
         </ol>
+        <div class="highlight warning">
+          <p><strong>Black-Height (bh):</strong> Number of black nodes on any path from a node to a leaf (not counting the node itself). This must be equal on every path.</p>
+        </div>
       </div>
 
-      <p><strong>Preview of 3NF & BCNF (L27 onwards — beyond MTE scope but good to know):</strong></p>
-      <div class="tbl-wrap">
+      <div class="card">
+        <h3>➕ RB Tree Insertion — The 4 Cases</h3>
+        <p>When we insert, we always colour the new node <strong>RED</strong> first. Then we fix violations.</p>
+        <div class="highlight">
+          <p><strong>Key Rule:</strong> A RED node cannot have a RED parent. If this happens → fix using one of these cases.</p>
+        </div>
+
+        <div class="grid2">
+          <div class="case-box">
+            <div class="case-title">Case 1: Uncle is RED (Recoloring)</div>
+            <p>Parent and Uncle are both RED. <br>→ Recolour: Parent = BLACK, Uncle = BLACK, Grandparent = RED.<br>→ Move the problem up to Grandparent.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Case 2: Uncle is BLACK + Triangle</div>
+            <p>New node and Parent form a triangle (zigzag). <br>→ Rotate Parent to straighten into a line (sets up Case 3).</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Case 3: Uncle is BLACK + Line</div>
+            <p>New node, Parent, Grandparent form a straight line.<br>→ Rotate Grandparent away. Swap colours of Parent and Grandparent.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Case 4: Root is RED</div>
+            <p>After fixing, if root becomes RED.<br>→ Simply recolour root to BLACK. (Increases black-height by 1)</p>
+          </div>
+        </div>
+
+        <div class="highlight danger">
+          <p><strong>⚠️ Remember for MTE:</strong> RB Tree DELETION is NOT in scope. Focus only on the 5 properties + insertion cases. Time complexity for all operations: <span class="cplx good">O(log n)</span></p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📊 AVL vs Red-Black Tree</h3>
         <table>
-          <tr><th>Normal Form</th><th>Eliminates</th><th>Rule</th></tr>
-          <tr><td>1NF</td><td>Multi-valued cells</td><td>All attributes atomic</td></tr>
-          <tr><td>2NF</td><td>Partial dependencies</td><td>No non-prime attr depends on part of composite CK</td></tr>
-          <tr><td>3NF</td><td>Transitive dependencies</td><td>For X→A: X is superkey OR A is prime</td></tr>
-          <tr><td>BCNF</td><td>All non-trivial anomalies</td><td>For X→Y: X must be a superkey (stricter than 3NF)</td></tr>
+          <tr><th>Feature</th><th>AVL Tree</th><th>Red-Black Tree</th></tr>
+          <tr><td>Balance Condition</td><td>BF ∈ {-1, 0, +1}</td><td>Color-based (no two consecutive RED)</td></tr>
+          <tr><td>Height Bound</td><td>≈ 1.44 log n (tighter)</td><td>≤ 2 log(n+1) (looser)</td></tr>
+          <tr><td>Rotations on Insert</td><td>≤ 2</td><td>≤ 2</td></tr>
+          <tr><td>Rotations on Delete</td><td>O(log n)</td><td>≤ 3</td></tr>
+          <tr><td>Best for</td><td>Frequent reads</td><td>Frequent inserts/deletes</td></tr>
+          <tr><td>Used in</td><td>Databases</td><td>Linux kernel, Java TreeMap</td></tr>
         </table>
       </div>
-    </div>
+    </section>
 
-  </div>
-</div>
+    <!-- ===== L18-19: B-TREES ===== -->
+    <section class="section" id="l18">
+      <div class="section-header">
+        <div class="section-num">L18-19</div>
+        <div>
+          <div class="section-title">B-Trees: Properties, Insertion & Deletion</div>
+          <div class="section-subtitle">Multi-way search tree for disk storage and databases</div>
+        </div>
+      </div>
 
-<!-- ══ FOOTER ══ -->
-<div style="text-align:center; padding: 40px 0 20px; color: var(--muted); font-size: .8rem;">
-  <p>CSC2103 · RDBMS Theory · Manipal University Jaipur · Lectures 1–26 (MTE Coverage)</p>
-  <p style="margin-top:4px">Based on: Silberschatz, Korth & Sudarshan — <em>Database System Concepts, 7th Ed.</em></p>
-</div>
+      <div class="card">
+        <h3>💾 Why B-Trees?</h3>
+        <p>BST, AVL, RB trees store 1 key per node → many disk accesses for large datasets. B-Trees store <strong>many keys per node</strong>, making the tree very wide and short → drastically fewer disk reads.</p>
+        <div class="highlight success">
+          <p><strong>Real World Example:</strong> A database with 1 billion records. BST height ≈ 30. B-Tree of order 1000 height ≈ 3. That's 27 fewer disk accesses per query!</p>
+        </div>
+      </div>
 
-</main>
+      <div class="card">
+        <h3>📋 B-Tree of Order m — Rules</h3>
+        <div class="grid2">
+          <div>
+            <ul style="padding-left:20px; font-size:0.85rem; color:var(--text-muted); line-height:2.2;">
+              <li>Every node has <strong>at most m children</strong></li>
+              <li>Every node (except root) has <strong>at least ⌈m/2⌉ children</strong></li>
+              <li>Root has at least <strong>2 children</strong> (if not a leaf)</li>
+              <li>A node with k children has <strong>k-1 keys</strong></li>
+              <li>All leaves appear at the <strong>same level</strong></li>
+              <li>Keys within each node are <strong>sorted</strong></li>
+            </ul>
+          </div>
+          <div>
+            <div class="tree-visual" style="font-size:0.72rem;">B-Tree of Order 3 (max 2 keys, 3 children):
+       [17]
+      /    \
+  [8]      [25 | 48]
+  / \      /   |   \
+[1,2][12,14][20][30][52,60]
+
+Max keys per node = m-1 = 2
+Min keys (non-root) = ⌈m/2⌉-1 = 1</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>➕ B-Tree Insertion</h3>
+        <div class="algo">
+          <div class="algo-title">ALGORITHM: B-Tree Insert(key)</div>
+          1. Start at root, find the appropriate leaf node<br>
+          2. Insert key in sorted order within that node<br>
+          3. IF node has ≤ (m-1) keys → DONE (no overflow)<br>
+          4. IF node overflows (m keys):<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;a. Find the MIDDLE key (position ⌈m/2⌉)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;b. SPLIT node into two halves<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;c. PROMOTE middle key to parent<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;d. If parent overflows → repeat from step 4<br>
+          5. If ROOT splits → create new root (tree grows taller by 1)
+        </div>
+
+        <div class="highlight warning">
+          <p><strong>Worked Example — Build B-Tree of Order 5</strong><br>
+          Inserting: 1, 12, 8, 2, 25, 6, 14, 28, 17...<br>
+          Max keys = 4 (m-1). Min keys (non-root) = 2.<br>
+          First 4 keys fit in root: [1|2|8|12]<br>
+          Insert 25 → overflow → middle key = 8 → promote 8<br>
+          Root becomes [8], Left child = [1|2], Right child = [12|25]<br>
+          Insert 6 → goes to left child → [1|2|6]<br>
+          Insert 14 → goes to right child → [12|14|25]<br>
+          Insert 28 → right child = [12|14|25|28] (full but ok)<br>
+          Insert 17 → right child would be [12|14|17|25|28] → overflow!<br>
+          Middle = 17 → promote 17 → root becomes [8|17]</p>
+        </div>
+
+        <h4>Split with One Middle Key (Odd overflow)</h4>
+<pre style="font-size:0.78rem;">Overflow node: [10 | 20 | 30 | 40 | 50]
+Middle key = 30 → promote to parent
+
+           [30]
+          /    \
+    [10|20]    [40|50]</pre>
+
+        <h4>Split with Two Middle Keys (Even overflow)</h4>
+<pre style="font-size:0.78rem;">Overflow node: [10 | 20 | 30 | 40]
+Two middles: 20 and 30 — pick one (be consistent!)
+
+Option A (promote 20):    Option B (promote 30):
+    [20]                      [30]
+   /    \                    /    \
+ [10]  [30|40]          [10|20]  [40]</pre>
+      </div>
+
+      <div class="card">
+        <h3>❌ B-Tree Deletion</h3>
+        <div class="algo">
+          <div class="algo-title">Cases for B-Tree Deletion</div>
+          <strong>Case 1: Key is in a LEAF node</strong><br>
+          &nbsp;→ Simply remove it. If node still has ≥ ⌈m/2⌉−1 keys → DONE.<br><br>
+          <strong>Case 2: Key is in an INTERNAL node</strong><br>
+          &nbsp;→ Replace with in-order predecessor OR successor (from a leaf).<br>
+          &nbsp;→ Then delete that predecessor/successor from the leaf.<br><br>
+          <strong>Underflow after deletion:</strong><br>
+          &nbsp;Option A — BORROW from a sibling (if sibling has extra keys).<br>
+          &nbsp;Option B — MERGE with a sibling + pull down parent key.
+        </div>
+        <p style="font-size:0.85rem; color:var(--text-muted);">Time Complexity: <span class="cplx good">O(log n)</span> for all operations</p>
+      </div>
+    </section>
+
+    <!-- ===== L20: TREE COMPARISON ===== -->
+    <section class="section" id="l20">
+      <div class="section-header">
+        <div class="section-num">L20</div>
+        <div>
+          <div class="section-title">Comparative Study of All Trees</div>
+          <div class="section-subtitle">Know when to use which tree — exam favourite!</div>
+        </div>
+      </div>
+      <div class="card">
+        <h3>📊 Master Comparison Table</h3>
+        <table>
+          <tr><th>Feature</th><th>BST</th><th>AVL</th><th>Red-Black</th><th>B-Tree</th></tr>
+          <tr><td>Keys per node</td><td>1</td><td>1</td><td>1</td><td>m-1 (many)</td></tr>
+          <tr><td>Balance type</td><td>None</td><td>Strict (BF)</td><td>Colour-based</td><td>Order-based</td></tr>
+          <tr><td>Height</td><td>O(n) worst</td><td>O(log n)</td><td>O(log n)</td><td>O(log_m n)</td></tr>
+          <tr><td>Search</td><td>O(n) worst</td><td>O(log n)</td><td>O(log n)</td><td>O(log n)</td></tr>
+          <tr><td>Insert</td><td>O(n) worst</td><td>O(log n)</td><td>O(log n)</td><td>O(log n)</td></tr>
+          <tr><td>Delete</td><td>O(n) worst</td><td>O(log n)</td><td>O(log n)</td><td>O(log n)</td></tr>
+          <tr><td>Rotations on insert</td><td>0</td><td>1-2</td><td>≤2</td><td>None</td></tr>
+          <tr><td>Best for</td><td>Small/random data</td><td>Many reads</td><td>Many updates</td><td>Disk/DB storage</td></tr>
+          <tr><td>Examples</td><td>Symbol tables</td><td>Memory DBs</td><td>Linux kernel</td><td>MySQL, File systems</td></tr>
+        </table>
+        <div class="highlight">
+          <p><strong>Rule of Thumb for Exams:</strong><br>
+          Data on disk/large dataset → <strong>B-Tree</strong><br>
+          Frequent reads, memory-based → <strong>AVL Tree</strong><br>
+          Frequent inserts/deletes → <strong>Red-Black Tree</strong><br>
+          Simple, small dataset → <strong>BST</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== L21-22: HEAPS ===== -->
+    <section class="section" id="l21">
+      <div class="section-header">
+        <div class="section-num">L21-22</div>
+        <div>
+          <div class="section-title">Heaps & Heap Sort</div>
+          <div class="section-subtitle">Complete binary tree stored as array, with the heap property</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🌳 What is a Heap?</h3>
+        <div class="grid2">
+          <div>
+            <h4>Max-Heap</h4>
+            <p style="font-size:0.85rem; color:var(--text-muted);">Every node's value ≥ its children. <strong>Root = Maximum element.</strong></p>
+            <div class="tree-visual" style="font-size:0.75rem;">      16
+     /  \
+   14    10
+  / \   / \
+ 8   7  9   3
+/ \
+2   4
+Array: [16,14,10,8,7,9,3,2,4]</div>
+          </div>
+          <div>
+            <h4>Min-Heap</h4>
+            <p style="font-size:0.85rem; color:var(--text-muted);">Every node's value ≤ its children. <strong>Root = Minimum element.</strong></p>
+            <div class="tree-visual" style="font-size:0.75rem;">      2
+     /  \
+   4     6
+  / \   / \
+ 8   10 12  14
+
+Array: [2,4,6,8,10,12,14]</div>
+          </div>
+        </div>
+
+        <div class="highlight success">
+          <p><strong>Key Property:</strong> A heap is ALWAYS a <strong>Complete Binary Tree</strong> (all levels full except possibly the last, filled left to right).<br>
+          This makes array representation perfect: for index i (0-based):<br>
+          Parent = (i-1)/2 | Left child = 2i+1 | Right child = 2i+2</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>⬆️ Heapify — The Core Operation</h3>
+        <p>MAX-HEAPIFY: Given a node that violates the heap property, fix it by swapping down.</p>
+<pre><span class="kw">void</span> <span class="fn">maxHeapify</span>(<span class="type">int</span> arr[], <span class="type">int</span> n, <span class="type">int</span> i) {
+    <span class="type">int</span> largest = i;        <span class="cm">// assume root is largest</span>
+    <span class="type">int</span> left  = <span class="num">2</span>*i + <span class="num">1</span>;
+    <span class="type">int</span> right = <span class="num">2</span>*i + <span class="num">2</span>;
+
+    <span class="kw">if</span> (left  &lt; n && arr[left]  > arr[largest]) largest = left;
+    <span class="kw">if</span> (right &lt; n && arr[right] > arr[largest]) largest = right;
+
+    <span class="kw">if</span> (largest != i) {
+        <span class="cm">// swap and continue fixing downward</span>
+        <span class="type">int</span> temp = arr[i];
+        arr[i] = arr[largest];
+        arr[largest] = temp;
+        <span class="fn">maxHeapify</span>(arr, n, largest);  <span class="cm">// recurse</span>
+    }
+}</pre>
+
+        <h4>Build Heap from Array — O(n)</h4>
+<pre><span class="kw">void</span> <span class="fn">buildMaxHeap</span>(<span class="type">int</span> arr[], <span class="type">int</span> n) {
+    <span class="cm">// Start from last non-leaf node (n/2 - 1) and go up</span>
+    <span class="kw">for</span> (<span class="type">int</span> i = n/<span class="num">2</span> - <span class="num">1</span>; i >= <span class="num">0</span>; i--)
+        <span class="fn">maxHeapify</span>(arr, n, i);
+} <span class="cm">// O(n) — not O(n log n) !</span></pre>
+        <div class="highlight warning">
+          <p><strong>Exam Tip:</strong> BUILD-MAX-HEAP starts from index n/2-1 (last non-leaf) down to 0, calling heapify on each. This is O(n) due to the mathematical analysis of how many nodes exist at each level.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📈 Heap Sort Algorithm</h3>
+        <div class="algo">
+          <div class="algo-title">HEAP-SORT(A)</div>
+          Step 1: BUILD-MAX-HEAP(A) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ O(n)<br>
+          Step 2: for i from n-1 downto 1:<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Swap A[0] (max) with A[i] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ place max at end<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Reduce heap size by 1<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;MAX-HEAPIFY(A, 0, i) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;→ O(log n) per step<br>
+          Total: O(n log n)
+        </div>
+<pre><span class="kw">void</span> <span class="fn">heapSort</span>(<span class="type">int</span> arr[], <span class="type">int</span> n) {
+    <span class="fn">buildMaxHeap</span>(arr, n);  <span class="cm">// Step 1</span>
+    
+    <span class="kw">for</span> (<span class="type">int</span> i = n - <span class="num">1</span>; i > <span class="num">0</span>; i--) {
+        <span class="cm">// Move current root (max) to end</span>
+        <span class="type">int</span> temp = arr[<span class="num">0</span>];
+        arr[<span class="num">0</span>] = arr[i];
+        arr[i] = temp;
+        <span class="cm">// Heapify the reduced heap</span>
+        <span class="fn">maxHeapify</span>(arr, i, <span class="num">0</span>);
+    }
+}</pre>
+        <table>
+          <tr><th>Property</th><th>Value</th></tr>
+          <tr><td>Time Complexity</td><td><span class="cplx good">O(n log n)</span> — all cases</td></tr>
+          <tr><td>Space Complexity</td><td><span class="cplx good">O(1)</span> — in-place sorting</td></tr>
+          <tr><td>Stable?</td><td>❌ Not stable</td></tr>
+          <tr><td>Build Heap</td><td><span class="cplx good">O(n)</span></td></tr>
+          <tr><td>Root Access</td><td><span class="cplx good">O(1)</span></td></tr>
+          <tr><td>Insert / Delete root</td><td><span class="cplx good">O(log n)</span></td></tr>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== L23: INTRO TO GRAPHS ===== -->
+    <section class="section" id="l23">
+      <div class="section-header">
+        <div class="section-num">L23</div>
+        <div>
+          <div class="section-title">Introduction to Graphs</div>
+          <div class="section-subtitle">G = (V, E) — the most general data structure for relationships</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📖 What is a Graph?</h3>
+        <p>A graph G = (V, E) is an ordered pair where V = set of vertices (nodes) and E = set of edges (connections between pairs of vertices).</p>
+        <div class="highlight">
+          <p><strong>Tree vs Graph:</strong> A tree is a restricted graph (connected, acyclic, n nodes have n-1 edges, one unique path between any two nodes). A graph is more general — can have cycles, multiple paths, disconnected components.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📚 Key Graph Terms</h3>
+        <table>
+          <tr><th>Term</th><th>Definition</th></tr>
+          <tr><td>Vertex (Node)</td><td>A point in the graph</td></tr>
+          <tr><td>Edge</td><td>A connection between two vertices</td></tr>
+          <tr><td>Adjacency</td><td>Two vertices are adjacent if connected by an edge</td></tr>
+          <tr><td>Walk</td><td>A sequence of vertices where consecutive pairs are connected</td></tr>
+          <tr><td>Path</td><td>A walk where no vertex is repeated (no repeated nodes)</td></tr>
+          <tr><td>Circuit</td><td>A closed walk (start = end) where no vertex repeats (except start/end)</td></tr>
+          <tr><td>Degree</td><td>Number of edges incident to a vertex</td></tr>
+          <tr><td>In-degree</td><td>Number of edges ENTERING a vertex (directed graph)</td></tr>
+          <tr><td>Out-degree</td><td>Number of edges LEAVING a vertex (directed graph)</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>🗂️ Types of Graphs</h3>
+        <div class="grid2">
+          <div class="case-box">
+            <div class="case-title">Directed Graph (Digraph)</div>
+            <p>Edges have direction (a,b) ≠ (b,a). Example: web links, one-way roads.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Undirected Graph</div>
+            <p>Edges have no direction {a,b} = {b,a}. Example: social networks, roads.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Weighted Graph</div>
+            <p>Each edge has a numerical value (weight). Example: road distances, costs.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Complete Graph</div>
+            <p>Every vertex connects to every other vertex. Directed: n(n-1) edges. Undirected: n(n-1)/2 edges.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Connected Graph</div>
+            <p>There is a path between every pair of vertices. Opposite = Disconnected.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Cyclic / Acyclic</div>
+            <p>Cyclic: has at least one cycle. Acyclic: no cycles (DAG = Directed Acyclic Graph).</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Multigraph</div>
+            <p>Multiple edges allowed between the same pair of vertices.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">Pseudograph</div>
+            <p>Allows self-loops (edge from a vertex to itself) + multiple edges.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== L24: GRAPH REPRESENTATION ===== -->
+    <section class="section" id="l24">
+      <div class="section-header">
+        <div class="section-num">L24</div>
+        <div>
+          <div class="section-title">Graph Representation & Operations</div>
+          <div class="section-subtitle">Adjacency Matrix vs Adjacency List — the core trade-off</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📋 Adjacency Matrix</h3>
+        <p>A V×V matrix where matrix[i][j] = 1 if edge exists between i and j (or the edge weight for weighted graphs).</p>
+<pre><span class="cm">// Graph: A-B, A-C, B-D, C-D, D-E</span>
+<span class="type">int</span> adjMatrix[<span class="num">5</span>][<span class="num">5</span>] = {
+<span class="cm">//  A  B  C  D  E</span>
+  { <span class="num">0</span>, <span class="num">1</span>, <span class="num">1</span>, <span class="num">0</span>, <span class="num">0</span> },  <span class="cm">// A</span>
+  { <span class="num">1</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">1</span>, <span class="num">0</span> },  <span class="cm">// B</span>
+  { <span class="num">1</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">1</span>, <span class="num">0</span> },  <span class="cm">// C</span>
+  { <span class="num">0</span>, <span class="num">1</span>, <span class="num">1</span>, <span class="num">0</span>, <span class="num">1</span> },  <span class="cm">// D</span>
+  { <span class="num">0</span>, <span class="num">0</span>, <span class="num">0</span>, <span class="num">1</span>, <span class="num">0</span> }   <span class="cm">// E</span>
+};
+<span class="cm">// Symmetric for undirected graphs
+// Check edge A-D: adjMatrix[0][3] = 0 → No edge → O(1)!</span></pre>
+        <div class="grid2">
+          <div class="case-box">
+            <div class="case-title">✅ Pros</div>
+            <p>O(1) edge lookup. Simple to implement. Easy to check if edge exists.</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">❌ Cons</div>
+            <p>O(V²) space always — wasteful for sparse graphs (few edges). Vertex addition requires resizing entire matrix.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📝 Adjacency List</h3>
+        <p>An array of linked lists. List[i] stores all vertices adjacent to vertex i.</p>
+<pre><span class="cm">// Same graph using linked list</span>
+<span class="type">struct</span> <span class="type">AdjNode</span> { <span class="type">int</span> vertex; <span class="type">struct</span> <span class="type">AdjNode</span>* next; };
+<span class="type">struct</span> <span class="type">AdjNode</span>* adjList[<span class="num">5</span>];
+
+<span class="cm">// A: → B → C</span>
+<span class="cm">// B: → A → D</span>
+<span class="cm">// C: → A → D</span>
+<span class="cm">// D: → B → C → E</span>
+<span class="cm">// E: → D</span>
+
+<span class="type">void</span> <span class="fn">addEdge</span>(<span class="type">struct</span> <span class="type">AdjNode</span>* adjList[], <span class="type">int</span> src, <span class="type">int</span> dest) {
+    <span class="type">struct</span> <span class="type">AdjNode</span>* newNode = (<span class="type">struct</span> <span class="type">AdjNode</span>*)<span class="fn">malloc</span>(<span class="kw">sizeof</span>(<span class="type">struct</span> <span class="type">AdjNode</span>));
+    newNode->vertex = dest;
+    newNode->next = adjList[src];
+    adjList[src] = newNode;
+    <span class="cm">// For undirected, also add reverse edge</span>
+}</pre>
+        <div class="grid2">
+          <div class="case-box">
+            <div class="case-title">✅ Pros</div>
+            <p>O(V+E) space — efficient for sparse graphs. Fast neighbor traversal (O(degree(v))).</p>
+          </div>
+          <div class="case-box">
+            <div class="case-title">❌ Cons</div>
+            <p>Edge lookup is O(degree(v)) — must scan the list. More complex to implement.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>⚖️ Comparison Table</h3>
+        <table>
+          <tr><th>Operation</th><th>Adjacency Matrix</th><th>Adjacency List</th></tr>
+          <tr><td>Space</td><td><span class="cplx bad">O(V²)</span></td><td><span class="cplx good">O(V+E)</span></td></tr>
+          <tr><td>Check edge (u,v)</td><td><span class="cplx good">O(1)</span></td><td><span class="cplx">O(degree(v))</span></td></tr>
+          <tr><td>Add/Remove edge</td><td><span class="cplx good">O(1)</span></td><td><span class="cplx">O(degree(v))</span></td></tr>
+          <tr><td>List all neighbours</td><td><span class="cplx bad">O(V)</span></td><td><span class="cplx good">O(degree(v))</span></td></tr>
+          <tr><td>Add vertex</td><td><span class="cplx bad">O(V²)</span> (resize)</td><td><span class="cplx good">O(1)</span></td></tr>
+          <tr><td>Best for</td><td>Dense graphs</td><td>Sparse graphs</td></tr>
+        </table>
+        <div class="highlight success">
+          <p><strong>Decision Rule:</strong> If E ≈ V² (dense) → use Matrix. If E ≪ V² (sparse) → use List.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🔍 BFS and DFS Traversals</h3>
+        <div class="grid2">
+          <div>
+            <h4>BFS — Breadth First Search (Uses Queue)</h4>
+<pre style="font-size:0.76rem;"><span class="kw">void</span> <span class="fn">BFS</span>(<span class="type">int</span> graph[][], <span class="type">int</span> start, <span class="type">int</span> V) {
+    <span class="type">bool</span> visited[V] = {<span class="kw">false</span>};
+    <span class="type">int</span> queue[V], front=<span class="num">0</span>, rear=<span class="num">0</span>;
+    
+    visited[start] = <span class="kw">true</span>;
+    queue[rear++] = start;
+    
+    <span class="kw">while</span> (front &lt; rear) {
+        <span class="type">int</span> node = queue[front++];
+        <span class="fn">printf</span>(<span class="str">"%d "</span>, node);
+        <span class="kw">for</span> (<span class="type">int</span> i=<span class="num">0</span>; i&lt;V; i++) {
+            <span class="kw">if</span> (graph[node][i] && !visited[i]) {
+                visited[i] = <span class="kw">true</span>;
+                queue[rear++] = i;
+            }
+        }
+    }
+}</pre>
+          </div>
+          <div>
+            <h4>DFS — Depth First Search (Recursive)</h4>
+<pre style="font-size:0.76rem;"><span class="type">bool</span> visited[<span class="num">100</span>] = {<span class="kw">false</span>};
+
+<span class="kw">void</span> <span class="fn">DFS</span>(<span class="type">int</span> graph[][], <span class="type">int</span> node, <span class="type">int</span> V) {
+    visited[node] = <span class="kw">true</span>;
+    <span class="fn">printf</span>(<span class="str">"%d "</span>, node);
+    
+    <span class="kw">for</span> (<span class="type">int</span> i=<span class="num">0</span>; i&lt;V; i++) {
+        <span class="kw">if</span> (graph[node][i] && !visited[i]) {
+            <span class="fn">DFS</span>(graph, i, V);
+        }
+    }
+}</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== L25: GRAPH APPLICATIONS ===== -->
+    <section class="section" id="l25">
+      <div class="section-header">
+        <div class="section-num">L25</div>
+        <div>
+          <div class="section-title">Applications of Graphs</div>
+          <div class="section-subtitle">Real-world problems modelled as graphs</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🌍 Real-World Graph Applications</h3>
+        <table>
+          <tr><th>Application</th><th>Vertices</th><th>Edges</th><th>Algorithm Used</th></tr>
+          <tr><td>Social Networks</td><td>Person / User</td><td>Friendship / Follow</td><td>BFS, DFS, Connected Components</td></tr>
+          <tr><td>Maps & Navigation</td><td>City / Junction</td><td>Road (weighted: distance)</td><td>Dijkstra, Bellman-Ford</td></tr>
+          <tr><td>Computer Networks</td><td>Computer / Router</td><td>Network link</td><td>BFS, Dijkstra, MST</td></tr>
+          <tr><td>Web Page Ranking</td><td>Web page</td><td>Hyperlink (directed)</td><td>DFS traversal, PageRank</td></tr>
+          <tr><td>Image Processing</td><td>Pixel</td><td>Adjacent pixel</td><td>BFS for segmentation</td></tr>
+          <tr><td>Software Dependencies</td><td>Package/Library</td><td>Dependency (directed)</td><td>Topological Sort, DFS</td></tr>
+          <tr><td>Version Control (Git)</td><td>Commit</td><td>Parent relationship</td><td>DAG traversal</td></tr>
+        </table>
+
+        <div class="highlight success">
+          <p><strong>Key Algorithms to Know:</strong><br>
+          <strong>BFS/DFS</strong> → Connectivity, shortest path (unweighted)<br>
+          <strong>Dijkstra's</strong> → Shortest path (non-negative weights)<br>
+          <strong>Topological Sort</strong> → Task scheduling, dependency resolution<br>
+          <strong>MST (Prim/Kruskal)</strong> → Minimum cost network</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== QUICK REFERENCE ===== -->
+    <section class="section" id="quickref">
+      <div class="section-header">
+        <div class="section-num" style="background:linear-gradient(135deg,#ffd93d,#ff6b6b)">⚡</div>
+        <div>
+          <div class="section-title">Complexity Cheatsheet</div>
+          <div class="section-subtitle">Everything you need for the MTE — one glance</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🎯 All Operations at a Glance</h3>
+        <table>
+          <tr><th>Data Structure</th><th>Search</th><th>Insert</th><th>Delete</th><th>Space</th></tr>
+          <tr><td>BST (avg)</td><td class="cplx good" style="background:none">O(log n)</td><td class="cplx good" style="background:none">O(log n)</td><td class="cplx good" style="background:none">O(log n)</td><td>O(n)</td></tr>
+          <tr><td>BST (worst)</td><td style="color:var(--red)">O(n)</td><td style="color:var(--red)">O(n)</td><td style="color:var(--red)">O(n)</td><td>O(n)</td></tr>
+          <tr><td>AVL Tree</td><td style="color:var(--green)">O(log n)</td><td style="color:var(--green)">O(log n)</td><td style="color:var(--green)">O(log n)</td><td>O(n)</td></tr>
+          <tr><td>Red-Black Tree</td><td style="color:var(--green)">O(log n)</td><td style="color:var(--green)">O(log n)</td><td style="color:var(--green)">O(log n)</td><td>O(n)</td></tr>
+          <tr><td>B-Tree</td><td style="color:var(--green)">O(log n)</td><td style="color:var(--green)">O(log n)</td><td style="color:var(--green)">O(log n)</td><td>O(n)</td></tr>
+          <tr><td>Heap (Insert)</td><td>O(n)</td><td style="color:var(--green)">O(log n)</td><td style="color:var(--green)">O(log n)</td><td>O(n)</td></tr>
+          <tr><td>Heap (Build)</td><td colspan="3" style="color:var(--green); text-align:center">Build-Max-Heap: O(n)</td><td>O(n)</td></tr>
+          <tr><td>Heap Sort</td><td colspan="3" style="color:var(--green); text-align:center">O(n log n) — all cases</td><td>O(1)</td></tr>
+          <tr><td>BFS / DFS (Matrix)</td><td colspan="3" style="color:var(--yellow); text-align:center">O(V²)</td><td>O(V²)</td></tr>
+          <tr><td>BFS / DFS (List)</td><td colspan="3" style="color:var(--green); text-align:center">O(V+E)</td><td>O(V+E)</td></tr>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>🧠 Must-Remember Facts for MTE</h3>
+        <div class="grid2">
+          <div>
+            <h4>BST</h4>
+            <ul style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; line-height:2;">
+              <li>In-order traversal = sorted output</li>
+              <li>Two-pointer insertion (current + parent)</li>
+              <li>Case 3 deletion: use in-order successor</li>
+              <li>Worst case: sorted input → O(n)</li>
+            </ul>
+            <h4>AVL Tree</h4>
+            <ul style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; line-height:2;">
+              <li>BF = Height(Left) - Height(Right)</li>
+              <li>Valid BF: {-1, 0, +1} only</li>
+              <li>4 rotations: LL, RR, LR, RL</li>
+              <li>LL/RR = single rotation | LR/RL = double</li>
+            </ul>
+          </div>
+          <div>
+            <h4>Red-Black Tree</h4>
+            <ul style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; line-height:2;">
+              <li>5 properties (especially: no two red in a row)</li>
+              <li>New nodes always inserted as RED</li>
+              <li>Uncle RED → recolour | Uncle BLACK → rotate</li>
+              <li>Deletion NOT in MTE ✓</li>
+            </ul>
+            <h4>B-Tree</h4>
+            <ul style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; line-height:2;">
+              <li>Order m: max m-1 keys, min ⌈m/2⌉-1 keys</li>
+              <li>Overflow → split + promote middle key</li>
+              <li>All leaves at same level</li>
+              <li>Root split → tree height increases</li>
+            </ul>
+          </div>
+        </div>
+        <div class="highlight warning">
+          <p><strong>Heap Quick Facts:</strong> Complete binary tree | Array-based (parent=(i-1)/2) | Build in O(n) | Sort in O(n log n) | Root = max (max-heap) or min (min-heap)</p>
+        </div>
+        <div class="highlight">
+          <p><strong>Graph Quick Facts:</strong> V=vertices, E=edges | Matrix: O(1) lookup, O(V²) space | List: O(V+E) space, O(degree) lookup | BFS uses Queue | DFS uses Stack/Recursion</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
 </div>
 
 <script>
-  // Highlight active sidebar link on scroll
-  const sections = document.querySelectorAll('[id^="l"]');
-  const links = document.querySelectorAll('.sidebar a');
-  const obs = new IntersectionObserver(entries => {
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+    sidebar.classList.toggle('open');
+    overlay.classList.toggle('show');
+  }
+  function closeSidebar() {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('overlay').classList.remove('show');
+  }
+
+  // Highlight active nav link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+
+  const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
-        links.forEach(l => l.classList.remove('active'));
-        const active = document.querySelector(`.sidebar a[href="#${e.target.id}"]`);
-        if (active) active.classList.add('active');
+        navLinks.forEach(l => l.classList.remove('active'));
+        const link = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+        if (link) link.classList.add('active');
       }
     });
-  }, { threshold: 0.3, rootMargin: '-80px 0px -50% 0px' });
-  sections.forEach(s => obs.observe(s));
+  }, { threshold: 0.3 });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Smooth scroll for nav links
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth' });
+      if (window.innerWidth <= 900) closeSidebar();
+    });
+  });
 </script>
 </body>
 </html>

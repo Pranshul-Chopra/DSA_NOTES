@@ -3,1800 +3,956 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>DSA MTE Study Guide — Complete Notes & Examples</title>
+<title>OOP Java — Exam Notes</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0f1117;
-    --surface: #1a1d27;
-    --surface2: #22263a;
-    --border: #2e3250;
-    --accent: #6c63ff;
-    --accent2: #00d4aa;
-    --accent3: #ff6b6b;
-    --accent4: #ffd93d;
-    --text: #e8eaf6;
-    --text-muted: #8892b0;
-    --code-bg: #0d1117;
-    --green: #00d4aa;
-    --red: #ff6b6b;
-    --yellow: #ffd93d;
-    --blue: #64b5f6;
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2330;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --accent: #58a6ff;
+    --accent2: #3fb950;
+    --accent3: #f78166;
+    --accent4: #d2a8ff;
+    --accent5: #ffa657;
+    --tag-bg: #1f2937;
+    --code-bg: #13181f;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  *, *::before, *::after { box-sizing: inherit; margin: 0; padding: 0; }
+
   body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
     background: var(--bg);
     color: var(--text);
-    line-height: 1.7;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    padding-top: env(safe-area-inset-top, 0px);
+    font-family: 'Inter', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
   }
 
-  /* SIDEBAR */
+  /* SIDEBAR NAV */
   .layout { display: flex; min-height: 100vh; }
+
   .sidebar {
-    width: 270px;
+    width: 240px;
+    flex-shrink: 0;
     background: var(--surface);
     border-right: 1px solid var(--border);
-    position: fixed;
-    top: 0; left: 0; bottom: 0;
+    position: sticky;
+    top: 0;
+    height: 100vh;
     overflow-y: auto;
-    padding: 0;
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
+    padding: 24px 0 40px;
   }
+
   .sidebar-logo {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    padding: 20px 18px 16px;
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: 0.02em;
-  }
-  .sidebar-logo span { display: block; font-size: 0.72rem; font-weight: 400; opacity: 0.85; margin-top: 2px; }
-  .sidebar-nav { flex: 1; padding: 12px 0; }
-  .nav-group-label {
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    padding: 14px 18px 4px;
-  }
-  .nav-link {
-    display: block;
-    padding: 7px 18px;
-    color: var(--text-muted);
-    text-decoration: none;
-    font-size: 0.82rem;
-    border-left: 3px solid transparent;
-    transition: all 0.15s;
-  }
-  .nav-link:hover, .nav-link.active {
-    color: var(--text);
-    background: var(--surface2);
-    border-left-color: var(--accent);
-  }
-  .nav-link .lnum { font-size: 0.7rem; opacity: 0.6; margin-right: 5px; }
-
-  /* MAIN */
-  .main { margin-left: 270px; max-width: 1120px; padding: 40px 44px 80px; }
-
-  /* HERO */
-  .hero {
-    background: linear-gradient(135deg, #1a1d27 0%, #12162a 100%);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 36px 40px;
-    margin-bottom: 40px;
-  }
-  .hero h1 { font-size: 2rem; font-weight: 800; background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-  .hero p { color: var(--text-muted); margin-top: 8px; font-size: 0.95rem; }
-  .badges { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
-  .badge { background: var(--surface2); border: 1px solid var(--border); padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; color: var(--text-muted); }
-  .badge.success { border-color: var(--green); color: var(--green); }
-  .badge.warning { border-color: var(--yellow); color: var(--yellow); }
-
-  /* SECTION */
-  .section { margin-bottom: 60px; }
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 24px;
-    padding-bottom: 14px;
+    padding: 0 20px 20px;
     border-bottom: 1px solid var(--border);
+    margin-bottom: 16px;
   }
-  .section-num {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    color: white;
-    width: 46px; height: 46px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .sidebar-logo .course-tag {
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+  .sidebar-logo h2 {
+    font-size: 14px;
     font-weight: 700;
-    font-size: 0.85rem;
-    flex-shrink: 0;
-  }
-  .section-title { font-size: 1.4rem; font-weight: 700; }
-  .section-subtitle { font-size: 0.8rem; color: var(--text-muted); margin-top: 2px; }
-
-  /* CARDS */
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 24px;
-    margin-bottom: 18px;
-  }
-  .card h3 { font-size: 1rem; font-weight: 600; color: var(--accent2); margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
-  .card h4 { font-size: 0.9rem; font-weight: 600; color: var(--accent); margin: 16px 0 6px; }
-  .card p, .card li { font-size: 0.88rem; color: var(--text-muted); line-height: 1.75; }
-  .card ul, .card ol { padding-left: 20px; }
-  .card li { margin-bottom: 5px; }
-
-  /* CODE BLOCKS */
-  pre {
-    background: var(--code-bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 18px 20px;
-    overflow-x: auto;
-    font-size: 0.78rem;
-    line-height: 1.6;
-    margin: 12px 0;
-    font-family: 'Fira Code', 'Courier New', monospace;
-  }
-  code { font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.82rem; }
-  .kw { color: #bb86fc; }
-  .fn { color: #64b5f6; }
-  .cm { color: #546e7a; font-style: italic; }
-  .num { color: #f48fb1; }
-  .str { color: #a5d6a7; }
-  .type { color: #ffd93d; }
-
-  /* ALGO BOXES */
-  .algo {
-    background: #0d111e;
-    border: 1px solid var(--accent);
-    border-radius: 10px;
-    padding: 16px 20px;
-    margin: 14px 0;
-    font-size: 0.82rem;
-    font-family: 'Fira Code', monospace;
-    line-height: 1.8;
-  }
-  .algo .algo-title { font-weight: 700; color: var(--accent); font-family: inherit; margin-bottom: 10px; font-size: 0.88rem; }
-
-  /* TABLES */
-  table { width: 100%; border-collapse: collapse; font-size: 0.83rem; margin: 14px 0; }
-  th { background: var(--surface2); color: var(--accent); padding: 10px 14px; text-align: left; border: 1px solid var(--border); font-weight: 600; }
-  td { padding: 9px 14px; border: 1px solid var(--border); color: var(--text-muted); }
-  tr:nth-child(even) td { background: #161925; }
-
-  /* TREE VISUALS */
-  .tree-visual {
-    background: var(--code-bg);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 18px 20px;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.81rem;
-    overflow-x: auto;
-    white-space: pre;
-    color: var(--accent2);
-    margin: 14px 0;
-    line-height: 1.5;
+    color: var(--text);
+    line-height: 1.3;
   }
 
-  /* HIGHLIGHT BOXES */
-  .highlight {
-    border-left: 4px solid var(--accent);
-    background: rgba(108,99,255,0.07);
-    padding: 14px 18px;
-    border-radius: 0 8px 8px 0;
-    margin: 14px 0;
-    font-size: 0.87rem;
+  .nav-section-label {
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    padding: 12px 20px 6px;
   }
-  .highlight.success { border-color: var(--green); background: rgba(0,212,170,0.07); }
-  .highlight.warning { border-color: var(--yellow); background: rgba(255,217,61,0.07); }
-  .highlight.danger { border-color: var(--red); background: rgba(255,107,107,0.07); }
-  .highlight p { color: var(--text); }
-  .highlight strong { color: var(--accent2); }
 
-  /* COMPLEXITY PILL */
-  .cplx { display: inline-block; background: var(--surface2); border: 1px solid var(--border); padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; color: var(--accent); font-family: monospace; margin: 2px; }
-  .cplx.good { border-color: var(--green); color: var(--green); }
-  .cplx.bad { border-color: var(--red); color: var(--red); }
-
-  /* GRID */
-  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 14px 0; }
-  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin: 14px 0; }
-
-  /* CASES & EXAMPLES */
-  .case-box {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px;
-  }
-  .case-box .case-title { font-size: 0.82rem; font-weight: 700; color: var(--yellow); margin-bottom: 8px; }
-  .case-box p { font-size: 0.81rem; color: var(--text-muted); }
-
-  .example-block {
-    background: #141724;
-    border: 1px solid #33395b;
-    border-left: 4px solid var(--accent2);
-    border-radius: 0 10px 10px 0;
-    padding: 16px 20px;
-    margin: 16px 0;
-  }
-  .example-title {
-    font-size: 0.88rem;
-    font-weight: 700;
-    color: var(--accent2);
+  .nav-item {
     display: flex;
     align-items: center;
     gap: 8px;
+    padding: 7px 20px;
+    font-size: 13px;
+    color: var(--text-muted);
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+    text-decoration: none;
+  }
+  .nav-item:hover { color: var(--text); background: var(--surface2); }
+  .nav-item.active { color: var(--accent); border-left-color: var(--accent); background: rgba(88,166,255,0.07); }
+  .nav-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+  /* MAIN */
+  .main { flex: 1; max-width: 860px; padding: 40px 48px; overflow-x: hidden; }
+
+  .page-header {
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .page-header .exam-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(247,129,102,0.15);
+    border: 1px solid rgba(247,129,102,0.3);
+    color: var(--accent3);
+    font-size: 11px;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 4px 10px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+  }
+  .page-header h1 { font-size: 26px; font-weight: 700; line-height: 1.2; margin-bottom: 8px; }
+  .page-header p { color: var(--text-muted); font-size: 14px; }
+
+  /* TOPIC SECTIONS */
+  .topic-section {
+    margin-bottom: 56px;
+    scroll-margin-top: 24px;
+  }
+
+  .topic-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .topic-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .topic-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .priority-badge {
+    font-size: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    padding: 2px 8px;
+    border-radius: 3px;
+    flex-shrink: 0;
+  }
+  .high { background: rgba(247,129,102,0.15); color: var(--accent3); border: 1px solid rgba(247,129,102,0.25); }
+  .med { background: rgba(255,166,87,0.15); color: var(--accent5); border: 1px solid rgba(255,166,87,0.25); }
+
+  /* CONCEPT CARDS */
+  .concept-grid { display: grid; gap: 12px; }
+  .concept-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+  }
+  .concept-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent4);
     margin-bottom: 8px;
+  }
+  .concept-card p, .concept-card li {
+    font-size: 13.5px;
+    color: var(--text);
+    line-height: 1.65;
+  }
+  .concept-card ul { padding-left: 18px; }
+  .concept-card li { margin-bottom: 4px; }
+
+  /* RULE PILLS */
+  .rule-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+  .rule {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+  }
+  .rule-icon {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .rule-icon.check { background: rgba(63,185,80,0.2); color: var(--accent2); }
+  .rule-icon.cross { background: rgba(247,129,102,0.2); color: var(--accent3); }
+
+  /* CODE BLOCKS */
+  .code-block {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-top: 12px;
+    overflow: hidden;
+  }
+  .code-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  pre {
+    padding: 14px 16px;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: var(--text);
+  }
+  .kw { color: #ff7b72; }
+  .cls { color: #79c0ff; }
+  .fn { color: #d2a8ff; }
+  .str { color: #a5d6ff; }
+  .cm { color: #8b949e; font-style: italic; }
+  .out { color: var(--accent2); }
+
+  /* COMPARISON TABLE */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 12px;
+  }
+  .compare-table th {
+    background: var(--surface2);
+    color: var(--accent);
+    font-weight: 600;
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid var(--border);
+    font-size: 12px;
+  }
+  .compare-table td {
+    padding: 9px 14px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .compare-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+
+  /* EXAM TIP */
+  .exam-tip {
+    background: rgba(88,166,255,0.08);
+    border: 1px solid rgba(88,166,255,0.2);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 14px;
+    font-size: 13px;
+  }
+  .exam-tip strong { color: var(--accent); }
+
+  /* GOTCHA BOX */
+  .gotcha {
+    background: rgba(247,129,102,0.08);
+    border: 1px solid rgba(247,129,102,0.2);
+    border-radius: 8px;
+    padding: 14px 16px;
+    margin-top: 12px;
+    font-size: 13px;
+  }
+  .gotcha strong { color: var(--accent3); }
+
+  /* SECTION DIVIDER */
+  .divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { padding: 24px 20px; }
+    .page-header h1 { font-size: 20px; }
   }
 
   /* SCROLLBAR */
   ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-  /* MOBILE MENU */
-  .menu-btn { display: none; }
-  .mobile-overlay { display: none; }
-
-  @media (max-width: 900px) {
-    .sidebar { transform: translateX(-100%); transition: transform 0.25s; }
-    .sidebar.open { transform: translateX(0); }
-    .main { margin-left: 0; padding: 20px 18px 60px; }
-    .hero { padding: 22px 20px; }
-    .hero h1 { font-size: 1.4rem; }
-    .grid2, .grid3 { grid-template-columns: 1fr; }
-    .menu-btn {
-      display: flex;
-      position: fixed;
-      bottom: 20px; right: 20px;
-      background: var(--accent);
-      color: white;
-      border: none;
-      border-radius: 50%;
-      width: 52px; height: 52px;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      cursor: pointer;
-      z-index: 200;
-      box-shadow: 0 4px 20px rgba(108,99,255,0.4);
-    }
-    .mobile-overlay {
-      display: block;
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.5);
-      z-index: 99;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.25s;
-    }
-    .mobile-overlay.show { opacity: 1; pointer-events: all; }
-  }
 </style>
 </head>
 <body>
-
-<div class="mobile-overlay" id="overlay" onclick="closeSidebar()"></div>
-<button class="menu-btn" onclick="toggleSidebar()">☰</button>
-
 <div class="layout">
-  <!-- SIDEBAR -->
-  <nav class="sidebar" id="sidebar">
-    <div class="sidebar-logo">📚 DSA Study Guide <span>Binary Trees to Graphs | CSC2101</span></div>
-    <div class="sidebar-nav">
-      <div class="nav-group-label">Binary Trees & BST</div>
-      <a class="nav-link" href="#bt"><span class="lnum">BT</span> Binary Tree Theory & Code</a>
-      <a class="nav-link" href="#l10"><span class="lnum">L10-11</span> BST Insert & Delete</a>
-      <a class="nav-link" href="#l12"><span class="lnum">L12-13</span> BST Traversal & Search</a>
-      <div class="nav-group-label">Self-Balancing Trees</div>
-      <a class="nav-link" href="#l14"><span class="lnum">L14-15</span> AVL Trees & Rotations</a>
-      <a class="nav-link" href="#l16"><span class="lnum">L16-17</span> Red-Black Trees</a>
-      <div class="nav-group-label">Advanced Trees</div>
-      <a class="nav-link" href="#l18"><span class="lnum">L18-19</span> B-Trees</a>
-      <a class="nav-link" href="#l20"><span class="lnum">L20</span> Tree Comparison</a>
-      <div class="nav-group-label">Heaps & Graphs</div>
-      <a class="nav-link" href="#l21"><span class="lnum">L21-22</span> Heaps & Heap Sort</a>
-      <a class="nav-link" href="#l23"><span class="lnum">L23</span> Intro to Graphs</a>
-      <a class="nav-link" href="#l24"><span class="lnum">L24</span> Graph Representation</a>
-      <a class="nav-link" href="#l25"><span class="lnum">L25</span> Graph Applications</a>
-      <div class="nav-group-label">Quick Reference</div>
-      <a class="nav-link" href="#quickref">⚡ Complexity Cheatsheet</a>
-    </div>
-  </nav>
 
-  <!-- MAIN CONTENT -->
-  <main class="main">
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="course-tag">CSC2104 / CSE2121</div>
+    <h2>OOP Java<br>Exam Notes</h2>
+  </div>
+  <div class="nav-section-label">HIGH PRIORITY</div>
+  <a class="nav-item active" href="#constructors"><span class="nav-dot" style="background:#f78166"></span>Constructors</a>
+  <a class="nav-item" href="#this"><span class="nav-dot" style="background:#f78166"></span>this keyword</a>
+  <a class="nav-item" href="#inheritance"><span class="nav-dot" style="background:#f78166"></span>Inheritance & super</a>
+  <a class="nav-item" href="#abstract"><span class="nav-dot" style="background:#f78166"></span>Abstract & final</a>
+  <a class="nav-item" href="#polymorphism"><span class="nav-dot" style="background:#f78166"></span>Runtime Polymorphism</a>
+  <a class="nav-item" href="#overloading"><span class="nav-dot" style="background:#f78166"></span>Method Overloading</a>
+  <div class="nav-section-label">MEDIUM PRIORITY</div>
+  <a class="nav-item" href="#static"><span class="nav-dot" style="background:#ffa657"></span>static keyword</a>
+  <a class="nav-item" href="#nested"><span class="nav-dot" style="background:#ffa657"></span>Nested Classes</a>
+  <a class="nav-item" href="#access"><span class="nav-dot" style="background:#ffa657"></span>Access Modifiers</a>
+  <a class="nav-item" href="#wrapper"><span class="nav-dot" style="background:#ffa657"></span>Wrapper & Strings</a>
+</nav>
 
-    <!-- HERO -->
-    <div class="hero">
-      <h1>🎓 DSA MTE Comprehensive Study Guide</h1>
-      <p>Complete master guide covering General Binary Trees (Theory & Implementation), Binary Search Trees, Balanced Trees (AVL, RB), Multi-way Trees (B-Trees), Heaps, and Graph Representations with rich step-by-step worked examples.</p>
-      <div class="badges">
-        <span class="badge success">✓ Binary Tree Theory & Full C Code</span>
-        <span class="badge">BST Operations</span>
-        <span class="badge">AVL Trees</span>
-        <span class="badge">Red-Black Trees</span>
-        <span class="badge">B-Trees</span>
-        <span class="badge">Heaps & Heap Sort</span>
-        <span class="badge">Graph Representation</span>
-        <span class="badge warning">⚠ RB Tree Deletion NOT in MTE</span>
-      </div>
+<!-- MAIN CONTENT -->
+<main class="main">
+
+  <div class="page-header">
+    <div class="exam-badge">⚡ MTE Tomorrow · CSE2121 / CSC2104 · Sem III</div>
+    <h1>Object Oriented Programming<br>Java — Quick Notes</h1>
+    <p>Built from your PPTs, handouts, and PYQ patterns. Focus on high priority first.</p>
+  </div>
+
+  <!-- ═══════════════════════════════ CONSTRUCTORS ═══════════════════════════════ -->
+  <section class="topic-section" id="constructors">
+    <div class="topic-header">
+      <span class="topic-num">01</span>
+      <h2>Constructors</h2>
+      <span class="priority-badge high">HIGH</span>
     </div>
 
-    <!-- ========================================================= -->
-    <!-- ===== NEW: BINARY TREE THEORY & IMPLEMENTATION ===== -->
-    <!-- ========================================================= -->
-    <section class="section" id="bt">
-      <div class="section-header">
-        <div class="section-num">BT</div>
-        <div>
-          <div class="section-title">Binary Tree: Theory & Full C Implementation</div>
-          <div class="section-subtitle">Definitions, structural types, mathematical properties, insertion, all 4 traversals, searching, and deletion</div>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h3>What is a Constructor?</h3>
+        <p>A special method called automatically when an object is created (<code>new</code> keyword). Initializes the object. Same name as class, <strong>no return type at all</strong> — not even void.</p>
+      </div>
+
+      <div class="concept-card">
+        <h3>Rules (memorize these — they appear as MCQs)</h3>
+        <div class="rule-list">
+          <div class="rule"><span class="rule-icon cross">✗</span> Cannot be static, abstract, or final</div>
+          <div class="rule"><span class="rule-icon cross">✗</span> Cannot be inherited by subclasses</div>
+          <div class="rule"><span class="rule-icon cross">✗</span> No return type (adding <code>void</code> makes it a regular method, not constructor!)</div>
+          <div class="rule"><span class="rule-icon check">✓</span> Can be overloaded</div>
+          <div class="rule"><span class="rule-icon check">✓</span> Can call another constructor using <code>this()</code></div>
+          <div class="rule"><span class="rule-icon check">✓</span> Abstract class can have a constructor</div>
         </div>
       </div>
 
-      <div class="card">
-        <h3>🌳 What is a Binary Tree?</h3>
-        <p>A <strong>Binary Tree</strong> is a hierarchical non-linear data structure in which each node has <strong>at most two children</strong>, referred to as the <strong>left child</strong> and the <strong>right child</strong>.</p>
-        <div class="highlight success">
-          <p><strong>Recursive Definition:</strong> A binary tree is either empty (NULL), or consists of a distinguished node called the <strong>root</strong> together with two disjoint binary trees called the <em>left subtree</em> and the <em>right subtree</em>.</p>
-        </div>
+      <div class="concept-card">
+        <h3>3 Types of Constructors</h3>
+        <div class="code-block">
+          <div class="code-label">// All three types in one class</div>
+          <pre><span class="kw">class</span> <span class="cls">Student</span> {
+    <span class="kw">int</span> id;
+    <span class="cls">String</span> name;
 
-        <h4>Essential Terminology</h4>
-        <table>
-          <tr><th>Term</th><th>Definition & Explanation</th></tr>
-          <tr><td><strong>Root</strong></td><td>The topmost node of the tree with no parent (e.g. node <code>A</code>).</td></tr>
-          <tr><td><strong>Parent & Child</strong></td><td>If an edge connects node <code>U</code> to node <code>V</code> (downward), <code>U</code> is parent and <code>V</code> is child.</td></tr>
-          <tr><td><strong>Leaf Node (External)</strong></td><td>A node with <strong>0 children</strong> (both left and right pointers are <code>NULL</code>).</td></tr>
-          <tr><td><strong>Internal Node</strong></td><td>A non-leaf node having at least one non-NULL child.</td></tr>
-          <tr><td><strong>Siblings</strong></td><td>Nodes that share the same immediate parent.</td></tr>
-          <tr><td><strong>Depth of Node</strong></td><td>Length of the unique path from the <em>root</em> down to that node (Root depth = 0).</td></tr>
-          <tr><td><strong>Height of Node</strong></td><td>Number of edges on the longest downward path from that node to a leaf (Leaf height = 0).</td></tr>
-          <tr><td><strong>Height of Tree</strong></td><td>The height of the root node (i.e. length of longest path from root to any leaf).</td></tr>
-          <tr><td><strong>Degree of Node</strong></td><td>Number of children a node has (for binary trees: 0, 1, or 2).</td></tr>
-          <tr><td><strong>Degree of Tree</strong></td><td>Maximum degree among all nodes in the tree (always ≤ 2 for Binary Trees).</td></tr>
-        </table>
-      </div>
-
-      <div class="card">
-        <h3>📐 Types of Binary Trees</h3>
-        <div class="grid2">
-          <div class="case-box">
-            <div class="case-title">1. Full / Strict Binary Tree</div>
-            <p>Every node has <strong>either 0 or 2 children</strong>. No node has exactly 1 child.</p>
-            <div class="tree-visual" style="font-size:0.75rem;">     1
-    / \
-   2   3
-  / \
- 4   5   ← (All nodes have 0 or 2 children)</div>
-          </div>
-          <div class="case-box">
-            <div class="case-title">2. Complete Binary Tree</div>
-            <p>All levels are completely filled except possibly the last level, which is filled <strong>strictly from left to right</strong>.</p>
-            <div class="tree-visual" style="font-size:0.75rem;">       1
-     /   \
-    2     3
-   / \   /
-  4   5 6    ← (Last level filled left-to-right)</div>
-          </div>
-          <div class="case-box">
-            <div class="case-title">3. Perfect Binary Tree</div>
-            <p>All internal nodes have 2 children, and all leaf nodes are at the <strong>exact same level</strong>.</p>
-            <div class="tree-visual" style="font-size:0.75rem;">       1
-     /   \
-    2     3
-   / \   / \
-  4   5 6   7  ← Total nodes = 2^(h+1) - 1</div>
-          </div>
-          <div class="case-box">
-            <div class="case-title">4. Degenerate / Skewed Tree</div>
-            <p>Every internal node has only one child. The tree behaves like a linked list with worst-case performance O(n).</p>
-            <div class="tree-visual" style="font-size:0.75rem;">1
- \
-  2      (Right-skewed)
-   \
-    3 → Search is O(n)</div>
-          </div>
-        </div>
-
-        <div class="highlight warning">
-          <p><strong>Balanced Binary Tree:</strong> A binary tree where the difference between height of left subtree and right subtree for every node is at most 1 (e.g. AVL Tree).</p>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>🔢 Mathematical Properties & Formulas</h3>
-        <table>
-          <tr><th>Formula / Property</th><th>Mathematical Expression</th><th>Example ($h = 3$, 0-indexed)</th></tr>
-          <tr><td>Max nodes at level $l$</td><td>$2^l$ (where root is at level 0)</td><td>Level 3: $2^3 = 8$ nodes</td></tr>
-          <tr><td>Max nodes in tree of height $h$</td><td>$2^{h+1} - 1$</td><td>Height 3: $2^4 - 1 = 15$ nodes</td></tr>
-          <tr><td>Min nodes in tree of height $h$</td><td>$h + 1$</td><td>Height 3: $3 + 1 = 4$ nodes (skewed)</td></tr>
-          <tr><td>Min height for $n$ nodes</td><td>$\lceil\log_2(n+1)\rceil - 1$</td><td>15 nodes: $\lceil 4 \rceil - 1 = 3$</td></tr>
-          <tr><td>Max height for $n$ nodes</td><td>$n - 1$</td><td>15 nodes: 14 (degenerate line)</td></tr>
-          <tr><td>Relation: Leaves ($L$) & Degree-2 ($T_2$)</td><td><strong>$L = T_2 + 1$</strong></td><td>If 10 nodes have 2 children, leaves = 11</td></tr>
-          <tr><td>Total Edges ($E$) with $N$ nodes</td><td>$E = N - 1$</td><td>100 nodes have exactly 99 edges</td></tr>
-        </table>
-      </div>
-
-      <div class="card">
-        <h3>💻 Complete C Implementation of Binary Tree</h3>
-        <p>A general Binary Tree has no ordering restrictions. Nodes are inserted in <strong>level-order</strong> (filling the first empty left or right child spot) using a queue.</p>
-
-        <h4>1. Node Structure & Node Creation</h4>
-<pre><span class="kw">#include</span> <span class="str">&lt;stdio.h&gt;</span>
-<span class="kw">#include</span> <span class="str">&lt;stdlib.h&gt;</span>
-<span class="kw">#include</span> <span class="str">&lt;stdbool.h&gt;</span>
-
-<span class="type">struct</span> <span class="type">Node</span> {
-    <span class="type">int</span> data;
-    <span class="type">struct</span> <span class="type">Node</span>* left;
-    <span class="type">struct</span> <span class="type">Node</span>* right;
-};
-
-<span class="cm">// Allocate and initialize a new node</span>
-<span class="type">struct</span> <span class="type">Node</span>* <span class="fn">createNode</span>(<span class="type">int</span> val) {
-    <span class="type">struct</span> <span class="type">Node</span>* newNode = (<span class="type">struct</span> <span class="type">Node</span>*)<span class="fn">malloc</span>(<span class="kw">sizeof</span>(<span class="type">struct</span> <span class="type">Node</span>));
-    newNode-&gt;data = val;
-    newNode-&gt;left = <span class="num">NULL</span>;
-    newNode-&gt;right = <span class="num">NULL</span>;
-    <span class="kw">return</span> newNode;
-}</pre>
-
-        <h4>2. Insertion in Binary Tree (Level-Order using Queue)</h4>
-        <p>In a standard Binary Tree, we insert a new key at the <em>first available slot</em> in breadth-first order so the tree remains complete and compact.</p>
-<pre><span class="type">struct</span> <span class="type">Node</span>* <span class="fn">insertBT</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> val) {
-    <span class="type">struct</span> <span class="type">Node</span>* newNode = <span class="fn">createNode</span>(val);
-    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span> newNode;
-
-    <span class="cm">// Queue array for level-order traversal</span>
-    <span class="type">struct</span> <span class="type">Node</span>* queue[<span class="num">100</span>];
-    <span class="type">int</span> front = <span class="num">0</span>, rear = <span class="num">0</span>;
-
-    queue[rear++] = root;
-
-    <span class="kw">while</span> (front &lt; rear) {
-        <span class="type">struct</span> <span class="type">Node</span>* temp = queue[front++];
-
-        <span class="cm">// Check left child</span>
-        <span class="kw">if</span> (temp-&gt;left == <span class="num">NULL</span>) {
-            temp-&gt;left = newNode;
-            <span class="kw">return</span> root;
-        } <span class="kw">else</span> {
-            queue[rear++] = temp-&gt;left;
-        }
-
-        <span class="cm">// Check right child</span>
-        <span class="kw">if</span> (temp-&gt;right == <span class="num">NULL</span>) {
-            temp-&gt;right = newNode;
-            <span class="kw">return</span> root;
-        } <span class="kw">else</span> {
-            queue[rear++] = temp-&gt;right;
-        }
+    <span class="cm">// 1. Default (no args)</span>
+    <span class="fn">Student</span>() {
+        id = 0; name = <span class="str">"Unknown"</span>;
     }
-    <span class="kw">return</span> root;
-}</pre>
 
-        <h4>3. All Four Traversals (Preorder, Inorder, Postorder, Level-Order)</h4>
-<pre><span class="cm">// 1. Inorder Traversal: Left -&gt; Root -&gt; Right</span>
-<span class="kw">void</span> <span class="fn">inorder</span>(<span class="type">struct</span> <span class="type">Node</span>* root) {
-    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span>;
-    <span class="fn">inorder</span>(root-&gt;left);
-    <span class="fn">printf</span>(<span class="str">"%d "</span>, root-&gt;data);
-    <span class="fn">inorder</span>(root-&gt;right);
-}
+    <span class="cm">// 2. Parameterized</span>
+    <span class="fn">Student</span>(<span class="kw">int</span> id, <span class="cls">String</span> name) {
+        <span class="kw">this</span>.id = id;
+        <span class="kw">this</span>.name = name;
+    }
 
-<span class="cm">// 2. Preorder Traversal: Root -&gt; Left -&gt; Right</span>
-<span class="kw">void</span> <span class="fn">preorder</span>(<span class="type">struct</span> <span class="type">Node</span>* root) {
-    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span>;
-    <span class="fn">printf</span>(<span class="str">"%d "</span>, root-&gt;data);
-    <span class="fn">preorder</span>(root-&gt;left);
-    <span class="fn">preorder</span>(root-&gt;right);
-}
-
-<span class="cm">// 3. Postorder Traversal: Left -&gt; Right -&gt; Root</span>
-<span class="kw">void</span> <span class="fn">postorder</span>(<span class="type">struct</span> <span class="type">Node</span>* root) {
-    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span>;
-    <span class="fn">postorder</span>(root-&gt;left);
-    <span class="fn">postorder</span>(root-&gt;right);
-    <span class="fn">printf</span>(<span class="str">"%d "</span>, root-&gt;data);
-}
-
-<span class="cm">// 4. Level-Order Traversal (Breadth-First using Queue)</span>
-<span class="kw">void</span> <span class="fn">levelOrder</span>(<span class="type">struct</span> <span class="type">Node</span>* root) {
-    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span>;
-    <span class="type">struct</span> <span class="type">Node</span>* queue[<span class="num">100</span>];
-    <span class="type">int</span> front = <span class="num">0</span>, rear = <span class="num">0</span>;
-    queue[rear++] = root;
-
-    <span class="kw">while</span> (front &lt; rear) {
-        <span class="type">struct</span> <span class="type">Node</span>* curr = queue[front++];
-        <span class="fn">printf</span>(<span class="str">"%d "</span>, curr-&gt;data);
-        <span class="kw">if</span> (curr-&gt;left != <span class="num">NULL</span>)  queue[rear++] = curr-&gt;left;
-        <span class="kw">if</span> (curr-&gt;right != <span class="num">NULL</span>) queue[rear++] = curr-&gt;right;
+    <span class="cm">// 3. Copy constructor</span>
+    <span class="fn">Student</span>(<span class="cls">Student</span> s) {
+        <span class="kw">this</span>.id = s.id;
+        <span class="kw">this</span>.name = s.name;
     }
 }</pre>
+        </div>
+      </div>
 
-        <h4>4. Searching in a Binary Tree</h4>
-        <p>Unlike BSTs, keys are not sorted. In the worst case we must inspect every node: time complexity is <strong>O(n)</strong>.</p>
-<pre><span class="cm">// Recursive search in general binary tree</span>
-<span class="type">bool</span> <span class="fn">searchBT</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> target) {
-    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span> <span class="kw">false</span>;
-    <span class="kw">if</span> (root-&gt;data == target) <span class="kw">return</span> <span class="kw">true</span>;
-    <span class="kw">return</span> <span class="fn">searchBT</span>(root-&gt;left, target) || <span class="fn">searchBT</span>(root-&gt;right, target);
-}</pre>
+      <div class="concept-card">
+        <h3>Constructor Chaining (using this())</h3>
+        <p>Calling one constructor from another within the same class. <code>this()</code> must be the <strong>first statement</strong>.</p>
+        <div class="code-block">
+          <div class="code-label">// this() chains constructors</div>
+          <pre><span class="kw">class</span> <span class="cls">Box</span> {
+    <span class="fn">Box</span>() {
+        <span class="kw">this</span>(10); <span class="cm">// calls Box(int)</span>
+        <span class="cls">System</span>.out.println(<span class="str">"default"</span>);
+    }
+    <span class="fn">Box</span>(<span class="kw">int</span> size) {
+        <span class="cls">System</span>.out.println(<span class="str">"size: "</span> + size);
+    }
+}
+<span class="cm">// new Box() → prints: size: 10 → then: default</span></pre>
+        </div>
+      </div>
 
-        <h4>5. Deletion in a Binary Tree (Deepest Node Replacement Strategy)</h4>
-        <p>In a General Binary Tree (not BST), deleting a node without shrinking height arbitrarily is done by:
-        <br>1. Finding the target node to delete.
-        <br>2. Finding the <strong>deepest and rightmost node</strong> in the tree using level-order traversal.
-        <br>3. Copying the deepest node's data into the target node.
-        <br>4. Unlinking and freeing the deepest node.</p>
-<pre><span class="cm">// Helper: Deletes the deepest rightmost node from the tree</span>
-<span class="kw">void</span> <span class="fn">deleteDeepest</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">struct</span> <span class="type">Node</span>* dNode) {
-    <span class="type">struct</span> <span class="type">Node</span>* queue[<span class="num">100</span>];
-    <span class="type">int</span> front = <span class="num">0</span>, rear = <span class="num">0</span>;
-    queue[rear++] = root;
+      <div class="concept-card">
+        <h3>Execution Order: Static Block → Instance Block → Constructor</h3>
+        <div class="code-block">
+          <div class="code-label">// Order of execution</div>
+          <pre><span class="kw">class</span> <span class="cls">Demo</span> {
+    <span class="kw">static</span> { <span class="cls">System</span>.out.println(<span class="str">"1 static block"</span>); }
+    { <span class="cls">System</span>.out.println(<span class="str">"2 instance block"</span>); }
+    <span class="fn">Demo</span>() { <span class="cls">System</span>.out.println(<span class="str">"3 constructor"</span>); }
+}
+<span class="cm">// Output: 1 → 2 → 3
+// Static block runs only ONCE (at class load)
+// Instance block runs before EVERY constructor call</span></pre>
+        </div>
+      </div>
+    </div>
 
-    <span class="kw">while</span> (front &lt; rear) {
-        <span class="type">struct</span> <span class="type">Node</span>* curr = queue[front++];
+    <div class="gotcha">
+      <strong>⚠ Tricky PYQ pattern:</strong> If you write <code>void Demo()</code> inside a class called <code>Demo</code>, that is a <em>method</em> not a constructor (because of the void). The real constructor <code>Demo()</code> still gets auto-generated by the compiler. Both exist and both can be called — but only one is the constructor.
+    </div>
+    <div class="exam-tip">
+      <strong>Output question trick:</strong> When <code>new Box()</code> calls <code>this(10)</code>, control jumps to <code>Box(int)</code> first and finishes it, THEN comes back and prints the rest of <code>Box()</code>. Trace this carefully.
+    </div>
+  </section>
 
-        <span class="kw">if</span> (curr == dNode) {
-            <span class="fn">free</span>(dNode);
-            <span class="kw">return</span>;
-        }
-        <span class="kw">if</span> (curr-&gt;right != <span class="num">NULL</span>) {
-            <span class="kw">if</span> (curr-&gt;right == dNode) {
-                curr-&gt;right = <span class="num">NULL</span>;
-                <span class="fn">free</span>(dNode);
-                <span class="kw">return</span>;
-            } <span class="kw">else</span> {
-                queue[rear++] = curr-&gt;right;
-            }
-        }
-        <span class="kw">if</span> (curr-&gt;left != <span class="num">NULL</span>) {
-            <span class="kw">if</span> (curr-&gt;left == dNode) {
-                curr-&gt;left = <span class="num">NULL</span>;
-                <span class="fn">free</span>(dNode);
-                <span class="kw">return</span>;
-            } <span class="kw">else</span> {
-                queue[rear++] = curr-&gt;left;
-            }
-        }
+  <hr class="divider">
+
+  <!-- ═══════════════════════════════ THIS KEYWORD ═══════════════════════════════ -->
+  <section class="topic-section" id="this">
+    <div class="topic-header">
+      <span class="topic-num">02</span>
+      <h2>this keyword</h2>
+      <span class="priority-badge high">HIGH</span>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h3>What is <code>this</code>?</h3>
+        <p>A reference variable that refers to the <strong>current object</strong>. It has 6 uses.</p>
+      </div>
+
+      <div class="concept-card">
+        <h3>6 Uses of <code>this</code></h3>
+        <ul>
+          <li><strong>1. Refer to current class instance variable</strong> — disambiguate when param name = field name</li>
+          <li><strong>2. Invoke current class method</strong> — <code>this.display()</code> (usually implicit)</li>
+          <li><strong>3. this() — invoke current class constructor</strong> — must be first line</li>
+          <li><strong>4. Pass as argument in method call</strong> — <code>someMethod(this)</code></li>
+          <li><strong>5. Pass as argument in constructor call</strong> — <code>new Other(this)</code></li>
+          <li><strong>6. Return current instance</strong> — <code>return this;</code></li>
+        </ul>
+      </div>
+
+      <div class="concept-card">
+        <h3>Most Common Use: Disambiguating field vs parameter</h3>
+        <div class="code-block">
+          <div class="code-label">// Without this — parameter hides field</div>
+          <pre><span class="kw">class</span> <span class="cls">Student</span> {
+    <span class="kw">int</span> rollno;
+    <span class="fn">Student</span>(<span class="kw">int</span> rollno) {
+        <span class="kw">this</span>.rollno = rollno; <span class="cm">// this.rollno = field</span>
+        <span class="cm">// rollno = rollno (right side) = parameter</span>
     }
 }
 
-<span class="cm">// Main BT Deletion Function</span>
-<span class="type">struct</span> <span class="type">Node</span>* <span class="fn">deleteBTNode</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> key) {
-    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span> <span class="num">NULL</span>;
+<span class="cm">// PYQ trap: what if this.rollno is NOT used?
+// then field stays 0 (default), parameter is ignored!</span></pre>
+        </div>
+      </div>
 
-    <span class="cm">// If only 1 node in tree</span>
-    <span class="kw">if</span> (root-&gt;left == <span class="num">NULL</span> &amp;&amp; root-&gt;right == <span class="num">NULL</span>) {
-        <span class="kw">if</span> (root-&gt;data == key) { <span class="fn">free</span>(root); <span class="kw">return</span> <span class="num">NULL</span>; }
-        <span class="kw">return</span> root;
+      <div class="concept-card">
+        <h3>Output Prediction from PYQ slides</h3>
+        <div class="code-block">
+          <div class="code-label">// What does this print?</div>
+          <pre><span class="kw">class</span> <span class="cls">Main</span> {
+    <span class="kw">int</span> a = 500, b = 300;
+    <span class="kw">void</span> <span class="fn">sum</span>(<span class="kw">int</span> a, <span class="kw">int</span> b) {
+        <span class="cls">System</span>.out.println(<span class="kw">this</span>.a + <span class="kw">this</span>.b);
     }
-
-    <span class="type">struct</span> <span class="type">Node</span>* queue[<span class="num">100</span>];
-    <span class="type">int</span> front = <span class="num">0</span>, rear = <span class="num">0</span>;
-    queue[rear++] = root;
-
-    <span class="type">struct</span> <span class="type">Node</span>* targetNode = <span class="num">NULL</span>;
-    <span class="type">struct</span> <span class="type">Node</span>* temp = <span class="num">NULL</span>;
-
-    <span class="cm">// Level order traversal to find target and the deepest node</span>
-    <span class="kw">while</span> (front &lt; rear) {
-        temp = queue[front++];
-
-        <span class="kw">if</span> (temp-&gt;data == key)
-            targetNode = temp;
-
-        <span class="kw">if</span> (temp-&gt;left != <span class="num">NULL</span>)  queue[rear++] = temp-&gt;left;
-        <span class="kw">if</span> (temp-&gt;right != <span class="num">NULL</span>) queue[rear++] = temp-&gt;right;
-    }
-
-    <span class="cm">// If target was found, swap data with deepest node and delete deepest</span>
-    <span class="kw">if</span> (targetNode != <span class="num">NULL</span>) {
-        <span class="type">int</span> deepestValue = temp-&gt;data; <span class="cm">// temp holds deepest rightmost node</span>
-        <span class="fn">deleteDeepest</span>(root, temp);
-        targetNode-&gt;data = deepestValue;
-    }
-    <span class="kw">return</span> root;
-}</pre>
-      </div>
-
-      <!-- WORKED EXAMPLES FOR BINARY TREE -->
-      <div class="card">
-        <h3>🧪 Worked Examples: Binary Tree Operations</h3>
-
-        <div class="example-block">
-          <div class="example-title">Example 1: Step-by-Step Level-Order Tree Construction</div>
-          <p>Insert values: <code>10, 20, 30, 40, 50, 60</code></p>
-          <div class="tree-visual">Step 1: Insert 10  →  [10] (root)
-Step 2: Insert 20  →  10-&gt;left = 20
-Step 3: Insert 30  →  10-&gt;right = 30
-Step 4: Insert 40  →  20-&gt;left = 40
-Step 5: Insert 50  →  20-&gt;right = 50
-Step 6: Insert 60  →  30-&gt;left = 60
-
-Final Binary Tree:
-         10
-       /    \
-     20      30
-    /  \    /
-   40  50  60</div>
-        </div>
-
-        <div class="example-block">
-          <div class="example-title">Example 2: All 4 Traversals Output on the Tree Above</div>
-          <table>
-            <tr><th>Traversal</th><th>Visiting Order (L, N, R)</th><th>Printed Sequence Output</th></tr>
-            <tr><td><strong>Inorder</strong></td><td>Left, Node, Right</td><td><code>40, 20, 50, 10, 60, 30</code></td></tr>
-            <tr><td><strong>Preorder</strong></td><td>Node, Left, Right</td><td><code>10, 20, 40, 50, 30, 60</code></td></tr>
-            <tr><td><strong>Postorder</strong></td><td>Left, Right, Node</td><td><code>40, 50, 20, 60, 30, 10</code></td></tr>
-            <tr><td><strong>Level-Order</strong></td><td>Level-by-level (top to bottom, left to right)</td><td><code>10, 20, 30, 40, 50, 60</code></td></tr>
-          </table>
-        </div>
-
-        <div class="example-block">
-          <div class="example-title">Example 3: Step-by-Step Deletion of Node 20</div>
-          <p><strong>Goal:</strong> Delete node with value <code>20</code> from the constructed binary tree.</p>
-          <div class="tree-visual">1. Traverse level-order: Target node found at address of value 20.
-2. The last/deepest rightmost node visited in level order is: 60.
-3. Overwrite target node's data: 20 becomes 60.
-4. Sever link from parent (30-&gt;left = NULL) and free old node 60.
-
-Resulting Binary Tree:
-         10
-       /    \
-     60      30   ← (20 replaced by deepest node 60)
-    /  \
-   40  50
-Level Order now: 10, 60, 30, 40, 50 ✓</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================= -->
-    <!-- ===== L10-11: BST INSERT & DELETE ===== -->
-    <!-- ========================================================= -->
-    <section class="section" id="l10">
-      <div class="section-header">
-        <div class="section-num">L10-11</div>
-        <div>
-          <div class="section-title">BST Insertion & Deletion</div>
-          <div class="section-subtitle">The core property, two-pointer insertion, three deletion cases, and detailed traces</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>🔑 The ONE Rule That Everything Rests On</h3>
-        <p>For every node N in a BST:</p>
-        <div class="highlight success">
-          <p><strong>Left subtree values &lt; N &lt; Right subtree values</strong><br>
-          This applies to <em>every node recursively</em>, not just the root. The subtree rule is the most commonly missed point!</p>
-        </div>
-        <div class="tree-visual">       12
-      /    \
-     5      18
-    / \    /  \
-   2   9  15   19
-  / \ /    \
- 1  3 (no) 17
-
-In-order: 1, 2, 3, 5, 9, 12, 15, 17, 18, 19 → Always SORTED ✓</div>
-      </div>
-
-      <div class="card">
-        <h3>➕ BST Insertion — The Two-Pointer Walk</h3>
-        <p>Key insight: <strong>A new key always becomes a leaf.</strong> Use two pointers — <code>current</code> (walks down) and <code>parent</code> (trails one step behind).</p>
-
-        <h4>Non-Recursive (Iterative) Insertion</h4>
-<pre><span class="type">struct</span> <span class="type">Node</span>* <span class="fn">insertIterative</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> key) {
-    <span class="type">struct</span> <span class="type">Node</span>* newNode = <span class="fn">createNode</span>(key);
-    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span> newNode;
-
-    <span class="type">struct</span> <span class="type">Node</span>* current = root;
-    <span class="type">struct</span> <span class="type">Node</span>* parent = <span class="num">NULL</span>;
-
-    <span class="kw">while</span> (current != <span class="num">NULL</span>) {
-        parent = current;
-        <span class="kw">if</span> (key &lt; current-&gt;data)
-            current = current-&gt;left;
-        <span class="kw">else if</span> (key &gt; current-&gt;data)
-            current = current-&gt;right;
-        <span class="kw">else</span> {
-            <span class="fn">free</span>(newNode); <span class="cm">// duplicate key, ignore</span>
-            <span class="kw">return</span> root;
-        }
-    }
-
-    <span class="kw">if</span> (key &lt; parent-&gt;data)
-        parent-&gt;left = newNode;
-    <span class="kw">else</span>
-        parent-&gt;right = newNode;
-
-    <span class="kw">return</span> root;
-}</pre>
-
-        <h4>Recursive Insertion</h4>
-<pre><span class="type">struct</span> <span class="type">Node</span>* <span class="fn">insertRecursive</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> key) {
-    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span> <span class="fn">createNode</span>(key);
-    
-    <span class="kw">if</span> (key &lt; root-&gt;data)
-        root-&gt;left = <span class="fn">insertRecursive</span>(root-&gt;left, key);
-    <span class="kw">else if</span> (key &gt; root-&gt;data)
-        root-&gt;right = <span class="fn">insertRecursive</span>(root-&gt;right, key);
-    
-    <span class="kw">return</span> root;
-}</pre>
-      </div>
-
-      <div class="card">
-        <h3>❌ BST Deletion — Three Distinct Cases</h3>
-        <div class="grid3">
-          <div class="case-box">
-            <div class="case-title">Case 1: Leaf Node (0 children)</div>
-            <p>Simply detach the node and free memory. Set the parent's pointer to NULL.</p>
-          </div>
-          <div class="case-box">
-            <div class="case-title">Case 2: Node with One Child</div>
-            <p>The single child takes the deleted node's place. Bypass the node and link parent directly to grandchild.</p>
-          </div>
-          <div class="case-box">
-            <div class="case-title">Case 3: Node with Two Children</div>
-            <p>Find the <strong>in-order successor</strong> (smallest in right subtree), copy its value into current node, then delete the successor.</p>
-          </div>
-        </div>
-
-<pre><span class="type">struct</span> <span class="type">Node</span>* <span class="fn">findMin</span>(<span class="type">struct</span> <span class="type">Node</span>* node) {
-    <span class="kw">while</span> (node-&gt;left != <span class="num">NULL</span>)
-        node = node-&gt;left;
-    <span class="kw">return</span> node;
-}
-
-<span class="type">struct</span> <span class="type">Node</span>* <span class="fn">deleteNode</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> key) {
-    <span class="kw">if</span> (root == <span class="num">NULL</span>) <span class="kw">return</span> <span class="num">NULL</span>;
-
-    <span class="kw">if</span> (key &lt; root-&gt;data)
-        root-&gt;left  = <span class="fn">deleteNode</span>(root-&gt;left, key);
-    <span class="kw">else if</span> (key &gt; root-&gt;data)
-        root-&gt;right = <span class="fn">deleteNode</span>(root-&gt;right, key);
-    <span class="kw">else</span> {
-        <span class="cm">// Case 1 &amp; 2: 0 or 1 child</span>
-        <span class="kw">if</span> (root-&gt;left == <span class="num">NULL</span>) {
-            <span class="type">struct</span> <span class="type">Node</span>* temp = root-&gt;right;
-            <span class="fn">free</span>(root);
-            <span class="kw">return</span> temp;
-        } <span class="kw">else if</span> (root-&gt;right == <span class="num">NULL</span>) {
-            <span class="type">struct</span> <span class="type">Node</span>* temp = root-&gt;left;
-            <span class="fn">free</span>(root);
-            <span class="kw">return</span> temp;
-        }
-        <span class="cm">// Case 3: Two children</span>
-        <span class="type">struct</span> <span class="type">Node</span>* successor = <span class="fn">findMin</span>(root-&gt;right);
-        root-&gt;data = successor-&gt;data;
-        root-&gt;right = <span class="fn">deleteNode</span>(root-&gt;right, successor-&gt;data);
-    }
-    <span class="kw">return</span> root;
-}</pre>
-      </div>
-
-      <!-- WORKED EXAMPLES FOR L10-11 -->
-      <div class="card">
-        <h3>🧪 Worked Examples: BST Construction & Deletion</h3>
-
-        <div class="example-block">
-          <div class="example-title">Example 1: Step-by-Step Construction of a BST</div>
-          <p>Insert sequence: <code>[45, 15, 79, 90, 10, 55, 12, 20, 50]</code></p>
-          <div class="tree-visual">1. Insert 45: Root = 45
-2. Insert 15: 15 &lt; 45 -&gt; Left of 45
-3. Insert 79: 79 &gt; 45 -&gt; Right of 45
-4. Insert 90: 90 &gt; 45 -&gt; 90 &gt; 79 -&gt; Right of 79
-5. Insert 10: 10 &lt; 45 -&gt; 10 &lt; 15 -&gt; Left of 15
-6. Insert 55: 55 &gt; 45 -&gt; 55 &lt; 79 -&gt; Left of 79
-7. Insert 12: 12 &lt; 45 -&gt; 12 &lt; 15 -&gt; 12 &gt; 10 -&gt; Right of 10
-8. Insert 20: 20 &lt; 45 -&gt; 20 &gt; 15 -&gt; Right of 15
-9. Insert 50: 50 &gt; 45 -&gt; 50 &lt; 79 -&gt; 50 &lt; 55 -&gt; Left of 55
-
-Resulting Tree:
-              45
-            /    \
-          15      79
-         /  \    /  \
-       10   20  55  90
-        \      /
-        12    50</div>
-        </div>
-
-        <div class="example-block">
-          <div class="example-title">Example 2: Step-by-Step Deletions (All 3 Cases Illustrated)</div>
-          <p><strong>Case 1 (Leaf): Delete 12</strong><br>
-          Node 12 has 0 children. We set its parent's right pointer (<code>10-&gt;right = NULL</code>) and free 12.</p>
-          
-          <p><strong>Case 2 (One Child): Delete 10 (after 12 was attached or delete 55)</strong><br>
-          Node 55 has only one child (50). Node 79's left pointer simply bypasses 55 and points directly to 50 (<code>79-&gt;left = 50</code>).</p>
-          
-          <p><strong>Case 3 (Two Children): Delete 15 from original tree</strong><br>
-          Node 15 has two children (10 and 20).
-          <br>1. Search right subtree of 15 (root 20) for minimum value. In-order successor is <strong>20</strong>.
-          <br>2. Copy 20 into node 15's spot.
-          <br>3. Delete node 20 from right subtree.</p>
-          <div class="tree-visual">After deleting 15:
-              45
-            /    \
-          20      79   ← (15 replaced by successor 20)
-         /       /  \
-       10       55  90
-        \      /
-        12    50</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================= -->
-    <!-- ===== L12-13: BST TRAVERSAL & SEARCH ===== -->
-    <!-- ========================================================= -->
-    <section class="section" id="l12">
-      <div class="section-header">
-        <div class="section-num">L12-13</div>
-        <div>
-          <div class="section-title">BST Traversal & Searching</div>
-          <div class="section-subtitle">Recursive & iterative traversal dry-runs, tree reconstruction, and search traces</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>🔄 The Three Depth Traversals</h3>
-        <div class="grid3">
-          <div class="case-box">
-            <div class="case-title">Inorder: Left → Root → Right</div>
-            <p>Output is <strong>strictly sorted</strong> for a BST. Used to produce sorted records in $O(n)$ time.</p>
-          </div>
-          <div class="case-box">
-            <div class="case-title">Preorder: Root → Left → Right</div>
-            <p>Used to <strong>clone or serialize</strong> a tree structure. Root is always processed first.</p>
-          </div>
-          <div class="case-box">
-            <div class="case-title">Postorder: Left → Right → Root</div>
-            <p>Used to <strong>delete or free</strong> a tree from bottom to top, or evaluate prefix/postfix expressions.</p>
-          </div>
-        </div>
-
-        <h4>Non-Recursive (Iterative) Inorder Traversal using Explicit Stack</h4>
-<pre><span class="kw">void</span> <span class="fn">inorderIterative</span>(<span class="type">struct</span> <span class="type">Node</span>* root) {
-    <span class="type">struct</span> <span class="type">Node</span>* stack[<span class="num">100</span>];
-    <span class="type">int</span> top = -<span class="num">1</span>;
-    <span class="type">struct</span> <span class="type">Node</span>* curr = root;
-
-    <span class="kw">while</span> (curr != <span class="num">NULL</span> || top &gt;= <span class="num">0</span>) {
-        <span class="cm">// Step 1: Reach the leftmost node of current subtree</span>
-        <span class="kw">while</span> (curr != <span class="num">NULL</span>) {
-            stack[++top] = curr;
-            curr = curr-&gt;left;
-        }
-        <span class="cm">// Step 2: Pop and visit</span>
-        curr = stack[top--];
-        <span class="fn">printf</span>(<span class="str">"%d "</span>, curr-&gt;data);
-
-        <span class="cm">// Step 3: Now traverse right subtree</span>
-        curr = curr-&gt;right;
-    }
-}</pre>
-      </div>
-
-      <div class="card">
-        <h3>🔍 Searching in BST</h3>
-        <div class="grid2">
-          <div>
-            <h4>Recursive Search</h4>
-<pre><span class="type">struct</span> <span class="type">Node</span>* <span class="fn">searchRec</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> key) {
-    <span class="kw">if</span> (root == <span class="num">NULL</span> || root-&gt;data == key)
-        <span class="kw">return</span> root;
-    <span class="kw">if</span> (key &lt; root-&gt;data)
-        <span class="kw">return</span> <span class="fn">searchRec</span>(root-&gt;left, key);
-    <span class="kw">return</span> <span class="fn">searchRec</span>(root-&gt;right, key);
-}</pre>
-          </div>
-          <div>
-            <h4>Iterative Search (O(1) Space)</h4>
-<pre><span class="type">struct</span> <span class="type">Node</span>* <span class="fn">searchIter</span>(<span class="type">struct</span> <span class="type">Node</span>* root, <span class="type">int</span> key) {
-    <span class="type">struct</span> <span class="type">Node</span>* curr = root;
-    <span class="kw">while</span> (curr != <span class="num">NULL</span>) {
-        <span class="kw">if</span> (key == curr-&gt;data) <span class="kw">return</span> curr;
-        <span class="kw">else if</span> (key &lt; curr-&gt;data) curr = curr-&gt;left;
-        <span class="kw">else</span> curr = curr-&gt;right;
-    }
-    <span class="kw">return</span> <span class="num">NULL</span>;
-}</pre>
-          </div>
-        </div>
-      </div>
-
-      <!-- WORKED EXAMPLES FOR L12-13 -->
-      <div class="card">
-        <h3>🧪 Worked Examples: Dry-Run Traces & Tree Reconstruction</h3>
-
-        <div class="example-block">
-          <div class="example-title">Example 1: Step-by-Step Stack Trace of Iterative Inorder</div>
-          <p>Tree: Root <code>20</code>, Left <code>10</code> (Left child <code>5</code>, Right child <code>15</code>), Right <code>30</code>.</p>
-          <table>
-            <tr><th>Step</th><th>Current Pointer</th><th>Stack Contents (bottom → top)</th><th>Action Taken</th><th>Output</th></tr>
-            <tr><td>1</td><td>20</td><td>[20]</td><td>Push 20, go left</td><td>—</td></tr>
-            <tr><td>2</td><td>10</td><td>[20, 10]</td><td>Push 10, go left</td><td>—</td></tr>
-            <tr><td>3</td><td>5</td><td>[20, 10, 5]</td><td>Push 5, go left</td><td>—</td></tr>
-            <tr><td>4</td><td>NULL</td><td>[20, 10]</td><td>Pop 5, visit 5, go to 5->right (NULL)</td><td><strong>5</strong></td></tr>
-            <tr><td>5</td><td>NULL</td><td>[20]</td><td>Pop 10, visit 10, go to 10->right (15)</td><td>5, <strong>10</strong></td></tr>
-            <tr><td>6</td><td>15</td><td>[20, 15]</td><td>Push 15, go to 15->left (NULL)</td><td>5, 10</td></tr>
-            <tr><td>7</td><td>NULL</td><td>[20]</td><td>Pop 15, visit 15, go to 15->right (NULL)</td><td>5, 10, <strong>15</strong></td></tr>
-            <tr><td>8</td><td>NULL</td><td>[]</td><td>Pop 20, visit 20, go to 20->right (30)</td><td>5, 10, 15, <strong>20</strong></td></tr>
-            <tr><td>9</td><td>30</td><td>[30]</td><td>Push 30, go to 30->left (NULL)</td><td>5, 10, 15, 20</td></tr>
-            <tr><td>10</td><td>NULL</td><td>[]</td><td>Pop 30, visit 30, go to 30->right (NULL)</td><td>5, 10, 15, 20, <strong>30</strong></td></tr>
-          </table>
-        </div>
-
-        <div class="example-block">
-          <div class="example-title">Example 2: Reconstruct Unique Binary Tree from Preorder & Inorder</div>
-          <p>Given:<br>
-          <strong>Preorder:</strong> <code>[A, B, D, E, C, F]</code> (Root is always the 1st element)<br>
-          <strong>Inorder:</strong> <code>[D, B, E, A, F, C]</code> (Items left of root are left subtree; items right are right subtree)</p>
-          <div class="tree-visual">Step 1: First element in Preorder is 'A' -&gt; Root = A.
-Step 2: In Inorder, 'A' splits the sequence:
-        Left subtree elements:  [D, B, E]
-        Right subtree elements: [F, C]
-Step 3: In Preorder, left subtree elements appear next: [B, D, E] -&gt; Root of left subtree is 'B'.
-        In Inorder, 'B' splits [D, B, E] into left child 'D' and right child 'E'.
-Step 4: Right subtree preorder: [C, F] -&gt; Root of right subtree is 'C'.
-        In Inorder [F, C], 'F' is to the left of 'C' -&gt; 'F' is left child of 'C'.
-
-Reconstructed Tree:
-        A
-      /   \
-     B     C
-    / \   /
-   D   E F</div>
-        </div>
-
-        <div class="example-block">
-          <div class="example-title">Example 3: Search Trace (Successful vs Unsuccessful)</div>
-          <p>On tree with root <code>45</code>:
-          <br>• <strong>Search for 55:</strong> 55 &gt; 45 (go right to 79) → 55 &lt; 79 (go left to 55) → 55 == 55 → <strong>Found in 3 comparisons!</strong>
-          <br>• <strong>Search for 65:</strong> 65 &gt; 45 (go right to 79) → 65 &lt; 79 (go left to 55) → 65 &gt; 55 (go right to NULL) → <strong>Not Found (Terminates at NULL in 3 comparisons).</strong></p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================= -->
-    <!-- ===== L14-15: AVL TREES ===== -->
-    <!-- ========================================================= -->
-    <section class="section" id="l14">
-      <div class="section-header">
-        <div class="section-num">L14-15</div>
-        <div>
-          <div class="section-title">AVL Trees — Self-Balancing BST</div>
-          <div class="section-subtitle">Balance factors, 4 rotations, step-by-step construction, and rebalancing traces</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>🤔 Why AVL Trees?</h3>
-        <p>A plain BST becomes a degenerate linked list if you insert sorted data (e.g., 10→20→30→40→50), degrading search to O(n). AVL trees strictly guarantee <strong>O(log n)</strong> for all operations by maintaining a height-balance property at every node.</p>
-      </div>
-
-      <div class="card">
-        <h3>📐 Balance Factor (BF)</h3>
-        <div class="highlight success">
-          <p><strong>BF(node) = Height(Left Subtree) − Height(Right Subtree)</strong><br>
-          Valid values: <strong>-1, 0, +1</strong> only. Any other value (|BF| ≥ 2) means the tree is unbalanced → rotation required!</p>
-        </div>
-        <table>
-          <tr><th>BF Value</th><th>Meaning</th><th>Action Required</th></tr>
-          <tr><td><strong>+1</strong></td><td>Left subtree is 1 level taller than right subtree (Left-Heavy)</td><td>Balanced ✓</td></tr>
-          <tr><td><strong>0</strong></td><td>Both subtrees are of equal height</td><td>Balanced ✓</td></tr>
-          <tr><td><strong>-1</strong></td><td>Right subtree is 1 level taller than left subtree (Right-Heavy)</td><td>Balanced ✓</td></tr>
-          <tr><td><strong>+2 or -2</strong></td><td>Critical imbalance along the insertion path</td><td><strong>Rotate Immediately ⚠</strong></td></tr>
-        </table>
-      </div>
-
-      <div class="card">
-        <h3>🔄 The Four AVL Rotations</h3>
-        <div class="grid2">
-          <div class="case-box">
-            <div class="case-title">LL Rotation (Single Right Rotation)</div>
-            <p>Insertion into <strong>Left child's Left subtree</strong> (BF = +2, child BF = +1).<br><strong>Fix: Rotate Right at unbalanced node.</strong></p>
-<pre style="font-size:0.72rem;">Before:         After Right-Rotate(A):
-    A(+2)               B(0)
-   /                   /    \
-  B(+1)        →      C(0)  A(0)
- /
-C(0)</pre>
-          </div>
-          <div class="case-box">
-            <div class="case-title">RR Rotation (Single Left Rotation)</div>
-            <p>Insertion into <strong>Right child's Right subtree</strong> (BF = -2, child BF = -1).<br><strong>Fix: Rotate Left at unbalanced node.</strong></p>
-<pre style="font-size:0.72rem;">Before:         After Left-Rotate(A):
-  A(-2)                 B(0)
-    \                  /    \
-     B(-1)     →      A(0)  C(0)
-       \
-        C(0)</pre>
-          </div>
-          <div class="case-box">
-            <div class="case-title">LR Rotation (Double: Left then Right)</div>
-            <p>Insertion into <strong>Left child's Right subtree</strong> (BF = +2, child BF = -1).<br><strong>Fix: Left rotate B, then Right rotate A.</strong></p>
-<pre style="font-size:0.72rem;">Before:        Step 1 (Left B):    Step 2 (Right A):
-  A(+2)             A(+2)               C(0)
- /                 /                   /    \
-B(-1)      →      C                   B(0)  A(0)
- \               /
-  C             B</pre>
-          </div>
-          <div class="case-box">
-            <div class="case-title">RL Rotation (Double: Right then Left)</div>
-            <p>Insertion into <strong>Right child's Left subtree</strong> (BF = -2, child BF = +1).<br><strong>Fix: Right rotate B, then Left rotate A.</strong></p>
-<pre style="font-size:0.72rem;">Before:        Step 1 (Right B):   Step 2 (Left A):
-  A(-2)             A(-2)               C(0)
-    \                 \                /    \
-     B(+1)     →       C              A(0)  B(0)
-    /                   \
-   C                     B</pre>
-          </div>
-        </div>
-      </div>
-
-      <!-- WORKED EXAMPLES FOR AVL -->
-      <div class="card">
-        <h3>🧪 Worked Examples: Step-by-Step AVL Tree Construction</h3>
-
-        <div class="example-block">
-          <div class="example-title">Example 1: Insert Sequence [10, 20, 30, 40, 50, 25] with Rotations</div>
-          <div class="tree-visual">1. Insert 10: Root 10 (BF = 0)
-2. Insert 20: 10-&gt;right = 20. BF(10) = -1. Balanced.
-3. Insert 30: 20-&gt;right = 30.
-   Imbalance at 10: BF(10) = -2, BF(20) = -1 -&gt; RR Imbalance!
-   Action: Left-Rotate(10):
-         20 (0)
-        /   \
-      10(0) 30(0)
-
-4. Insert 40: 30-&gt;right = 40. BF(20) = -1, BF(30) = -1. Balanced.
-5. Insert 50: 40-&gt;right = 50.
-   Imbalance at 30: BF(30) = -2, BF(40) = -1 -&gt; RR Imbalance!
-   Action: Left-Rotate(30):
-         20 (-1)
-        /   \
-      10(0)  40(0)
-            /   \
-          30(0) 50(0)
-
-6. Insert 25: Goes left of 30.
-   BF(40) = +1. BF(20) = -2 (Right-Heavy), BF(40) = +1 (Left-Heavy) -&gt; RL Imbalance at Root 20!
-   Action: Double Rotation:
-     Step a: Right-Rotate at 40
-     Step b: Left-Rotate at 20
-
-Final Balanced AVL Tree:
-             30 (0)
-           /        \
-        20 (0)      40 (-1)
-       /     \          \
-     10(0)   25(0)      50(0)
-All Balance Factors in {-1, 0, +1} ✓</div>
-        </div>
-
-        <div class="example-block">
-          <div class="example-title">Example 2: AVL Deletion Rebalancing Example</div>
-          <p>Delete leaf node <code>10</code> from the tree above.
-          <br>1. Removing 10 leaves node 20 with only a right child (25).
-          <br>2. BF(20) becomes $0 - 1 = -1$.
-          <br>3. BF(30) becomes $h(\text{left: 20})=1 - h(\text{right: 40})=2 = -1$.
-          <br>4. No balance factor exceeds $\pm 1$, so tree remains valid without needing rotations!</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================= -->
-    <!-- ===== L16-17: RED-BLACK TREES ===== -->
-    <!-- ========================================================= -->
-    <section class="section" id="l16">
-      <div class="section-header">
-        <div class="section-num">L16-17</div>
-        <div>
-          <div class="section-title">Red-Black Trees (Insertion Only)</div>
-          <div class="section-subtitle">⚠️ Deletion NOT in MTE — 5 properties, black-height, and 4 insertion cases</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>📜 The 5 Red-Black Tree Properties</h3>
-        <ol style="padding-left:20px; color: var(--text-muted); font-size:0.88rem; line-height:2.2;">
-          <li><strong style="color:var(--text)">Every node is either RED or BLACK.</strong></li>
-          <li><strong style="color:var(--text)">The root is always BLACK.</strong></li>
-          <li><strong style="color:var(--text)">Every leaf (NIL sentinel) is BLACK.</strong></li>
-          <li><strong style="color:var(--text)">If a node is RED, both its children must be BLACK.</strong> (No two consecutive RED nodes!)</li>
-          <li><strong style="color:var(--text)">For every node, all paths from that node to descendant leaves contain the EXACT SAME number of black nodes</strong> (Black-Height property).</li>
-        </ol>
-      </div>
-
-      <div class="card">
-        <h3>➕ RB Tree Insertion Rules (New Node is Always RED)</h3>
-        <p>When inserting a new key, we always colour it <strong>RED</strong> first to avoid violating Property 5 (black-height). If its parent is BLACK, we are done. If its parent is RED, we fix the double-red violation using 4 cases based on the <strong>uncle's colour</strong>.</p>
-
-        <div class="grid2">
-          <div class="case-box">
-            <div class="case-title">Case 1: Uncle is RED (Recoloring)</div>
-            <p>Parent = BLACK, Uncle = BLACK, Grandparent = RED.<br>Move pointer to Grandparent and repeat check upward.</p>
-          </div>
-          <div class="case-box">
-            <div class="case-title">Case 2: Uncle is BLACK (Triangle / Zig-zag)</div>
-            <p>Rotate Parent opposite to new node to convert triangle into a straight line (transforms into Case 3).</p>
-          </div>
-          <div class="case-box">
-            <div class="case-title">Case 3: Uncle is BLACK (Line)</div>
-            <p>Rotate Grandparent away from new node. Swap colors of Parent (now BLACK) and Grandparent (now RED).</p>
-          </div>
-          <div class="case-box">
-            <div class="case-title">Case 4: Root is RED</div>
-            <p>If root became RED due to Case 1 propagation, simply recolour root to BLACK. Increases black-height by 1.</p>
-          </div>
-        </div>
-      </div>
-
-      <!-- WORKED EXAMPLES FOR RED-BLACK TREES -->
-      <div class="card">
-        <h3>🧪 Worked Examples: Red-Black Tree Insertion & Black-Height</h3>
-
-        <div class="example-block">
-          <div class="example-title">Example 1: Step-by-Step Construction with Keys [10, 20, 30, 15]</div>
-          <div class="tree-visual">Step 1: Insert 10 as RED. Since it is root -&gt; Case 4: Make root BLACK.
-        10[B]
-
-Step 2: Insert 20 as RED -&gt; Parent 10 is BLACK. No violation!
-        10[B]
-          \
-          20[R]
-
-Step 3: Insert 30 as RED -&gt; 20[R] and 30[R] form double red!
-        Uncle of 30 is NIL (BLACK).
-        Path: 10 -&gt; Right -&gt; Right (Line) -&gt; Case 3!
-        Action: Left-rotate at Grandparent 10. Swap colours: 20 becomes [B], 10 becomes [R].
-              20[B]
-             /     \
-          10[R]   30[R]
-
-Step 4: Insert 15 as RED -&gt; 15 attaches as right child of 10[R].
-        Violation: 10[R] and 15[R] are both RED!
-        Uncle of 15 is 30, which is RED -&gt; Case 1 (Recoloring)!
-        Action:
-          Parent(10) = BLACK
-          Uncle(30)  = BLACK
-          Grandparent(20) = RED
-        Since 20 is the Root -&gt; Case 4: Recolour Root(20) to BLACK.
-
-Final Tree:
-              20[B]
-             /     \
-          10[B]   30[B]
-             \
-             15[R]</div>
-        </div>
-
-        <div class="example-block">
-          <div class="example-title">Example 2: Verification of Black-Height (bh) on Every Path</div>
-          <p>Verify Property 5 on the final tree above:</p>
-          <table>
-            <tr><th>Path from Root to NIL Leaf</th><th>Black Nodes on Path (excluding root)</th><th>Black Height</th></tr>
-            <tr><td><code>20[B] → 10[B] → NIL</code></td><td>10[B]</td><td><strong>1</strong></td></tr>
-            <tr><td><code>20[B] → 10[B] → 15[R] → NIL</code></td><td>10[B]</td><td><strong>1</strong></td></tr>
-            <tr><td><code>20[B] → 30[B] → NIL</code></td><td>30[B]</td><td><strong>1</strong></td></tr>
-          </table>
-          <p style="margin-top:6px; color:var(--green)">✓ All paths have identical Black-Height = 1. The Red-Black tree is completely valid!</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================= -->
-    <!-- ===== L18-19: B-TREES ===== -->
-    <!-- ========================================================= -->
-    <section class="section" id="l18">
-      <div class="section-header">
-        <div class="section-num">L18-19</div>
-        <div>
-          <div class="section-title">B-Trees: Properties, Insertion & Deletion</div>
-          <div class="section-subtitle">Multi-way search tree optimized for disk storage and database indexing</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>📋 B-Tree of Order m — The Golden Rules</h3>
-        <table>
-          <tr><th>Rule Property</th><th>Root Node</th><th>Internal / Non-Root Node</th></tr>
-          <tr><td><strong>Max Children</strong></td><td>$m$</td><td>$m$</td></tr>
-          <tr><td><strong>Min Children</strong></td><td>$2$ (if not a leaf)</td><td>$\lceil m/2 \rceil$</td></tr>
-          <tr><td><strong>Max Keys</strong></td><td>$m - 1$</td><td>$m - 1$</td></tr>
-          <tr><td><strong>Min Keys</strong></td><td>$1$</td><td>$\lceil m/2 \rceil - 1$</td></tr>
-          <tr><td><strong>Leaf Level</strong></td><td colspan="2">All leaf nodes must appear at the <strong>exact same depth/level</strong>.</td></tr>
-        </table>
-      </div>
-
-      <div class="card">
-        <h3>➕ B-Tree Insertion & Splitting</h3>
-        <p>Keys are always inserted into leaf nodes. When a node overflows (reaches $m$ keys):
-        <br>1. Identify the <strong>median key</strong> at index $\lceil m/2 \rceil$.
-        <br>2. Split the node into left child and right child.
-        <br>3. <strong>Promote</strong> the median key to the parent node.
-        <br>4. If the root splits, a new root is created (this is the only way a B-tree grows in height).</p>
-      </div>
-
-      <!-- WORKED EXAMPLES FOR B-TREES -->
-      <div class="card">
-        <h3>🧪 Worked Examples: B-Tree Construction & Deletion</h3>
-
-        <div class="example-block">
-          <div class="example-title">Example 1: Step-by-Step Construction of Order-3 B-Tree (2-3 Tree)</div>
-          <p>Order $m = 3 \implies$ Max keys = $m-1 = 2$. Min keys = $\lceil 3/2 \rceil - 1 = 1$.<br>
-          Insert sequence: <code>[10, 20, 30, 40, 50]</code></p>
-          <div class="tree-visual">1. Insert 10, 20: Fits in single node -&gt; [10 | 20]
-2. Insert 30: Node overflows [10 | 20 | 30] (3 keys &gt; max 2).
-   Middle key = 20 -&gt; Promote 20 to new root:
-          [20]
-         /    \
-       [10]   [30]
-
-3. Insert 40: Goes to right leaf -&gt; [30 | 40] (Fits, 2 keys):
-          [20]
-         /    \
-       [10]  [30 | 40]
-
-4. Insert 50: Goes to right leaf -&gt; [30 | 40 | 50] -&gt; Overflows!
-   Middle key = 40 -&gt; Promote 40 to parent [20]:
-   Parent becomes [20 | 40]:
-          [20 | 40]
-         /    |    \
-       [10]  [30]  [50]
-All leaves at level 1. Valid B-tree ✓</div>
-        </div>
-
-        <div class="example-block">
-          <div class="example-title">Example 2: B-Tree Deletion (Borrow vs Merge)</div>
-          <p>On tree with Root <code>[20 | 40]</code> and children <code>[10]</code>, <code>[30]</code>, <code>[50]</code>:</p>
-          <p><strong>Scenario A (Underflow Borrowing):</strong> If a node underflows and an immediate sibling has extra keys, <em>borrow</em> via parent rotation.</p>
-          <p><strong>Scenario B (Underflow Merging):</strong> If siblings have minimum keys, delete key, pull down the divider key from parent, and <em>merge</em> sibling nodes into one single node. If root empties, the merged node becomes the new root.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================= -->
-    <!-- ===== L20: TREE COMPARISON ===== -->
-    <!-- ========================================================= -->
-    <section class="section" id="l20">
-      <div class="section-header">
-        <div class="section-num">L20</div>
-        <div>
-          <div class="section-title">Comparative Study of All Trees</div>
-          <div class="section-subtitle">Comprehensive performance trade-offs and real-world system case studies</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>📊 Master Comparison Table</h3>
-        <table>
-          <tr><th>Feature</th><th>BST</th><th>AVL Tree</th><th>Red-Black Tree</th><th>B-Tree</th></tr>
-          <tr><td><strong>Balance Type</strong></td><td>None (arbitrary)</td><td>Strict height balance ($|BF| \le 1$)</td><td>Looser colour balance</td><td>Block/Order balanced</td></tr>
-          <tr><td><strong>Search Time (Worst)</strong></td><td>$O(n)$ (skewed)</td><td>$O(\log n)$</td><td>$O(\log n)$</td><td>$O(\log_m n)$</td></tr>
-          <tr><td><strong>Insert Time (Worst)</strong></td><td>$O(n)$</td><td>$O(\log n)$</td><td>$O(\log n)$</td><td>$O(\log_m n)$</td></tr>
-          <tr><td><strong>Rotations on Insert</strong></td><td>0</td><td>At most 2</td><td>At most 2 (plus recolor)</td><td>0 (Uses splits)</td></tr>
-          <tr><td><strong>Rotations on Delete</strong></td><td>0</td><td>$O(\log n)$ (cascade)</td><td>At most 3</td><td>0 (Uses merges)</td></tr>
-          <tr><td><strong>Hardware Target</strong></td><td>RAM</td><td>RAM</td><td>RAM</td><td>Disk / SSD storage</td></tr>
-        </table>
-      </div>
-
-      <div class="card">
-        <h3>💼 Real-World Architectural Case Studies</h3>
-        <div class="grid2">
-          <div class="case-box">
-            <div class="case-title">Case 1: Linux Kernel Completely Fair Scheduler (CFS)</div>
-            <p><strong>Choice: Red-Black Tree</strong><br>
-            Tasks are indexed by execution time. Frequent insertions/deletions as processes wake and sleep. RB Trees require fewer rebalancing rotations ($O(1)$ amortized) than AVL trees, giving lower OS latency.</p>
-          </div>
-          <div class="case-box">
-            <div class="case-title">Case 2: PostgreSQL / MySQL Database Indexes</div>
-            <p><strong>Choice: B-Tree / B+Tree</strong><br>
-            Disk block reads are 100,000x slower than RAM. High fan-out ($m \ge 500$) keeps tree height $\le 3$, answering queries over millions of rows with at most 3 disk I/Os.</p>
-          </div>
-          <div class="case-box">
-            <div class="case-title">Case 3: In-Memory Static Dictionary / Read-Heavy Cache</div>
-            <p><strong>Choice: AVL Tree</strong><br>
-            Once loaded, data is queried millions of times without modifications. AVL's stricter balance factor guarantees shorter average search path than Red-Black trees.</p>
-          </div>
-          <div class="case-box">
-            <div class="case-title">Case 4: Compiler Symbol Table (Small Scopes)</div>
-            <p><strong>Choice: Binary Search Tree (or Hash Table)</strong><br>
-            In short local scopes (e.g., function arguments), $N$ is small ($\le 20$). The overhead of maintaining balance factors or node colors outweighs the cost of simple BST pointer walks.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================= -->
-    <!-- ===== L21-22: HEAPS & HEAP SORT ===== -->
-    <!-- ========================================================= -->
-    <section class="section" id="l21">
-      <div class="section-header">
-        <div class="section-num">L21-22</div>
-        <div>
-          <div class="section-title">Heaps & Heap Sort</div>
-          <div class="section-subtitle">Complete binary trees in arrays, Max-Heapify, Build-Heap, and sorting traces</div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>🌳 What is a Heap?</h3>
-        <p>A <strong>Binary Heap</strong> is a <em>Complete Binary Tree</em> stored consecutively in an array that satisfies the <strong>Heap Property</strong>:</p>
-        <div class="grid2">
-          <div>
-            <h4>Max-Heap Property</h4>
-            <p>For every node $i$: <code>A[parent(i)] ≥ A[i]</code>. <strong>Root holds the MAXIMUM element.</strong></p>
-          </div>
-          <div>
-            <h4>Min-Heap Property</h4>
-            <p>For every node $i$: <code>A[parent(i)] ≤ A[i]</code>. <strong>Root holds the MINIMUM element.</strong></p>
-          </div>
-        </div>
-
-        <div class="highlight success">
-          <p><strong>Array Indexing Rules (0-based indexing):</strong><br>
-          For node at index $i$:<br>
-          • <strong>Parent:</strong> <code>(i - 1) / 2</code><br>
-          • <strong>Left Child:</strong> <code>2 * i + 1</code><br>
-          • <strong>Right Child:</strong> <code>2 * i + 2</code><br>
-          • <strong>Last Non-Leaf Node:</strong> <code>n / 2 - 1</code></p>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>⚙️ Heapify & Heap Sort Implementation</h3>
-<pre><span class="cm">// Max-Heapify: Swaps downward until heap property is restored</span>
-<span class="kw">void</span> <span class="fn">maxHeapify</span>(<span class="type">int</span> arr[], <span class="type">int</span> n, <span class="type">int</span> i) {
-    <span class="type">int</span> largest = i;
-    <span class="type">int</span> left  = <span class="num">2</span> * i + <span class="num">1</span>;
-    <span class="type">int</span> right = <span class="num">2</span> * i + <span class="num">2</span>;
-
-    <span class="kw">if</span> (left &lt; n &amp;&amp; arr[left] &gt; arr[largest])
-        largest = left;
-    <span class="kw">if</span> (right &lt; n &amp;&amp; arr[right] &gt; arr[largest])
-        largest = right;
-
-    <span class="kw">if</span> (largest != i) {
-        <span class="type">int</span> temp = arr[i];
-        arr[i] = arr[largest];
-        arr[largest] = temp;
-        <span class="fn">maxHeapify</span>(arr, n, largest); <span class="cm">// Recurse down</span>
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">new</span> <span class="cls">Main</span>().<span class="fn">sum</span>(45, 60);
     }
 }
+<span class="cm">// Answer: 800 (this.a=500, this.b=300, ignores params)</span></pre>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<span class="cm">// Build-Max-Heap: O(n) total time</span>
-<span class="kw">void</span> <span class="fn">buildMaxHeap</span>(<span class="type">int</span> arr[], <span class="type">int</span> n) {
-    <span class="kw">for</span> (<span class="type">int</span> i = n / <span class="num">2</span> - <span class="num">1</span>; i &gt;= <span class="num">0</span>; i--)
-        <span class="fn">maxHeapify</span>(arr, n, i);
+  <hr class="divider">
+
+  <!-- ═══════════════════════════════ INHERITANCE ═══════════════════════════════ -->
+  <section class="topic-section" id="inheritance">
+    <div class="topic-header">
+      <span class="topic-num">03</span>
+      <h2>Inheritance & super keyword</h2>
+      <span class="priority-badge high">HIGH</span>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h3>What is Inheritance?</h3>
+        <p>One class acquires properties and methods of another. Represents IS-A relationship. Uses <code>extends</code> keyword. Java supports single, multilevel, hierarchical inheritance with classes. <strong>Multiple inheritance through classes is NOT allowed</strong> — only through interfaces.</p>
+      </div>
+
+      <div class="concept-card">
+        <h3>Types of Inheritance in Java</h3>
+        <ul>
+          <li><strong>Single</strong> — A → B</li>
+          <li><strong>Multilevel</strong> — A → B → C (chain)</li>
+          <li><strong>Hierarchical</strong> — A → B, A → C, A → D</li>
+          <li><strong>Multiple</strong> — ❌ not allowed with classes, ✓ allowed via interfaces</li>
+          <li><strong>Hybrid</strong> — combination (via interfaces only)</li>
+        </ul>
+      </div>
+
+      <div class="concept-card">
+        <h3>super keyword — 3 uses</h3>
+        <div class="rule-list">
+          <div class="rule"><span class="rule-icon check">1</span> Refer to parent class instance variable — <code>super.name</code></div>
+          <div class="rule"><span class="rule-icon check">2</span> Invoke parent class method — <code>super.display()</code></div>
+          <div class="rule"><span class="rule-icon check">3</span> Invoke parent class constructor — <code>super()</code> or <code>super(args)</code> — must be first line</div>
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <h3>Constructor Chaining Across Classes (KEY for Section C)</h3>
+        <div class="code-block">
+          <div class="code-label">// PYQ pattern — B extends A</div>
+          <pre><span class="kw">class</span> <span class="cls">A</span> {
+    <span class="fn">A</span>() { <span class="cls">System</span>.out.println(<span class="str">"Inside A constructor"</span>); }
+}
+<span class="kw">class</span> <span class="cls">B</span> <span class="kw">extends</span> <span class="cls">A</span> {
+    <span class="fn">B</span>() { <span class="cls">System</span>.out.println(<span class="str">"Inside B constructor"</span>); }
+}
+<span class="kw">class</span> <span class="cls">Main</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="kw">new</span> <span class="cls">B</span>();
+    }
+}
+<span class="cm">// Output:
+// Inside A constructor   ← parent always runs first
+// Inside B constructor</span></pre>
+        </div>
+        <div class="exam-tip" style="margin-top:0">
+          <strong>Why?</strong> Java secretly inserts <code>super()</code> as the first line of every constructor if you don't explicitly call super or this. So B's constructor always calls A's first.
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <h3>Access Modifiers in Inheritance</h3>
+        <table class="compare-table">
+          <tr><th>Modifier</th><th>Same class</th><th>Subclass (same pkg)</th><th>Subclass (diff pkg)</th><th>Outside</th></tr>
+          <tr><td>public</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+          <tr><td>protected</td><td>✓</td><td>✓</td><td>✓</td><td>✗</td></tr>
+          <tr><td>default</td><td>✓</td><td>✓</td><td>✗</td><td>✗</td></tr>
+          <tr><td>private</td><td>✓</td><td>✗</td><td>✗</td><td>✗</td></tr>
+        </table>
+      </div>
+
+      <div class="concept-card">
+        <h3>What is NOT inherited?</h3>
+        <ul>
+          <li>Constructors — but you can call them via <code>super()</code></li>
+          <li>Private members — but accessible via public/protected getters</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════════════ ABSTRACT & FINAL ═══════════════════════════════ -->
+  <section class="topic-section" id="abstract">
+    <div class="topic-header">
+      <span class="topic-num">04</span>
+      <h2>Abstract Class & final keyword</h2>
+      <span class="priority-badge high">HIGH</span>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h3>Abstract Class — Key Points</h3>
+        <div class="rule-list">
+          <div class="rule"><span class="rule-icon check">✓</span> Declared with <code>abstract</code> keyword</div>
+          <div class="rule"><span class="rule-icon check">✓</span> Can have both abstract methods (no body) and non-abstract methods (with body)</div>
+          <div class="rule"><span class="rule-icon check">✓</span> Can have constructors, static methods, final methods</div>
+          <div class="rule"><span class="rule-icon cross">✗</span> Cannot be instantiated (cannot do <code>new AbstractClass()</code>)</div>
+          <div class="rule"><span class="rule-icon cross">✗</span> If a subclass doesn't implement all abstract methods, it must also be abstract</div>
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <h3>Abstract Class Example (Section C pattern)</h3>
+        <div class="code-block">
+          <div class="code-label">// Abstract parent → Concrete child</div>
+          <pre><span class="kw">abstract class</span> <span class="cls">Shape</span> {
+    <span class="kw">abstract void</span> <span class="fn">draw</span>();          <span class="cm">// no body</span>
+    <span class="kw">void</span> <span class="fn">describe</span>() {              <span class="cm">// has body</span>
+        <span class="cls">System</span>.out.println(<span class="str">"I am a shape"</span>);
+    }
+}
+<span class="kw">class</span> <span class="cls">Circle</span> <span class="kw">extends</span> <span class="cls">Shape</span> {
+    <span class="kw">void</span> <span class="fn">draw</span>() {                  <span class="cm">// must implement</span>
+        <span class="cls">System</span>.out.println(<span class="str">"Drawing circle"</span>);
+    }
+}
+<span class="cm">// Shape s = new Shape(); ← ERROR
+// Shape s = new Circle(); ← OK (upcasting)</span></pre>
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <h3>final keyword — 3 uses</h3>
+        <table class="compare-table">
+          <tr><th>Applied to</th><th>Effect</th></tr>
+          <tr><td><code>final variable</code></td><td>Value cannot be changed (constant)</td></tr>
+          <tr><td><code>final method</code></td><td>Cannot be overridden in subclass</td></tr>
+          <tr><td><code>final class</code></td><td>Cannot be extended (subclassed)</td></tr>
+        </table>
+        <div class="gotcha">
+          <strong>PYQ trap:</strong> If <code>displayInfo()</code> is declared <code>final</code> in parent class, the child class <strong>cannot override it</strong> — this gives a compile-time error. This was directly asked in your Section C question.
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <h3>Abstraction vs Encapsulation</h3>
+        <table class="compare-table">
+          <tr><th></th><th>Abstraction</th><th>Encapsulation</th></tr>
+          <tr><td>Idea</td><td>Hide implementation, show only what</td><td>Wrap data + methods, control access</td></tr>
+          <tr><td>How</td><td>Abstract class / Interface</td><td>Private fields + public getters/setters</td></tr>
+          <tr><td>Focus</td><td>Design level</td><td>Implementation level</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════════════ RUNTIME POLYMORPHISM ═══════════════════════════════ -->
+  <section class="topic-section" id="polymorphism">
+    <div class="topic-header">
+      <span class="topic-num">05</span>
+      <h2>Runtime Polymorphism</h2>
+      <span class="priority-badge high">HIGH</span>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h3>Compile-time vs Runtime — Quick comparison</h3>
+        <table class="compare-table">
+          <tr><th></th><th>Compile-time (Static)</th><th>Runtime (Dynamic)</th></tr>
+          <tr><td>Also called</td><td>Early binding, Overloading</td><td>Late binding, Overriding</td></tr>
+          <tr><td>Resolved</td><td>At compile time</td><td>At runtime by JVM</td></tr>
+          <tr><td>Inheritance?</td><td>Not required</td><td>Required</td></tr>
+          <tr><td>Speed</td><td>Faster</td><td>Slower</td></tr>
+        </table>
+      </div>
+
+      <div class="concept-card">
+        <h3>Method Overriding Rules</h3>
+        <div class="rule-list">
+          <div class="rule"><span class="rule-icon check">✓</span> Same method name as parent</div>
+          <div class="rule"><span class="rule-icon check">✓</span> Same parameters as parent</div>
+          <div class="rule"><span class="rule-icon check">✓</span> IS-A relationship must exist (inheritance)</div>
+          <div class="rule"><span class="rule-icon cross">✗</span> Cannot override static methods (static binding)</div>
+          <div class="rule"><span class="rule-icon cross">✗</span> Cannot override final methods</div>
+          <div class="rule"><span class="rule-icon cross">✗</span> Overriding method cannot be MORE restrictive (e.g. can't make public → protected)</div>
+        </div>
+      </div>
+
+      <div class="concept-card">
+        <h3>Upcasting + Dynamic Dispatch (the core mechanism)</h3>
+        <div class="code-block">
+          <div class="code-label">// Upcasting: parent reference → child object</div>
+          <pre><span class="kw">class</span> <span class="cls">Bank</span> {
+    <span class="kw">float</span> <span class="fn">getRateOfInterest</span>() { <span class="kw">return</span> 0; }
+}
+<span class="kw">class</span> <span class="cls">SBI</span> <span class="kw">extends</span> <span class="cls">Bank</span> {
+    <span class="kw">float</span> <span class="fn">getRateOfInterest</span>() { <span class="kw">return</span> 8.4f; }
+}
+<span class="kw">class</span> <span class="cls">ICICI</span> <span class="kw">extends</span> <span class="cls">Bank</span> {
+    <span class="kw">float</span> <span class="fn">getRateOfInterest</span>() { <span class="kw">return</span> 7.3f; }
 }
 
-<span class="cm">// Heap-Sort: O(n log n) in-place sorting</span>
-<span class="kw">void</span> <span class="fn">heapSort</span>(<span class="type">int</span> arr[], <span class="type">int</span> n) {
-    <span class="fn">buildMaxHeap</span>(arr, n);
+Bank b = <span class="kw">new</span> <span class="cls">SBI</span>();   <span class="cm">// upcasting</span>
+b.<span class="fn">getRateOfInterest</span>(); <span class="cm">// returns 8.4 (SBI's version)</span>
 
-    <span class="kw">for</span> (<span class="type">int</span> i = n - <span class="num">1</span>; i &gt; <span class="num">0</span>; i--) {
-        <span class="cm">// Move current max (root) to end of array</span>
-        <span class="type">int</span> temp = arr[<span class="num">0</span>];
-        arr[<span class="num">0</span>] = arr[i];
-        arr[i] = temp;
-
-        <span class="cm">// Re-heapify root with reduced heap size i</span>
-        <span class="fn">maxHeapify</span>(arr, i, <span class="num">0</span>);
-    }
-}</pre>
-      </div>
-
-      <!-- WORKED EXAMPLES FOR HEAPS -->
-      <div class="card">
-        <h3>🧪 Worked Examples: Build-Heap & Heap Sort Step-by-Step</h3>
-
-        <div class="example-block">
-          <div class="example-title">Example 1: Step-by-Step Build-Max-Heap on [4, 10, 3, 5, 1]</div>
-          <p>Array size $n = 5$. Last non-leaf index = $5/2 - 1 = 1$ (value 10).</p>
-          <div class="tree-visual">Initial array: [4, 10, 3, 5, 1]
-Tree representation:
-        4 (i=0)
-      /   \
-    10(1)  3(2)
-   /  \
- 5(3)  1(4)
-
-Step 1: Call maxHeapify at i = 1 (Node 10):
-        Children are 5 and 1. 10 &gt; 5 and 10 &gt; 1. No change.
-        Array: [4, 10, 3, 5, 1]
-
-Step 2: Call maxHeapify at i = 0 (Node 4):
-        Left child is 10 (i=1), Right child is 3 (i=2).
-        Largest child is 10 (i=1). Swap 4 and 10!
-        Subtree after swap:
-            10
-           /  \
-          4    3
-         / \
-        5   1
-        Now recurse at largest index i=1 (Node 4):
-        Children are 5 and 1. Largest child is 5 (i=3). Swap 4 and 5!
-
-Resulting Max-Heap Array: [10, 5, 3, 4, 1] ✓
-All parents ≥ children!</div>
+b = <span class="kw">new</span> <span class="cls">ICICI</span>();
+b.<span class="fn">getRateOfInterest</span>(); <span class="cm">// returns 7.3 (ICICI's version)</span>
+<span class="cm">// JVM decides at runtime based on the actual object</span></pre>
         </div>
-
-        <div class="example-block">
-          <div class="example-title">Example 2: Heap Sort Trace on [10, 5, 3, 4, 1]</div>
-          <table>
-            <tr><th>Pass</th><th>Action Taken</th><th>Array State</th><th>Sorted Partition</th></tr>
-            <tr><td>Initial</td><td>Built Max-Heap</td><td><code>[10, 5, 3, 4, 1]</code></td><td>None</td></tr>
-            <tr><td>Pass 1</td><td>Swap arr[0] (10) with arr[4] (1). Heapify arr[0..3]</td><td><code>[5, 4, 3, 1 | 10]</code></td><td><code>[10]</code></td></tr>
-            <tr><td>Pass 2</td><td>Swap arr[0] (5) with arr[3] (1). Heapify arr[0..2]</td><td><code>[4, 1, 3 | 5, 10]</code></td><td><code>[5, 10]</code></td></tr>
-            <tr><td>Pass 3</td><td>Swap arr[0] (4) with arr[2] (3). Heapify arr[0..1]</td><td><code>[3, 1 | 4, 5, 10]</code></td><td><code>[4, 5, 10]</code></td></tr>
-            <tr><td>Pass 4</td><td>Swap arr[0] (3) with arr[1] (1).</td><td><code>[1, 3, 4, 5, 10]</code></td><td><code>[1, 3, 4, 5, 10]</code> ✓</td></tr>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================= -->
-    <!-- ===== L23: INTRO TO GRAPHS ===== -->
-    <!-- ========================================================= -->
-    <section class="section" id="l23">
-      <div class="section-header">
-        <div class="section-num">L23</div>
-        <div>
-          <div class="section-title">Introduction to Graphs</div>
-          <div class="section-subtitle">Graph formalisms, terminology, Handshaking Lemma, and classification</div>
+        <div class="exam-tip" style="margin-top:0">
+          <strong>Key rule:</strong> The reference type (<code>Bank</code>) determines what methods you CAN call. The actual object type (<code>SBI</code>) determines WHICH version of the method runs.
         </div>
       </div>
 
-      <div class="card">
-        <h3>📖 Formal Definition</h3>
-        <p>A <strong>Graph</strong> $G = (V, E)$ consists of a non-empty set of vertices $V$ and a set of edges $E$ that connect pairs of vertices.</p>
-        <div class="highlight">
-          <p><strong>Tree vs Graph:</strong> A Tree is a strictly connected, acyclic graph with exactly $N - 1$ edges. A General Graph may contain cycles, disconnected components, self-loops, or multiple edges.</p>
+      <div class="concept-card">
+        <h3>Static method "overriding" — method hiding, not overriding</h3>
+        <div class="code-block">
+          <div class="code-label">// Static methods use static binding</div>
+          <pre><span class="kw">class</span> <span class="cls">Base</span>  { <span class="kw">static void</span> <span class="fn">show</span>() { print(<span class="str">"base"</span>); } }
+<span class="kw">class</span> <span class="cls">Derive</span> <span class="kw">extends</span> <span class="cls">Base</span> { <span class="kw">static void</span> <span class="fn">show</span>() { print(<span class="str">"derive"</span>); } }
+
+<span class="cls">Base</span> b = <span class="kw">new</span> <span class="cls">Derive</span>();
+b.<span class="fn">show</span>(); <span class="cm">// prints "base" ← reference type wins, not object!</span>
+<span class="cm">// This is method HIDING not overriding</span></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="gotcha">
+      <strong>⚠ PYQ appeared:</strong> <code>base b = new derive(); b.displayderive();</code> — this gives a compile error because <code>displayderive()</code> is only in the derive class, not in the base reference type. The reference type limits what you can call.
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════════════ METHOD OVERLOADING ═══════════════════════════════ -->
+  <section class="topic-section" id="overloading">
+    <div class="topic-header">
+      <span class="topic-num">06</span>
+      <h2>Method Overloading</h2>
+      <span class="priority-badge high">HIGH</span>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h3>What is Overloading?</h3>
+        <p>Multiple methods with the <strong>same name but different parameters</strong> (number, type, or order of parameters). Resolved at compile time — compile-time polymorphism.</p>
+      </div>
+
+      <div class="concept-card">
+        <h3>Ways to Overload</h3>
+        <div class="code-block">
+          <div class="code-label">// 3 overloaded add() methods</div>
+          <pre><span class="kw">int</span> <span class="fn">add</span>(<span class="kw">int</span> a, <span class="kw">int</span> b)            <span class="cm">// 2 ints</span>
+<span class="kw">double</span> <span class="fn">add</span>(<span class="kw">double</span> a, <span class="kw">double</span> b)  <span class="cm">// 2 doubles (different types)</span>
+<span class="kw">int</span> <span class="fn">add</span>(<span class="kw">int</span> a, <span class="kw">int</span> b, <span class="kw">int</span> c)   <span class="cm">// 3 ints (different count)</span>
+
+<span class="cm">// NOT valid overloading — return type alone is not enough:
+// int add(int a, int b)
+// double add(int a, int b)  ← same params = compile error</span></pre>
         </div>
       </div>
 
-      <div class="card">
-        <h3>🤝 The Handshaking Lemma</h3>
-        <div class="highlight success">
-          <p><strong>Fundamental Theorem:</strong> For any undirected graph $G = (V, E)$:<br>
-          $$\sum_{v \in V} \text{deg}(v) = 2 \cdot |E|$$
-          <strong>Direct Consequence:</strong> The number of vertices with an <em>odd degree</em> is always <strong>EVEN</strong>.</p>
+      <div class="concept-card">
+        <h3>Overloading vs Overriding — The Big Table</h3>
+        <table class="compare-table">
+          <tr><th></th><th>Overloading</th><th>Overriding</th></tr>
+          <tr><td>Same name</td><td>✓</td><td>✓</td></tr>
+          <tr><td>Same params</td><td>✗ (different)</td><td>✓ (must be same)</td></tr>
+          <tr><td>Inheritance</td><td>Not needed</td><td>Required</td></tr>
+          <tr><td>Binding</td><td>Compile-time</td><td>Runtime</td></tr>
+          <tr><td>Return type</td><td>Can differ</td><td>Must be same (or covariant)</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════════════ STATIC ═══════════════════════════════ -->
+  <section class="topic-section" id="static">
+    <div class="topic-header">
+      <span class="topic-num">07</span>
+      <h2>static keyword</h2>
+      <span class="priority-badge med">MEDIUM</span>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h3>static variable</h3>
+        <p>Shared across all objects of the class. Memory allocated once at class load time. Use for common properties (e.g. college name of all students).</p>
+        <div class="code-block">
+          <div class="code-label">// Instance vs Static variable</div>
+          <pre><span class="kw">class</span> <span class="cls">Student</span> {
+    <span class="kw">int</span> id;                    <span class="cm">// unique per object</span>
+    <span class="kw">static</span> <span class="cls">String</span> college;    <span class="cm">// shared by all objects</span>
+}
+<span class="cm">// s1.college = s2.college — both see same value</span></pre>
         </div>
       </div>
 
-      <!-- WORKED EXAMPLES FOR GRAPH INTRO -->
-      <div class="card">
-        <h3>🧪 Worked Examples: Handshaking Theorem & Degree Calculations</h3>
-
-        <div class="example-block">
-          <div class="example-title">Example 1: Handshaking Lemma Verification</div>
-          <p>Given a graph with 5 vertices $V = \{A, B, C, D, E\}$ and edges:<br>
-          $E = \{(A,B), (A,C), (B,C), (B,D), (C,D), (D,E)\}$ (Total edges $|E| = 6$).</p>
-          <table>
-            <tr><th>Vertex</th><th>Adjacent Neighbours</th><th>Degree $\text{deg}(v)$</th></tr>
-            <tr><td><strong>A</strong></td><td>B, C</td><td>2</td></tr>
-            <tr><td><strong>B</strong></td><td>A, C, D</td><td>3 (Odd)</td></tr>
-            <tr><td><strong>C</strong></td><td>A, B, D</td><td>3 (Odd)</td></tr>
-            <tr><td><strong>D</strong></td><td>B, C, E</td><td>3 (Odd)</td></tr>
-            <tr><td><strong>E</strong></td><td>D</td><td>1 (Odd)</td></tr>
-          </table>
-          <p style="margin-top:8px;">Sum of degrees = $2 + 3 + 3 + 3 + 1 = 12 = 2 \times 6 = 2 \cdot |E|$ ✓<br>
-          Number of vertices with odd degrees = 4 (B, C, D, E), which is an even number ✓</p>
-        </div>
-
-        <div class="example-block">
-          <div class="example-title">Example 2: In-Degree and Out-Degree in a Directed Graph</div>
-          <p>Directed Graph with edges: $A \to B, A \to C, B \to C, C \to D, D \to B$.</p>
-          <table>
-            <tr><th>Vertex</th><th>Incoming Edges</th><th>In-Degree</th><th>Outgoing Edges</th><th>Out-Degree</th></tr>
-            <tr><td><strong>A</strong></td><td>None</td><td>0 (Source)</td><td>$A \to B, A \to C$</td><td>2</td></tr>
-            <tr><td><strong>B</strong></td><td>$A \to B, D \to B$</td><td>2</td><td>$B \to C$</td><td>1</td></tr>
-            <tr><td><strong>C</strong></td><td>$A \to C, B \to C$</td><td>2</td><td>$C \to D$</td><td>1</td></tr>
-            <tr><td><strong>D</strong></td><td>$C \to D$</td><td>1</td><td>$D \to B$</td><td>1</td></tr>
-            <tr><td><strong>Total</strong></td><td>—</td><td>$\sum \text{in-deg} = 5$</td><td>—</td><td>$\sum \text{out-deg} = 5$ ✓</td></tr>
-          </table>
-          <p style="margin-top:6px;">Cycles present: $B \to C \to D \to B$ (Directed cycle of length 3).</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ========================================================= -->
-    <!-- ===== L24: GRAPH REPRESENTATION ===== -->
-    <!-- ========================================================= -->
-    <section class="section" id="l24">
-      <div class="section-header">
-        <div class="section-num">L24</div>
-        <div>
-          <div class="section-title">Graph Representation & Memory Models</div>
-          <div class="section-subtitle">Adjacency Matrix vs Adjacency List — implementation, space/time complexity, and trade-offs</div>
+      <div class="concept-card">
+        <h3>static method</h3>
+        <div class="rule-list">
+          <div class="rule"><span class="rule-icon check">✓</span> Can access static data directly</div>
+          <div class="rule"><span class="rule-icon check">✓</span> Called via class name: <code>ClassName.method()</code></div>
+          <div class="rule"><span class="rule-icon cross">✗</span> Cannot access instance variables directly</div>
+          <div class="rule"><span class="rule-icon cross">✗</span> Cannot use <code>this</code> or <code>super</code></div>
+          <div class="rule"><span class="rule-icon cross">✗</span> Cannot be overridden (only hidden)</div>
         </div>
       </div>
 
-      <div class="card">
-        <h3>📋 Adjacency Matrix</h3>
-        <p>A 2D array of size $V \times V$ where <code>matrix[i][j] = 1</code> (or weight $W$) if an edge exists from $i$ to $j$, and <code>0</code> otherwise.</p>
-<pre><span class="cm">// Adjacency Matrix Definition and Edge Addition</span>
-<span class="kw">#define</span> V <span class="num">5</span>
-<span class="type">int</span> adjMatrix[V][V] = {<span class="num">0</span>};
-
-<span class="kw">void</span> <span class="fn">addEdgeMatrix</span>(<span class="type">int</span> u, <span class="type">int</span> v, <span class="type">bool</span> directed) {
-    adjMatrix[u][v] = <span class="num">1</span>;
-    <span class="kw">if</span> (!directed) {
-        adjMatrix[v][u] = <span class="num">1</span>;
-    }
-}</pre>
+      <div class="concept-card">
+        <h3>Execution order with static block</h3>
+        <p>Static block → static method (if called) → instance block → constructor. Static block runs <strong>once</strong> when class is loaded.</p>
+        <div class="code-block">
+          <div class="code-label">// Common output question</div>
+          <pre><span class="kw">class</span> <span class="cls">A</span> {
+    <span class="kw">static</span> { print(<span class="str">"static block"</span>); }  <span class="cm">// runs first, once</span>
+    { print(<span class="str">"instance block"</span>); }        <span class="cm">// runs per object</span>
+    <span class="fn">A</span>() { print(<span class="str">"constructor"</span>); }
+}
+<span class="cm">// new A(); new A();
+// Output: static block → instance block → constructor
+//                      → instance block → constructor</span></pre>
+        </div>
       </div>
+    </div>
+  </section>
 
-      <div class="card">
-        <h3>📝 Adjacency List</h3>
-        <p>An array of linked lists of size $V$. Each entry <code>adjList[i]</code> stores a linked list of all vertices adjacent to vertex $i$.</p>
-<pre><span class="type">struct</span> <span class="type">AdjNode</span> {
-    <span class="type">int</span> dest;
-    <span class="type">int</span> weight;
-    <span class="type">struct</span> <span class="type">AdjNode</span>* next;
-};
+  <hr class="divider">
 
-<span class="type">struct</span> <span class="type">AdjNode</span>* adjList[V] = {<span class="num">NULL</span>};
+  <!-- ═══════════════════════════════ NESTED CLASSES ═══════════════════════════════ -->
+  <section class="topic-section" id="nested">
+    <div class="topic-header">
+      <span class="topic-num">08</span>
+      <h2>Nested Classes</h2>
+      <span class="priority-badge med">MEDIUM</span>
+    </div>
 
-<span class="kw">void</span> <span class="fn">addEdgeList</span>(<span class="type">int</span> src, <span class="type">int</span> dest, <span class="type">int</span> weight, <span class="type">bool</span> directed) {
-    <span class="type">struct</span> <span class="type">AdjNode</span>* newNode = (<span class="type">struct</span> <span class="type">AdjNode</span>*)<span class="fn">malloc</span>(<span class="kw">sizeof</span>(<span class="type">struct</span> <span class="type">AdjNode</span>));
-    newNode-&gt;dest = dest;
-    newNode-&gt;weight = weight;
-    newNode-&gt;next = adjList[src];
-    adjList[src] = newNode;
-
-    <span class="kw">if</span> (!directed) {
-        <span class="type">struct</span> <span class="type">AdjNode</span>* revNode = (<span class="type">struct</span> <span class="type">AdjNode</span>*)<span class="fn">malloc</span>(<span class="kw">sizeof</span>(<span class="type">struct</span> <span class="type">AdjNode</span>));
-        revNode-&gt;dest = src;
-        revNode-&gt;weight = weight;
-        revNode-&gt;next = adjList[dest];
-        adjList[dest] = revNode;
-    }
-}</pre>
-      </div>
-
-      <div class="card">
-        <h3>⚖️ Complete Representation Comparison</h3>
-        <table>
-          <tr><th>Operation / Property</th><th>Adjacency Matrix</th><th>Adjacency List</th><th>Best Choice</th></tr>
-          <tr><td><strong>Memory Space</strong></td><td><span class="cplx bad">O(V²)</span></td><td><span class="cplx good">O(V + E)</span></td><td>List for Sparse ($E \ll V^2$)</td></tr>
-          <tr><td><strong>Check if edge (u, v) exists</strong></td><td><span class="cplx good">O(1)</span></td><td><span class="cplx">O(degree(u))</span></td><td>Matrix</td></tr>
-          <tr><td><strong>Iterate all neighbours of u</strong></td><td><span class="cplx bad">O(V)</span></td><td><span class="cplx good">O(degree(u))</span></td><td>List</td></tr>
-          <tr><td><strong>Add new Edge</strong></td><td><span class="cplx good">O(1)</span></td><td><span class="cplx good">O(1)</span></td><td>Tie</td></tr>
-          <tr><td><strong>Delete an Edge</strong></td><td><span class="cplx good">O(1)</span></td><td><span class="cplx">O(degree(u))</span></td><td>Matrix</td></tr>
-          <tr><td><strong>Add new Vertex</strong></td><td><span class="cplx bad">O(V²)</span> (full realloc)</td><td><span class="cplx good">O(1)</span></td><td>List</td></tr>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h3>Types</h3>
+        <table class="compare-table">
+          <tr><th>Type</th><th>Static?</th><th>Access outer members?</th><th>Instantiation</th></tr>
+          <tr><td>Member Inner Class</td><td>No</td><td>All (incl. private)</td><td><code>outer.new Inner()</code></td></tr>
+          <tr><td>Method-Local Inner</td><td>No</td><td>Only final/effectively final</td><td>Inside that method only</td></tr>
+          <tr><td>Static Nested Class</td><td>Yes</td><td>Static members only</td><td><code>new Outer.Inner()</code></td></tr>
+          <tr><td>Anonymous Inner</td><td>No</td><td>All</td><td>Inline at point of use</td></tr>
         </table>
       </div>
 
-      <!-- WORKED EXAMPLES FOR L24 -->
-      <div class="card">
-        <h3>🧪 Worked Examples: Graph Encoding into Matrix and List</h3>
-
-        <div class="example-block">
-          <div class="example-title">Example 1: Weighted Directed Graph Encoding</div>
-          <p>4 Vertices $\{0, 1, 2, 3\}$ and edges: $0 \xrightarrow{4} 1$, $0 \xrightarrow{2} 2$, $1 \xrightarrow{5} 2$, $2 \xrightarrow{1} 3$, $3 \xrightarrow{7} 0$.</p>
-
-          <div class="grid2">
-            <div>
-              <h4>Adjacency Matrix Representation</h4>
-<pre>    0   1   2   3
-0 [ 0,  4,  2,  0 ]
-1 [ 0,  0,  5,  0 ]
-2 [ 0,  0,  0,  1 ]
-3 [ 7,  0,  0,  0 ]
-(0 indicates no edge)</pre>
-            </div>
-            <div>
-              <h4>Adjacency List Representation</h4>
-<pre>0: -&gt; (dest: 1, w: 4) -&gt; (dest: 2, w: 2)
-1: -&gt; (dest: 2, w: 5)
-2: -&gt; (dest: 3, w: 1)
-3: -&gt; (dest: 0, w: 7)</pre>
-            </div>
-          </div>
-        </div>
-
-        <div class="example-block">
-          <div class="example-title">Example 2: Memory Footprint Calculation for a Social Network</div>
-          <p>Consider a network with $V = 100,000$ users and each user has an average of 50 friends (Total edges $E = 2,500,000$):<br>
-          • <strong>Matrix:</strong> Requires $V \times V = 100,000^2 = 10^{10}$ integers $\approx$ <strong>40 GB of RAM</strong> (mostly zeros)!<br>
-          • <strong>List:</strong> Requires $V + 2E \approx 100,000 + 5,000,000 = 5.1 \times 10^6$ nodes $\approx$ <strong>80 MB of RAM</strong>.<br>
-          <strong>Verdict:</strong> Adjacency List is over <strong>500x more memory efficient</strong> for real-world sparse graphs!</p>
+      <div class="concept-card">
+        <h3>Key Difference: Static vs Non-static Nested</h3>
+        <div class="rule-list">
+          <div class="rule"><span class="rule-icon check">✓</span> Static nested: can exist without outer class object</div>
+          <div class="rule"><span class="rule-icon cross">✗</span> Inner class: needs outer class object to exist</div>
+          <div class="rule"><span class="rule-icon check">✓</span> Inner class: can access private members of outer</div>
+          <div class="rule"><span class="rule-icon cross">✗</span> Static nested: can only access static members of outer</div>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ========================================================= -->
-    <!-- ===== L25: GRAPH APPLICATIONS ===== -->
-    <!-- ========================================================= -->
-    <section class="section" id="l25">
-      <div class="section-header">
-        <div class="section-num">L25</div>
-        <div>
-          <div class="section-title">Applications of Graphs</div>
-          <div class="section-subtitle">Real-world systems, DAG scheduling, topological dependency resolution, and routing models</div>
+  <hr class="divider">
+
+  <!-- ═══════════════════════════════ ACCESS MODIFIERS ═══════════════════════════════ -->
+  <section class="topic-section" id="access">
+    <div class="topic-header">
+      <span class="topic-num">09</span>
+      <h2>Access Modifiers</h2>
+      <span class="priority-badge med">MEDIUM</span>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h3>Visibility at a glance</h3>
+        <p>From most restrictive to least: <code>private</code> → <code>default</code> → <code>protected</code> → <code>public</code></p>
+        <div class="gotcha">
+          <strong>Overriding rule:</strong> When overriding, you can only make the method <em>less restrictive</em> (more visible), never more restrictive. <code>protected</code> can become <code>public</code>. <code>public</code> cannot become <code>protected</code>.
         </div>
       </div>
 
-      <div class="card">
-        <h3>🌍 Real-World Graph Applications</h3>
-        <table>
-          <tr><th>Application Domain</th><th>Vertices (V)</th><th>Edges (E)</th><th>Key Problem Solved</th></tr>
-          <tr><td><strong>Social Networks</strong></td><td>User Profile</td><td>Friend / Follow</td><td>Recommendation, Mutual Friends, Community Detection</td></tr>
-          <tr><td><strong>Road & Flight Navigation</strong></td><td>City / Airport</td><td>Road / Flight (weighted)</td><td>Shortest Path (Dijkstra), Minimum Cost Spanning Tree (Kruskal)</td></tr>
-          <tr><td><strong>Web Page Ranking</strong></td><td>URL / Web page</td><td>Hyperlinks (directed)</td><td>PageRank, Web Crawling, Authority Hubs</td></tr>
-          <tr><td><strong>Build Systems & Compilers</strong></td><td>Source files / Modules</td><td><code>#include</code> / Import dependencies</td><td>Topological Sort (Build Order), Circular Dependency Detection</td></tr>
-          <tr><td><strong>Telecommunication Grids</strong></td><td>Router / Cell tower</td><td>Fiber-optic cable</td><td>Minimum Spanning Tree (MST) for cabling cost minimization</td></tr>
-          <tr><td><strong>Version Control (Git)</strong></td><td>Commit Snapshot</td><td>Parent Pointer (Directed Acyclic)</td><td>Merge base, branch history, DAG traversal</td></tr>
+      <div class="concept-card">
+        <h3>PYQ pattern — private access from outside</h3>
+        <div class="code-block">
+          <div class="code-label">// This was Q A1(a) in your PYQ</div>
+          <pre><span class="kw">class</span> <span class="cls">Example</span> {
+    <span class="kw">int</span> a;
+    <span class="kw">private int</span> c;
+}
+<span class="kw">class</span> <span class="cls">Demo</span> {
+    <span class="kw">public static void</span> <span class="fn">main</span>(<span class="cls">String</span>[] args) {
+        <span class="cls">Example</span> ob = <span class="kw">new</span> <span class="cls">Example</span>();
+        ob.a = 10;   <span class="cm">// ✓ OK</span>
+        ob.c = 20;   <span class="cm">// ✗ COMPILE ERROR — private!</span>
+    }
+}</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════════════ WRAPPER & STRINGS ═══════════════════════════════ -->
+  <section class="topic-section" id="wrapper">
+    <div class="topic-header">
+      <span class="topic-num">10</span>
+      <h2>Wrapper Classes & Strings</h2>
+      <span class="priority-badge med">MEDIUM</span>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <h3>Primitive → Wrapper mapping</h3>
+        <table class="compare-table">
+          <tr><th>Primitive</th><th>Wrapper</th></tr>
+          <tr><td>int</td><td>Integer</td></tr>
+          <tr><td>double</td><td>Double</td></tr>
+          <tr><td>char</td><td>Character</td></tr>
+          <tr><td>boolean</td><td>Boolean</td></tr>
+          <tr><td>byte / short / long / float</td><td>Byte / Short / Long / Float</td></tr>
+        </table>
+        <p style="margin-top:10px;font-size:13px"><strong>Autoboxing</strong> = primitive → wrapper automatically. <strong>Unboxing</strong> = wrapper → primitive automatically. Needed because collections like ArrayList only store objects, not primitives.</p>
+      </div>
+
+      <div class="concept-card">
+        <h3>String vs StringBuilder vs StringBuffer</h3>
+        <table class="compare-table">
+          <tr><th></th><th>String</th><th>StringBuilder</th><th>StringBuffer</th></tr>
+          <tr><td>Mutable?</td><td>No (immutable)</td><td>Yes</td><td>Yes</td></tr>
+          <tr><td>Thread-safe?</td><td>Yes</td><td>No</td><td>Yes</td></tr>
+          <tr><td>Performance</td><td>Slowest</td><td>Fastest</td><td>Medium</td></tr>
         </table>
       </div>
 
-      <!-- WORKED EXAMPLES FOR L25 -->
-      <div class="card">
-        <h3>🧪 Worked Examples: Modelling Real-World Problems</h3>
-
-        <div class="example-block">
-          <div class="example-title">Example 1: University Course Prerequisite DAG Scheduling</div>
-          <p>A student must complete prerequisite courses before enrolling in advanced ones. Modelled as a Directed Acyclic Graph (DAG):</p>
-          <div class="tree-visual">Math101 ──────────&gt; Calculus ─────────┐
-                                          ▼
-CS101 (Intro) ────&gt; DSA (CSC2101) ───&gt; Algorithms ───&gt; Machine Learning
-  │
-  └───────────────&gt; WebDev</div>
-          <p><strong>Topological Ordering Execution:</strong><br>
-          1. Indegree 0 courses (can take first semester): <code>Math101, CS101</code><br>
-          2. Next available: <code>Calculus, DSA, WebDev</code><br>
-          3. Next available: <code>Algorithms</code><br>
-          4. Capstone course: <code>Machine Learning</code><br>
-          <em>If there is a cycle (e.g., Course A requires B, and B requires A), topological sort fails, proving deadlocked prerequisites!</em></p>
-        </div>
-
-        <div class="example-block">
-          <div class="example-title">Example 2: Minimum Cost Network Cabling (MST Formulation)</div>
-          <p>Connect 4 offices $\{A, B, C, D\}$ with fiber-optic cable at minimal cost:<br>
-          Edges: $(A,B)=4, (A,C)=3, (B,C)=1, (B,D)=2, (C,D)=4$.</p>
-          <div class="tree-visual">Pick cheapest edges without creating cycles:
-1. Pick edge (B, C) with weight 1.
-2. Pick edge (B, D) with weight 2.
-3. Pick edge (A, C) with weight 3.
-All 4 vertices connected using 3 edges! Total MST Cost = 1 + 2 + 3 = 6 ✓</div>
+      <div class="concept-card">
+        <h3>Bitwise ~ operator (appeared in PYQ A2)</h3>
+        <div class="code-block">
+          <div class="code-label">// ~n = -(n+1)</div>
+          <pre><span class="kw">int</span> var1 = 42;
+<span class="kw">int</span> var2 = ~var1;  <span class="cm">// ~42 = -(42+1) = -43</span>
+<span class="cls">System</span>.out.print(var1 + <span class="str">" "</span> + var2);
+<span class="cm">// Output: 42 -43</span></pre>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <!-- ========================================================= -->
-    <!-- ===== QUICK REFERENCE ===== -->
-    <!-- ========================================================= -->
-    <section class="section" id="quickref">
-      <div class="section-header">
-        <div class="section-num" style="background:linear-gradient(135deg,#ffd93d,#ff6b6b)">⚡</div>
-        <div>
-          <div class="section-title">Complexity Cheatsheet</div>
-          <div class="section-subtitle">Everything you need for the MTE — one glance</div>
-        </div>
-      </div>
+  <!-- FOOTER -->
+  <div style="margin-top:40px;padding:20px;border-radius:8px;background:var(--surface);border:1px solid var(--border);font-size:13px;color:var(--text-muted);text-align:center">
+    Built from CSC2104/CSE2121 PPTs + MTE PYQ · Good luck tomorrow 🎯
+  </div>
 
-      <div class="card">
-        <h3>🎯 All Data Structure Operations at a Glance</h3>
-        <table>
-          <tr><th>Data Structure</th><th>Search</th><th>Insert</th><th>Delete</th><th>Space</th></tr>
-          <tr><td><strong>Binary Tree (General)</strong></td><td>$O(n)$</td><td>$O(n)$ (level-order)</td><td>$O(n)$</td><td>$O(n)$</td></tr>
-          <tr><td><strong>BST (Average)</strong></td><td class="cplx good" style="background:none">$O(\log n)$</td><td class="cplx good" style="background:none">$O(\log n)$</td><td class="cplx good" style="background:none">$O(\log n)$</td><td>$O(n)$</td></tr>
-          <tr><td><strong>BST (Worst Skewed)</strong></td><td style="color:var(--red)">$O(n)$</td><td style="color:var(--red)">$O(n)$</td><td style="color:var(--red)">$O(n)$</td><td>$O(n)$</td></tr>
-          <tr><td><strong>AVL Tree</strong></td><td style="color:var(--green)">$O(\log n)$</td><td style="color:var(--green)">$O(\log n)$</td><td style="color:var(--green)">$O(\log n)$</td><td>$O(n)$</td></tr>
-          <tr><td><strong>Red-Black Tree</strong></td><td style="color:var(--green)">$O(\log n)$</td><td style="color:var(--green)">$O(\log n)$</td><td style="color:var(--green)">$O(\log n)$</td><td>$O(n)$</td></tr>
-          <tr><td><strong>B-Tree</strong></td><td style="color:var(--green)">$O(\log n)$</td><td style="color:var(--green)">$O(\log n)$</td><td style="color:var(--green)">$O(\log n)$</td><td>$O(n)$</td></tr>
-          <tr><td><strong>Binary Heap (Build)</strong></td><td colspan="3" style="color:var(--green); text-align:center">Build-Max-Heap: $O(n)$</td><td>$O(n)$</td></tr>
-          <tr><td><strong>Binary Heap (Ops)</strong></td><td>$O(n)$</td><td style="color:var(--green)">$O(\log n)$</td><td style="color:var(--green)">$O(\log n)$ (extract-max)</td><td>$O(n)$</td></tr>
-          <tr><td><strong>Heap Sort</strong></td><td colspan="3" style="color:var(--green); text-align:center">$O(n \log n)$ — Best, Average, and Worst</td><td>$O(1)$</td></tr>
-          <tr><td><strong>Graph (Adj Matrix)</strong></td><td>Check Edge: $O(1)$</td><td>Add Edge: $O(1)$</td><td>Delete Edge: $O(1)$</td><td>$O(V^2)$</td></tr>
-          <tr><td><strong>Graph (Adj List)</strong></td><td>Check Edge: $O(\text{deg}(u))$</td><td>Add Edge: $O(1)$</td><td>Delete Edge: $O(\text{deg}(u))$</td><td>$O(V + E)$</td></tr>
-        </table>
-      </div>
-
-      <div class="card">
-        <h3>🧠 Must-Remember Exam Facts</h3>
-        <div class="grid2">
-          <div>
-            <h4>Binary Tree & BST</h4>
-            <ul style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; line-height:2;">
-              <li>General BT: Unordered; search & deletion are $O(n)$.</li>
-              <li>BT Deletion: Swap with deepest rightmost node.</li>
-              <li>Max nodes in height $h$: $2^{h+1} - 1$.</li>
-              <li>BST: Left &lt; Root &lt; Right. In-order = sorted.</li>
-              <li>BST Deletion Case 3: Replace with in-order successor.</li>
-            </ul>
-            <h4>AVL Tree</h4>
-            <ul style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; line-height:2;">
-              <li>BF = Height(Left) − Height(Right) $\in \{-1, 0, +1\}$.</li>
-              <li>LL / RR: Single rotation at unbalanced node.</li>
-              <li>LR / RL: Double rotation (child first, then node).</li>
-            </ul>
-          </div>
-          <div>
-            <h4>Red-Black & B-Tree</h4>
-            <ul style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; line-height:2;">
-              <li>RB Tree: 5 properties; no two red nodes consecutively.</li>
-              <li>New nodes inserted RED; uncle RED $\to$ recolor.</li>
-              <li>Deletion NOT in scope for Red-Black Tree.</li>
-              <li>B-Tree: Multi-way search tree; all leaves at same depth.</li>
-              <li>Overflow $\to$ Split node & promote median key.</li>
-            </ul>
-            <h4>Heaps & Graphs</h4>
-            <ul style="font-size:0.82rem; color:var(--text-muted); padding-left:16px; line-height:2;">
-              <li>Heap: Complete binary tree in array (parent = $(i-1)/2$).</li>
-              <li>Build-Max-Heap: $O(n)$ time | Heap Sort: $O(n \log n)$.</li>
-              <li>Handshaking Lemma: $\sum \text{deg}(v) = 2|E|$.</li>
-              <li>Dense graph $\to$ Matrix | Sparse graph $\to$ List.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
+</main>
 </div>
 
 <script>
-  function toggleSidebar() {
-    const sidebar = document.getElementById('sidebar');
-    const overlay = document.getElementById('overlay');
-    sidebar.classList.toggle('open');
-    overlay.classList.toggle('show');
-  }
-  function closeSidebar() {
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('overlay').classList.remove('show');
-  }
-
-  // Highlight active nav link on scroll
-  const sections = document.querySelectorAll('section[id]');
-  const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+  // Highlight active nav item on scroll
+  const sections = document.querySelectorAll('.topic-section');
+  const navItems = document.querySelectorAll('.nav-item');
 
   const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        navLinks.forEach(l => l.classList.remove('active'));
-        const link = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
-        if (link) link.classList.add('active');
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navItems.forEach(n => n.classList.remove('active'));
+        const id = entry.target.id;
+        const active = document.querySelector(`.nav-item[href="#${id}"]`);
+        if (active) active.classList.add('active');
       }
     });
-  }, { threshold: 0.25 });
+  }, { rootMargin: '-30% 0px -60% 0px' });
 
   sections.forEach(s => observer.observe(s));
-
-  // Smooth scroll for nav links
-  navLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      const target = document.querySelector(link.getAttribute('href'));
-      if (target) target.scrollIntoView({ behavior: 'smooth' });
-      if (window.innerWidth <= 900) closeSidebar();
-    });
-  });
 </script>
+
 </body>
 </html>
